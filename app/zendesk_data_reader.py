@@ -1,5 +1,5 @@
 from typing import List
-from zendesk_data_row import ZendeskDataRow
+from app.zendesk_data_row import ZendeskDataRow
 
 
 class ZendeskDataReader:
