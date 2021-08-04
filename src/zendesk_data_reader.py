@@ -4,7 +4,7 @@ from zendesk_data_row import ZendeskDataRow
 
 class ZendeskDataReader:
 
-    def __init__(self, src_file_path) -> None:
+    def __init__(self, src_file_path: str) -> None:
         self._src_file_path = src_file_path
 
     # reads data from the .xlsx file at the path provided in __init__
