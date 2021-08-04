@@ -14,23 +14,17 @@ def press_key(key_name, num_times=1, duration=0, interval=0):
 
 
 def press_key_sequence(*keys):
-    if not wc.is_window_foreground():
-        print('waiting for window to be foreground for key event...')
-        wc.wait_for_window_foreground()
+    _wait_for_window_foreground()
     pag.hotkey(*keys)
 
 
 def press_key_down(key_name):
-    if not wc.is_window_foreground():
-        print('waiting for window to be foreground for key event...')
-        wc.wait_for_window_foreground()
+    _wait_for_window_foreground()
     pag.keyDown(key_name)
 
 
 def press_key_up(key_name):
-    if not wc.is_window_foreground():
-        print('waiting for window to be foreground for key event...')
-        wc.wait_for_window_foreground()
+    _wait_for_window_foreground()
     return pag.keyUp(key_name)
 
 
@@ -55,4 +49,11 @@ def alt_tab():
 
 
 def write_text(text):
+    _wait_for_window_foreground()
     pag.write(text)
+
+
+def _wait_for_window_foreground():
+    if not wc.is_window_foreground():
+        print('waiting for window to be foreground for key event...')
+        wc.wait_for_window_foreground()
