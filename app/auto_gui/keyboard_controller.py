@@ -15,7 +15,7 @@ def press_key(key_name, num_times=1, duration=0, post_delay=0):
 
 # kwargs:
 #   num_times - number of times to press the sequence. Default 1
-#   post_delay - num seconds to wait after sequence
+#   post_delay - num seconds to wait after sequence. Default 0
 def press_key_sequence(*keys, **kwargs):
     num_times = kwargs.pop('num_times', 1)
     post_delay = kwargs.pop('post_delay', 0)
