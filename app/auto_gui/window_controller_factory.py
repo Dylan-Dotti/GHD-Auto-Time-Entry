@@ -6,4 +6,4 @@ def get_sap_main_window_controller() -> WindowController:
 
 
 def get_sap_details_window_controller() -> WindowController:
-    return WindowController
+    return WindowController('Cell Information')

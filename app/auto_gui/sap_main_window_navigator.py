@@ -1,8 +1,9 @@
 from app.auto_gui.keyboard_controller import KeyboardController
 from app.auto_gui.sap_details_window_navigator import SapDetailsWindowNavigator
+import app.auto_gui.window_controller_factory as factory
 import time
 
-class SapWindowNavigator:
+class SapMainWindowNavigator:
     
     def __init__(self, sap_keyboard_controller: KeyboardController) -> None:
         self._kc = sap_keyboard_controller
@@ -21,7 +22,9 @@ class SapWindowNavigator:
     
     def open_cell_details(self) -> SapDetailsWindowNavigator:
         self._kc.press_f2(post_delay=0.5)
-        return SapDetailsWindowNavigator()
+        details_wc = factory.get_sap_details_window_controller()
+        details_kc = KeyboardController(details_wc)
+        return SapDetailsWindowNavigator(details_kc)
 
     def move_next_col(self):
         self._kc.press_tab()
