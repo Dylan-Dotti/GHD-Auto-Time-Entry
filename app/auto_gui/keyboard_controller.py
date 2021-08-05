@@ -1,4 +1,4 @@
-import app.auto_gui.window_controller as wc
+from app.auto_gui.sap_main_window_controller import SapMainWindowController
 import pyautogui as pag
 import time
 
@@ -67,3 +67,5 @@ def _wait_for_window_foreground():
     if not wc.is_window_foreground():
         print('waiting for window to be foreground for key event...')
         wc.wait_for_window_foreground()
+
+wc = SapMainWindowController()

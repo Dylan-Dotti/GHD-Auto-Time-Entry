@@ -1,9 +1,10 @@
 
 if __name__ == '__main__':
-    import app.auto_gui.window_controller as wc
     import app.auto_gui.keyboard_controller as kc
+    from app.auto_gui.sap_main_window_controller import SapMainWindowController
     from app.auto_gui.sap_window_navigator import SapWindowNavigator
 
+    wc = SapMainWindowController()
     wc.set_window_foreground()
     wc.wait_for_window_foreground()
 
