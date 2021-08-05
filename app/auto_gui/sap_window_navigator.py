@@ -1,10 +1,11 @@
+from app.auto_gui.keyboard_controller import KeyboardController
 from app.auto_gui.sap_details_window_navigator import SapDetailsWindowNavigator
-import app.auto_gui.keyboard_controller as kc
 import time
 
 class SapWindowNavigator:
     
-    def __init__(self) -> None:
+    def __init__(self, sap_keyboard_controller: KeyboardController) -> None:
+        self._kc = sap_keyboard_controller
         self._current_row_index = 0
         self._current_col_index = 0
         self._row_layout = [
@@ -19,11 +20,11 @@ class SapWindowNavigator:
         ]
     
     def open_cell_details(self) -> SapDetailsWindowNavigator:
-        kc.press_f2(post_delay=0.5)
+        self._kc.press_f2(post_delay=0.5)
         return SapDetailsWindowNavigator()
 
     def move_next_col(self):
-        kc.press_tab()
+        self._kc.press_tab()
         self._current_col_index += 1
         if self._current_col_index == self._row_length():
             self._current_row_index += 1
@@ -32,7 +33,7 @@ class SapWindowNavigator:
     def move_prev_col(self):
         if (self._current_row_index == 0 and self._current_col_index == 0):
             return
-        kc.press_reverse_tab()
+        self._kc.press_reverse_tab()
         self._current_col_index -= 1
         if self._current_col_index == -1:
             self._current_row_index -= 1

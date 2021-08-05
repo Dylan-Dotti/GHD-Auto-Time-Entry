@@ -1,5 +1,6 @@
 
 if __name__ == '__main__':
+    from app.auto_gui.keyboard_controller import KeyboardController
     from app.auto_gui.sap_main_window_controller import SapMainWindowController
     from app.auto_gui.sap_window_navigator import SapWindowNavigator
     import time
@@ -7,8 +8,9 @@ if __name__ == '__main__':
     wc = SapMainWindowController()
     wc.set_window_foreground()
     wc.wait_for_window_foreground()
+    kc = KeyboardController(wc)
 
-    nav = SapWindowNavigator()
+    nav = SapWindowNavigator(kc)
     for _ in range(5):
         nav.move_next_col()
         time.sleep(.5)

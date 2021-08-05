@@ -1,6 +1,6 @@
 
 if __name__ == '__main__':
-    import app.auto_gui.keyboard_controller as kc
+    from app.auto_gui.keyboard_controller import KeyboardController
     from app.auto_gui.sap_main_window_controller import SapMainWindowController
     from app.auto_gui.sap_window_navigator import SapWindowNavigator
 
@@ -13,5 +13,6 @@ if __name__ == '__main__':
     # navigation in the new window currently doesn't work
     # due to the main window no longer having focus
     details_nav.move_to_short_text_field()
+    kc = KeyboardController(wc)
     kc.write_text('59972, 59973, 59974, 59975')
     details_nav.confirm_and_close()
