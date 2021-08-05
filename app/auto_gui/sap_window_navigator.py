@@ -1,3 +1,4 @@
+from app.auto_gui.sap_details_window_navigator import SapDetailsWindowNavigator
 import app.auto_gui.keyboard_controller as kc
 import time
 
@@ -16,6 +17,10 @@ class SapWindowNavigator:
             'to5', 'day6', 'from6', 'to6',
             'day7', 'from7', 'to7'
         ]
+    
+    def open_cell_details(self) -> SapDetailsWindowNavigator:
+        kc.press_f2(post_delay=0.5)
+        return SapDetailsWindowNavigator()
 
     def move_next_col(self):
         kc.press_tab()
