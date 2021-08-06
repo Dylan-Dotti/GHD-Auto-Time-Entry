@@ -23,13 +23,41 @@ class SapDataRow:
     #   wbs - wbs of the site
     #   mu - H for hours or M for minutes
     #   date_entries - list of DateEntry. Order of elements represents Mon-Sun.
-    def __init__(self, act: str, wbs: str, unit: str,
-                 date_entries: List[DateEntry]) -> None:
+    def __init__(self, act: str, wbs: str, unit: str, startDate, endDate) -> None:
         self.act = act
         self.wbs = wbs
         self.unit = unit
-        self.date_entries = date_entries
+        self.startDate = startDate
+        self.endDate = endDate 
+        self.date_entries = []
     
+    def add_time(self, data:DateEntry) -> None:
+        self.date_entries.append(data)
+
     def __str__(self) -> str:
         return ('SapDataRow(act: %s, wbs: %s, mu: %s, date_entries %s)' %
                     (self.act, self.wbs, self.unit, str(self.date_entries)))
+
+# This is the set of rows for a monday-sunday SAP range
+class SapDataPage:
+
+    def __init__(self, startDate, endDate) -> None:
+        self.startDate = startDate
+        self.endDate = endDate
+        self.data = []
+
+    def add_row(self, row: SapDataRow) -> None:
+        self.data.append(row)
+
+'''
+  this is a temp structure similar to the zendesk row 
+  but is holding the sliced ticket numbers and times for a date
+'''
+class MergeRow:
+
+    def __init__(self, user: str, wbs: str, date: str, tickets, times) -> None:
+        self.user = user
+        self.wbs = wbs
+        self.date = date
+        self.tickets = ",".join(tickets)
+        self.time = sum(times)

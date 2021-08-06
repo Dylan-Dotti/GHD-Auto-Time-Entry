@@ -1,10 +1,8 @@
 from typing import Any, List
-from app.zendesk_data_row import ZendeskDataRow
+from app.data_formatter.zendesk_data_row import ZendeskDataRow
 from pathlib import Path 
 from openpyxl import load_workbook
-from collections import defaultdict
-from .utils import verify_path
-
+from app.data_formatter.utils import verify_path
 
 class ZendeskDataReader:
 
@@ -30,23 +28,3 @@ class ZendeskDataReader:
     def read_all_rows(self) -> List[ZendeskDataRow]:
         
         return [ZendeskDataRow(row) for row in self.data.iter_rows(min_row=2, values_only=True)]
-
-# collector_container = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(dict, {"time": int(), "tickets":set()}))))
-
-# for row in self.data.iter_rows(min_row=2, values_only=True):
-#     '''
-#     what is happening:
-#     1. if no user in dict, create user key.
-#     2. if no support element in dict, or no support element exists, create support element key.
-#     3. if no date in dict, create date key.
-#     4. create time val counter.
-#     5. add time val to count, add zero if none.
-#     '''
-
-#     # collect all the data for parsing to a SAP row
-#     collector_container[row[0]][(row[2] if row[2] else "N/A")][str(row[7])]["time"] += (int(row[8]) if row[8] else 0)
-    
-#     # add the ticket numbers on there
-#     collector_container[row[0]][(row[2] if row[2] else "N/A")][str(row[7])]["tickets"].add(row[5])
-
-# print(collector_container[list(collector_container.keys())[0]].keys())
