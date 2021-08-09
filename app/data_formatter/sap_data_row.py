@@ -12,7 +12,7 @@ class DateEntry:
         self.note = note
     
     def __str__(self) -> str:
-        return 'DateEntry(time: %s, note: %s)' % (self.time, self.note)
+        return 'DateEntry(time: %s, note: \'%s\')' % (self.time, self.note)
 
 
 # Contains all the data needed for a single row of the SAP time sheet
@@ -35,8 +35,9 @@ class SapDataRow:
         self.date_entries.append(data)
 
     def __str__(self) -> str:
-        return ('SapDataRow(act: %s, wbs: %s, mu: %s, date_entries %s)' %
-                    (self.act, self.wbs, self.unit, str(self.date_entries)))
+        return ('SapDataRow(act: %s, wbs: %s, mu: %s, date_entries: %s)' %
+                    (self.act, self.wbs, self.unit, 
+                     [str(s) for s in self.date_entries]))
 
 # This is the set of rows for a monday-sunday SAP range
 class SapDataPage:
