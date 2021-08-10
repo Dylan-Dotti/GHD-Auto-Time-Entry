@@ -1,7 +1,8 @@
-from typing import Counter, List
-from app.data_formatter.sap_data_row import MergeRow, SapDataPage, SapDataRow
+from typing import List
+from app.data_formatter.sap_data_row import SapDataRow
+from app.data_formatter.SAP_Page import SapDataPage
 from collections import defaultdict
-from datetime import date, timedelta
+from datetime import date
 
 class SAPDataWriter:
     def __init__(self, zd_data) -> None:
@@ -40,8 +41,28 @@ class SAPDataWriter:
     def write_all_pages(self) -> List[SapDataRow]:
         return [SapDataRow()]
 
-    def create_sap_pages(self) -> None:
-        self.pages = [SapDataPage(start, end) for start, end in self.get_sap_date_ranges(date.today().month)]
+    def create_pages(self) -> List[SapDataPage]:
+        return [SapDataPage(start, end) for start, end in self.get_sap_date_ranges(date.today().month)]
+
+    def create_sap_rows(self) -> None:
+        page_groups = []
+        for start, end in self.get_sap_date_ranges(date.today().month):
+            new_page_group = []
+            for row in self.merge_rows:
+                if start <= row.data <= end:
+                    new_page_group.append(row)
+            page_groups.append(new_page_group)
+
+        for group in page_groups:
+            # here we go through and create the actual rows?
+            '''
+            here we know that each of these merge rows belong here
+            we know that each row is a unique date unless it is a split ticket id one
+            
+            '''   
+            row_container = {}
+            while len(group):
+                merge_row = group.pop()
 
     '''
     '''
@@ -69,22 +90,3 @@ class SAPDataWriter:
         if len(curr_ticket) and len(curr_time):
             ticket_slices.append(curr_ticket)
             time_slices.append(curr_time)
-
-
-    '''
-      if first monday is not the first, go back a week to get first monday
-      get corresponding sunday
-    '''
-    def get_sap_date_ranges(month):
-        year = date.today().year
-        d = date(year, month, 7)
-        offset = -d.weekday() #weekday = 0 means monday
-        d = d + timedelta(offset)
-
-        if d.day != 1:
-            # if it isn't the first of the month, go 7 days back
-            d = d - timedelta(days=7)
-        
-        while d.month == month or d.month + 1 == month:
-            yield d, (d + timedelta(days=6))
-            d += timedelta(days=7)

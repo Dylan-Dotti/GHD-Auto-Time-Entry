@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 
@@ -7,10 +8,11 @@ class DateEntry:
     # Params:
     #   time - total time (hours or minutes) for the day from the tickets listed in the note
     #   note - comma separated list of ticket IDS. ex: '59972, 59973, 59974'
-    def __init__(self, time: str, note: str) -> None:
+    #   date - the date of the occurence. Will make it much easier w/ this on there
+    def __init__(self, time: str, note: str, date: datetime) -> None:
         self.time = time
         self.note = note
-    
+        self.date = date
     def __str__(self) -> str:
         return 'DateEntry(time: %s, note: \'%s\')' % (self.time, self.note)
 
@@ -29,10 +31,11 @@ class SapDataRow:
         self.unit = unit
         self.startDate = startDate
         self.endDate = endDate 
-        self.date_entries = []
+        self.date_entries = [None] * 7
     
     def add_time(self, data:DateEntry) -> None:
-        self.date_entries.append(data)
+        dow = data.date.weekday()
+        self.date_entries[dow] = data
 
     def to_sap_str(self) -> str:
         sap_str = 'act	 	 	 	wbs	 	 	 		mu 	 	mon	 	 	tue	 	 	wed	 	 	thu	 	 	fri	 	 	sat	 	 	sun'
@@ -52,27 +55,3 @@ class SapDataRow:
         return ('SapDataRow(act: %s, wbs: %s, mu: %s, date_entries: %s)' %
                     (self.act, self.wbs, self.unit, 
                      [str(s) for s in self.date_entries]))
-
-# This is the set of rows for a monday-sunday SAP range
-class SapDataPage:
-
-    def __init__(self, startDate, endDate) -> None:
-        self.startDate = startDate
-        self.endDate = endDate
-        self.data = []
-
-    def add_row(self, row: SapDataRow) -> None:
-        self.data.append(row)
-
-'''
-  this is a temp structure similar to the zendesk row 
-  but is holding the sliced ticket numbers and times for a date
-'''
-class MergeRow:
-
-    def __init__(self, user: str, wbs: str, date: str, tickets, times) -> None:
-        self.user = user
-        self.wbs = wbs
-        self.date = date
-        self.tickets = ",".join(tickets)
-        self.time = sum(times)

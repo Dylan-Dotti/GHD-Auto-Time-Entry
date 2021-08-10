@@ -26,5 +26,4 @@ class ZendeskDataReader:
     # reads data from the .xlsx file at the path provided in __init__
     # and returns all rows formatted into a list/array of ZendeskDataRow
     def read_all_rows(self) -> List[ZendeskDataRow]:
-        
         return [ZendeskDataRow(row) for row in self.data.iter_rows(min_row=2, values_only=True)]

@@ -1,3 +1,4 @@
+from datetime import datetime
 
 class ZendeskDataRow:
     '''
@@ -9,8 +10,18 @@ class ZendeskDataRow:
         8: time in min
     '''
     def __init__(self, row) -> None:
+        
+        try:
+            # format date so it is readable
+            d = datetime.strptime(row[7], '%Y-%m-%d').date()
+            f_d = datetime.strftime(d, "%m/%d/%Y")
+            self.update_date = d
+
+        except Exception as err:
+            print(f"failed to parse date with error: {err}")
+            exit(0)
+
         self.updater_name = row[0]
-        self.wbs = row[2] or "N/A" # do this for now until figuring somehting better out
+        self.wbs = row[2] or "S-003422.01.02.01"
         self.ticket_id = row[5]
-        self.update_date = row[7]
-        self.minutes = row[8] or 0 # not sure if excel reader puts none if it's empty
+        self.minutes = row[8] or 0 
