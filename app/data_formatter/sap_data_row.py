@@ -35,6 +35,8 @@ class SapDataRow:
     
     def add_time(self, data:DateEntry) -> None:
         dow = data.date.weekday()
+        if self.unit == "H":
+            data.time = "{:.2f}".format(float(data.time)/60)
         self.date_entries[dow] = data
 
     def to_sap_str(self) -> str:

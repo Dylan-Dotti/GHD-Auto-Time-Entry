@@ -21,7 +21,7 @@ class MergeRow:
         self.user = user
         self.wbs = wbs
         self.date = date
-        self.tickets = ",".join(tickets)
+        self.tickets = ",".join(list(tickets))
         self.time = sum(times)
 
 '''
@@ -61,6 +61,8 @@ class DataFormatter:
 
                     tickets, times = self.create_merge_slices(item)
                     for tk, ti in zip(tickets, times):
+
+                        # the issue here is we're creting a new element instance for each date, when we don't care about that..
                         self.merge_rows.append(MergeRow(user, element, wk_date, tk, ti))
 
 
@@ -92,21 +94,22 @@ class DataFormatter:
 
         # this is the current one being created
         curr_time = []
-        curr_ticket = []
+        curr_ticket = set()
         
         # iterate over tickets and time. 
         for ticket, time in zip(item["tickets"], item["time"]):
-            count += len(ticket)
+            if ticket not in curr_ticket:
+                count += len(ticket)
     
             if count >= 40:
                 ticket_slices.append(curr_ticket)
-                curr_ticket = []
+                curr_ticket = set()
 
                 time_slices.append(curr_time)
                 curr_time = []
                 count = 0
 
-            curr_ticket.append(ticket)    
+            curr_ticket.add(ticket)    
             curr_time.append(time)
 
         # append the current one that wasn't added.
@@ -135,48 +138,45 @@ class DataFormatter:
            2. add row to page
     '''
     def create_sap_rows(self) -> List[SapDataPage]:
+
+        # create pages
         pages = self.create_pages()
-        
-        # iterate over all of the marge rows
+
+        # iterate over all of the merge rows
         while self.merge_rows:
 
-            # get one
+            # get one merge_row
             merge_row = self.merge_rows.pop()
 
             # iterate over the pages
             for page in pages:
                 
                 # to create new row or not
-                is_new_row = False
+                created_entry = False
 
                 # if the merge row belongs to this page
                 if page.startDate <= merge_row.date <= page.endDate:
-                  
-                    # iterate over the sap rows in this page
-                    if page.data:
-                        for sap_row in page.data:
 
-                            # if the wbs element already exists on this page
-                            if sap_row.wbs == merge_row.wbs:
+                    # go over the existing rows in the pages data
+                    for sap_row in page.data:
+
+                        # if the wbs element already exists on this page
+                        if sap_row.wbs == merge_row.wbs:
                             
-                                if sap_row.date_entries[merge_row.date.weekday()]:
-                                    is_new_row = True
-                                    break
-
-                                new_entry = DateEntry(str(merge_row.time), merge_row.tickets, merge_row.date)
-                                sap_row.add_time(new_entry)
-
-                            # if wbs element not in page 
-                            else:
-                                is_new_row = True
+                            # if there is a data entry on this date, then break out and create new row
+                            if sap_row.date_entries[merge_row.date.weekday()]: 
                                 break
-                    else:
-                        is_new_row = True
+                            
+                            # add entry to this row
+                            new_entry = DateEntry(str(merge_row.time), merge_row.tickets, merge_row.date)
+                            sap_row.add_time(new_entry)
+                            created_entry = True
+                            break
+                    
+                    # TODO need to create a row if one wasn't found and one wasn't added to an existing one
 
-                    if is_new_row:
-
-                        # create a new row here, w/ date entry
-                        new_row = SapDataRow("10000", merge_row.wbs, "m", page.startDate, page.endDate)
+                    if not created_entry:
+                        new_row = SapDataRow("10000", merge_row.wbs, "H", page.startDate, page.endDate)
                         new_entry = DateEntry(str(merge_row.time), merge_row.tickets, merge_row.date)
                         new_row.add_time(new_entry)
                         page.add_row(new_row)

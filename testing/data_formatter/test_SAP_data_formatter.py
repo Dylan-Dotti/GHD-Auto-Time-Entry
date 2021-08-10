@@ -10,7 +10,8 @@ if __name__ == '__main__':
     # print(formatter.collector_container)
 
     formatter.create_merge_rows()
-    # print(formatter.merge_rows)
+    # for merge_row in formatter.merge_rows:
+    #     print(merge_row.tickets)
 
     sap_rows = formatter.create_sap_rows()
     for page in sap_rows:
