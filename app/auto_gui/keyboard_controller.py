@@ -50,6 +50,9 @@ class KeyboardController:
 
     def press_reverse_tab(self, num_times=1, post_delay=0) -> None:
         self.press_key_sequence('shift', 'tab', num_times=num_times, post_delay=post_delay)
+    
+    def press_paste(self, num_times=1, post_delay=0) -> None:
+        self.press_key_sequence('ctrl', 'v', num_times=num_times, post_delay=post_delay)
 
     def write_text(self, text, post_delay=0) -> None:
         self._wait_for_window_foreground()

@@ -1,3 +1,4 @@
+from typing import Tuple
 from app.auto_gui.keyboard_controller import KeyboardController
 from app.auto_gui.sap_details_window_navigator import SapDetailsWindowNavigator
 import app.auto_gui.window_controller_factory as factory
@@ -21,11 +22,11 @@ class SapMainWindowNavigator:
             'day7', 'from7', 'to7'
         ]
 
-    def open_cell_details(self) -> SapDetailsWindowNavigator:
+    def open_cell_details(self) -> Tuple[SapDetailsWindowNavigator, KeyboardController]:
         self._kc.press_f2(post_delay=0.5)
         details_wc = factory.get_sap_details_window_controller()
         details_kc = KeyboardController(details_wc)
-        return SapDetailsWindowNavigator(details_kc)
+        return SapDetailsWindowNavigator(details_kc), details_kc
 
     def move_next_col(self):
         self._kc.press_tab()
