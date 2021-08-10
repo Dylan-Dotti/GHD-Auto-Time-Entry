@@ -17,7 +17,7 @@ if __name__ == '__main__':
     def get_test_michelin_row():
         act = '10000'
         wbs = 'S-005230.01.02.01'
-        unit = 'M'
+        unit = 'MIN'
         date_entries = [
             None,
             DateEntry('95', '44841, 44842, 44843'),
@@ -32,7 +32,7 @@ if __name__ == '__main__':
     def get_test_rainbird_row():
         act = '10000'
         wbs = 'S-005310.01.02.01'
-        unit = 'M'
+        unit = 'MIN'
         date_entries = [
             DateEntry('180', '44841, 44842, 44843'),
             DateEntry('180', '44478, 44479, 44480'),

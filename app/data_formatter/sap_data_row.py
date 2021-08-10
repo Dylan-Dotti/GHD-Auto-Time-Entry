@@ -34,6 +34,20 @@ class SapDataRow:
     def add_time(self, data:DateEntry) -> None:
         self.date_entries.append(data)
 
+    def to_sap_str(self) -> str:
+        sap_str = 'act	 	 	 	wbs	 	 	 		mu 	 	mon	 	 	tue	 	 	wed	 	 	thu	 	 	fri	 	 	sat	 	 	sun'
+        sap_str = sap_str.replace('act', self.act)
+        sap_str = sap_str.replace('wbs', self.wbs)
+        sap_str = sap_str.replace('mu', self.unit)
+        sap_str = sap_str.replace('mon', self.date_entries[0].time if self.date_entries[0] is not None else '')
+        sap_str = sap_str.replace('tue', self.date_entries[1].time if self.date_entries[1] is not None else '')
+        sap_str = sap_str.replace('wed', self.date_entries[2].time if self.date_entries[2] is not None else '')
+        sap_str = sap_str.replace('thu', self.date_entries[3].time if self.date_entries[3] is not None else '')
+        sap_str = sap_str.replace('fri', self.date_entries[4].time if self.date_entries[4] is not None else '')
+        sap_str = sap_str.replace('sat', self.date_entries[5].time if self.date_entries[5] is not None else '')
+        sap_str = sap_str.replace('sun', self.date_entries[6].time if self.date_entries[6] is not None else '')
+        return sap_str
+
     def __str__(self) -> str:
         return ('SapDataRow(act: %s, wbs: %s, mu: %s, date_entries: %s)' %
                     (self.act, self.wbs, self.unit, 
