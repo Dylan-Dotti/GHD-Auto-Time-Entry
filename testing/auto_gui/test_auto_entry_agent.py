@@ -1,6 +1,11 @@
 
+from app.auto_gui.sap_main_window_navigator import SapMainWindowNavigator
+
+
 if __name__ == '__main__':
+    import app.auto_gui.window_controller_factory as wc_factory
     from app.auto_gui.auto_entry_agent import AutoEntryAgent
+    from app.auto_gui.keyboard_controller import KeyboardController
     from app.data_formatter.sap_data_row import SapDataRow, DateEntry
 
     def generate_data_row(act, wbs, unit, date_entries):
@@ -14,7 +19,7 @@ if __name__ == '__main__':
         wbs = 'S-005230.01.02.01'
         unit = 'M'
         date_entries = [
-            DateEntry('180', '44841, 44842, 44843'),
+            None,
             DateEntry('95', '44841, 44842, 44843'),
             DateEntry('42', '44841, 44842, 44843'),
             DateEntry('29', '44841, 44842, 44843'),
@@ -39,12 +44,14 @@ if __name__ == '__main__':
         ]
         return generate_data_row(act, wbs, unit, date_entries)
 
-    print(get_test_michelin_row())
-
     # Generate data rows
     data_rows = [
         get_test_michelin_row(),
-        get_test_rainbird_row()
+        get_test_rainbird_row(),
+        get_test_michelin_row()
     ]
     # run
-    # AutoEntryAgent(data_rows).execute()
+    main_wc = wc_factory.get_sap_main_window_controller()
+    main_kc = KeyboardController(main_wc)
+    main_nav = SapMainWindowNavigator(main_kc)
+    AutoEntryAgent(main_kc, main_nav, data_rows).execute()
