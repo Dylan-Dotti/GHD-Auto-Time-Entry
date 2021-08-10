@@ -11,6 +11,12 @@ from datetime import date, datetime
 '''
 class MergeRow:
 
+    # Params:
+    #   user - the user
+    #   wbs - the wbs element
+    #   date - the date of the as a datetime
+    #   tickets - tickets, as a list of the ticketIds
+    #   times - list of the time spent on the tickets, in minutes
     def __init__(self, user: str, wbs: str, date: datetime, tickets, times) -> None:
         self.user = user
         self.wbs = wbs
@@ -18,7 +24,13 @@ class MergeRow:
         self.tickets = ",".join(tickets)
         self.time = sum(times)
 
+'''
+
+'''
 class DataFormatter:
+
+    # Params:
+    #   zd_data - a list of zendesk rows
     def __init__(self, zd_data) -> None:
         self.zd_data = zd_data
         self.collector_container = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(dict, {"time": [], "tickets":[]}))))
@@ -54,8 +66,22 @@ class DataFormatter:
 
     '''
       This is used to cut the ticketId's into > 40 chars so they fit into the description text field
+      
+      Params:
+      item - this is a merge row 
+
       process:
-        1. 
+        1. iterate tickets and times of a merge row 
+        2. count ticket chars
+        3. if it goes over and equal to 40
+            1. append slices
+            2. reset current tickets
+            3. append times
+            4. reset current times
+            5. reset count
+        4. if there are anything in the curr lists
+        5. append to to totals
+        6. return tickets and times 
     '''
     def create_merge_slices(self, item):
         count = 0 # char counter
@@ -92,7 +118,7 @@ class DataFormatter:
 
 
     '''
-      create pages
+      create pages w/ date ranges
     '''
     def create_pages(self) -> List[SapDataPage]:
         return [SapDataPage(start, end) for start, end in date_ranges(date.today().month)]
@@ -148,6 +174,7 @@ class DataFormatter:
                         is_new_row = True
 
                     if is_new_row:
+
                         # create a new row here, w/ date entry
                         new_row = SapDataRow("10000", merge_row.wbs, "m", page.startDate, page.endDate)
                         new_entry = DateEntry(str(merge_row.time), merge_row.tickets, merge_row.date)

@@ -6,7 +6,7 @@ class ZendeskDataRow:
         0: the user
         2: wbs element
         5: ticket number
-        7: date
+        7: date as a datetime
         8: time in min
     '''
     def __init__(self, row) -> None:
@@ -14,7 +14,6 @@ class ZendeskDataRow:
         try:
             # format date so it is readable
             d = datetime.strptime(row[7], '%Y-%m-%d').date()
-            f_d = datetime.strftime(d, "%m/%d/%Y")
             self.update_date = d
 
         except Exception as err:

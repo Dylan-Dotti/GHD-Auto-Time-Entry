@@ -1,6 +1,5 @@
 from app.data_formatter.sap_data_row import SapDataRow
 
-
 # This is the set of rows for a monday-sunday SAP range
 class SapDataPage:
 
