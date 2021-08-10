@@ -1,9 +1,10 @@
 import pyperclip as clip
 from app.auto_gui.keyboard_controller import KeyboardController
 from app.auto_gui.sap_main_window_navigator import SapMainWindowNavigator
-from typing import List
 from app.data_formatter.sap_data_row import SapDataRow
-
+from typing import List
+from pandas.io.clipboard import copy, paste
+import time
 
 class AutoEntryAgent:
 
@@ -24,12 +25,14 @@ class AutoEntryAgent:
         # Move through cells and input notes
         for row_index, row in enumerate(self._data_rows):
             for day_index, entry in enumerate(row.date_entries):
-                self._main_nav.move_to_day(day_index)
-                details_nav = self._main_nav.open_cell_details()
-                details_nav.move_to_short_text_field()
-                clip.copy(entry.note)
-                clip.paste()
-                details_nav.confirm_and_close()
+                if entry is not None:
+                    self._main_nav.move_to_day(day_index)
+                    details_nav = self._main_nav.open_cell_details()
+                    details_nav.move_to_short_text_field()
+                    print('copying note: ' + entry.note)
+                    copy(entry.note)
+                    time.sleep(.5)
+                    details_nav._kc.press_key_sequence('ctrl', 'v', post_delay=.5)
+                    details_nav.confirm_and_close()
             if row_index < len(self._data_rows) - 1:
                 self._main_nav.move_next_row_start()
-        pass

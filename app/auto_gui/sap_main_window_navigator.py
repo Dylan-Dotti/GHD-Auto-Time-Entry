@@ -60,7 +60,7 @@ class SapMainWindowNavigator:
     def move_to_day(self, day_index):
         if day_index < 0 or day_index > 6:
             raise ValueError('Invalid day index: ' + day_index)
-        target_str = 'day' + (day_index + 1)
+        target_str = 'day' + str((day_index + 1))
         target_index = self._row_layout.index(target_str)
         while self._current_col_index != target_index:
             if self._current_col_index < target_index:

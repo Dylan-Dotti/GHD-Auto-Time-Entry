@@ -47,11 +47,11 @@ if __name__ == '__main__':
     # Generate data rows
     data_rows = [
         get_test_michelin_row(),
-        get_test_rainbird_row(),
-        get_test_michelin_row()
+        get_test_rainbird_row()
     ]
     # run
     main_wc = wc_factory.get_sap_main_window_controller()
+    main_wc.set_window_foreground()
     main_kc = KeyboardController(main_wc)
     main_nav = SapMainWindowNavigator(main_kc)
     AutoEntryAgent(main_kc, main_nav, data_rows).execute()
