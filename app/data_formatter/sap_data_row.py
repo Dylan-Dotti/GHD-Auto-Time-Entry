@@ -13,8 +13,9 @@ class DateEntry:
         self.time = time
         self.note = note
         self.date = date
+
     def __str__(self) -> str:
-        return 'DateEntry(time: %s, note: \'%s\')' % (self.time, self.note)
+        return 'DateEntry(time: %s, note: \'%s\', date: %s)' % (self.time, self.note, str(self.date))
 
 
 # Contains all the data needed for a single row of the SAP time sheet

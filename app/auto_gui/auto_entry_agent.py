@@ -1,4 +1,3 @@
-import pyperclip as clip
 from app.auto_gui.keyboard_controller import KeyboardController
 from app.auto_gui.sap_main_window_navigator import SapMainWindowNavigator
 from app.data_formatter.sap_data_row import SapDataRow
@@ -27,9 +26,8 @@ class AutoEntryAgent:
                 if entry is not None:
                     self._main_nav.move_to_day(day_index)
                     details_nav, details_kc = self._main_nav.open_cell_details()
-                    details_nav.move_to_short_text_field()
                     copy(entry.note)
-                    time.sleep(.5)
+                    details_nav.move_to_short_text_field()
                     details_kc.press_paste(post_delay=.5)
                     details_nav.confirm_and_close()
             if row_index < len(self._data_rows) - 1:
