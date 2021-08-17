@@ -1,6 +1,6 @@
 from app.auto_gui.keyboard_controller import KeyboardController
 from app.auto_gui.sap_main_window_navigator import SapMainWindowNavigator
-from app.data_formatter.sap_data_row import SapDataRow
+from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow
 from typing import List
 from pandas.io.clipboard import copy
 import time

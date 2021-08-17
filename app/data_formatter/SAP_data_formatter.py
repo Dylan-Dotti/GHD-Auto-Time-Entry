@@ -1,9 +1,12 @@
-from typing import List
+from typing import Any, List
+from datetime import datetime
+from collections import defaultdict
+from app.data_formatter.zendesk_data_row import ZendeskDataRow
+
 from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow, DateEntry
 from app.data_formatter.SAP_Objects.SAP_Page import SapDataPage
-from collections import defaultdict
+
 from app.data_formatter.utils import date_ranges
-from datetime import date, datetime
 
 '''
   this is a temp structure similar to the zendesk row 
@@ -25,24 +28,41 @@ class MergeRow:
         self.time = sum(times)
 
 '''
+  this is the object which converts zendesk rows to SAP Pages
+
+  parameters:
+  zd_data: a list of Zendesk Rows
+
+  methods:
 
 '''
-class DataFormatter:
+class SAPDataFormatter:
 
     # Params:
     #   zd_data - a list of zendesk rows
-    def __init__(self, zd_data) -> None:
-        self.zd_data = zd_data
-        self.collector_container = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(dict, {"time": [], "tickets":[]}))))
+    def __init__(self, zd_data: List[ZendeskDataRow]) -> None:
+        self.collector_container = self.__merge_wbs_elements(zd_data)
 
     '''
       this is for aggregating ticketIds for a wbs element, and summing up the time
     '''
-    def merge_wbs_elements(self) -> None:
-        # user, wbs_element, date: {time:[], tickets:[]} time and tickets being corresponding index        
-        for row in self.zd_data:
-            self.collector_container[row.updater_name][row.wbs][row.update_date]["time"].append(row.minutes)
-            self.collector_container[row.updater_name][row.wbs][row.update_date]["tickets"].append(row.ticket_id)
+    def __merge_wbs_elements(self, zd_data) -> Any:
+
+        # user, wbs_element, date: {time:[], tickets:[]} time and tickets being corresponding index
+        collector_container = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(dict, {"time": [], "tickets":[]}))))
+
+        for row in zd_data:
+            collector_container[row.updater_name][row.wbs][row.update_date]["time"].append(row.minutes)
+            collector_container[row.updater_name][row.wbs][row.update_date]["tickets"].append(row.ticket_id)
+
+        return collector_container
+
+    '''
+      create pages w/ date ranges
+    '''
+    @classmethod
+    def create_pages(self, month) -> List[SapDataPage]:
+        return [SapDataPage(start, end) for start, end in date_ranges(month)]
 
     '''
     TODO: think about this, not an ideal solution.
@@ -60,7 +80,7 @@ class DataFormatter:
                 for wk_date in self.collector_container[user][element].keys():
                     item = self.collector_container[user][element][wk_date]
 
-                    tickets, times = self.create_merge_slices(item)
+                    tickets, times = self.__create_merge_slices(item)
                     for tk, ti in zip(tickets, times):
 
                         # the issue here is we're creting a new element instance for each date, when we don't care about that..
@@ -86,7 +106,7 @@ class DataFormatter:
         5. append to to totals
         6. return tickets and times 
     '''
-    def create_merge_slices(self, item):
+    def __create_merge_slices(self, item):
         count = 0 # char counter
 
         # these are the totals 
@@ -102,7 +122,7 @@ class DataFormatter:
 
             # don't add to the count if that ticket is already in there
             if ticket not in curr_ticket:
-                count += len(ticket)
+                count += len(ticket) 
 
             # if the count is greater than or equal to 40:
             '''
@@ -112,7 +132,7 @@ class DataFormatter:
                 4. create a new list for time
                 5. set the char count to 0
             '''
-            if count >= 40:
+            if count >= 40: # this should also allow the commas to be added since it will drop the last ticket id, we'll have 5 chars for commas
                 ticket_slices.append(curr_ticket)
                 curr_ticket = set()
 
@@ -137,12 +157,6 @@ class DataFormatter:
         return ticket_slices, time_slices
 
     '''
-      create pages w/ date ranges
-    '''
-    def create_pages(self, month) -> List[SapDataPage]:
-        return [SapDataPage(start, end) for start, end in date_ranges(month)]
-
-    '''
       process:
       1. iterate over all of the merge rows
       2. iterate over the pages
@@ -153,7 +167,7 @@ class DataFormatter:
            1. create new SAP row and add that date
            2. add row to page
     '''
-    def create_sap_rows(self, pages, merge_rows) -> List[SapDataPage]:
+    def merge_to_sap(self, pages, merge_rows) -> List[SapDataPage]:
 
         # iterate over all of the merge rows
         while merge_rows:
@@ -195,7 +209,7 @@ class DataFormatter:
                       if an entry was not created because:
                         -  the wbs element does not exist
                         -  the date collided with an existing entry
-                        
+
                         1. create a new row
                         2. create a new date entry 
                         3. add the date entry to the row and add the row to the respective page
