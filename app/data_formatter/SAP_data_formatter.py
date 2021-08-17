@@ -1,6 +1,6 @@
 from typing import List
-from app.data_formatter.sap_data_row import SapDataRow, DateEntry
-from app.data_formatter.SAP_Page import SapDataPage
+from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow, DateEntry
+from app.data_formatter.SAP_Objects.SAP_Page import SapDataPage
 from collections import defaultdict
 from app.data_formatter.utils import date_ranges
 from datetime import date, datetime
@@ -34,7 +34,6 @@ class DataFormatter:
     def __init__(self, zd_data) -> None:
         self.zd_data = zd_data
         self.collector_container = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(dict, {"time": [], "tickets":[]}))))
-        self.merge_rows = []
 
     '''
       this is for aggregating ticketIds for a wbs element, and summing up the time
@@ -46,6 +45,7 @@ class DataFormatter:
             self.collector_container[row.updater_name][row.wbs][row.update_date]["tickets"].append(row.ticket_id)
 
     '''
+    TODO: think about this, not an ideal solution.
       process:
         1. join all ticketIds
         2. iterate ticket list, count chars
@@ -53,6 +53,7 @@ class DataFormatter:
         4. create new merge object from prev index to that one for minutes and tickets
     '''
     def create_merge_rows(self):
+        return_rows = []
         for user in self.collector_container.keys():
             for element in self.collector_container[user].keys():
                 
@@ -63,8 +64,8 @@ class DataFormatter:
                     for tk, ti in zip(tickets, times):
 
                         # the issue here is we're creting a new element instance for each date, when we don't care about that..
-                        self.merge_rows.append(MergeRow(user, element, wk_date, tk, ti))
-
+                        return_rows.append(MergeRow(user, element, wk_date, tk, ti))
+        return return_rows
 
     '''
       This is used to cut the ticketId's into > 40 chars so they fit into the description text field
@@ -98,9 +99,19 @@ class DataFormatter:
         
         # iterate over tickets and time. 
         for ticket, time in zip(item["tickets"], item["time"]):
+
+            # don't add to the count if that ticket is already in there
             if ticket not in curr_ticket:
                 count += len(ticket)
-    
+
+            # if the count is greater than or equal to 40:
+            '''
+                1. add the collected ticket set to the list of sets of tickets
+                2. create a new set for collecting tickets
+                3. add the collected time to the list of lists of times (corresponding to tickets)
+                4. create a new list for time
+                5. set the char count to 0
+            '''
             if count >= 40:
                 ticket_slices.append(curr_ticket)
                 curr_ticket = set()
@@ -109,22 +120,27 @@ class DataFormatter:
                 curr_time = []
                 count = 0
 
+            # add the ticket and time to their respective set/list
             curr_ticket.add(ticket)    
             curr_time.append(time)
 
         # append the current one that wasn't added.
+        '''
+            if there are any tickets and times in the current collectors:
+            1. add them to the totals 
+        '''
         if len(curr_ticket) and len(curr_time):
             ticket_slices.append(curr_ticket)
             time_slices.append(curr_time)
 
+        # return both the tickets and the times, should have equal length
         return ticket_slices, time_slices
-
 
     '''
       create pages w/ date ranges
     '''
-    def create_pages(self) -> List[SapDataPage]:
-        return [SapDataPage(start, end) for start, end in date_ranges(date.today().month)]
+    def create_pages(self, month) -> List[SapDataPage]:
+        return [SapDataPage(start, end) for start, end in date_ranges(month)]
 
     '''
       process:
@@ -137,44 +153,54 @@ class DataFormatter:
            1. create new SAP row and add that date
            2. add row to page
     '''
-    def create_sap_rows(self) -> List[SapDataPage]:
-
-        # create pages
-        pages = self.create_pages()
+    def create_sap_rows(self, pages, merge_rows) -> List[SapDataPage]:
 
         # iterate over all of the merge rows
-        while self.merge_rows:
+        while merge_rows:
 
             # get one merge_row
-            merge_row = self.merge_rows.pop()
+            merge_row = merge_rows.pop()
 
-            # iterate over the pages
+            # iterate over the pages, this is used to determine what page the merge row belongs to.
             for page in pages:
                 
-                # to create new row or not
+                # bool for whether or not a new entry was created. If a new entry was not created then create a new row.
                 created_entry = False
 
-                # if the merge row belongs to this page
+                # check if the merge row belongs to this page by checking if it's create data is inside the page date range
                 if page.startDate <= merge_row.date <= page.endDate:
 
-                    # go over the existing rows in the pages data
+                    # go over the existing rows in the pages data to check if one for the wbs element exists
                     for sap_row in page.data:
 
-                        # if the wbs element already exists on this page
+                        # check if the wbs element already exists on this page
                         if sap_row.wbs == merge_row.wbs:
                             
-                            # if there is a data entry on this date, then break out and create new row
+                            '''
+                              check if there is a dat entry on this date, if there is 
+                              then break out and create new row. This is done because this would
+                              only heppen if the ticket string is longer than 40 characters and
+                              multiple instances were created.
+                            '''
                             if sap_row.date_entries[merge_row.date.weekday()]: 
                                 break
                             
-                            # add entry to this row
+                            # if the row exists and the date is not already taken, add entry to this row.
                             new_entry = DateEntry(str(merge_row.time), merge_row.tickets, merge_row.date)
                             sap_row.add_time(new_entry)
                             created_entry = True
                             break
                     
-                    # TODO need to create a row if one wasn't found and one wasn't added to an existing one
-
+                    '''
+                      if an entry was not created because:
+                        -  the wbs element does not exist
+                        -  the date collided with an existing entry
+                        
+                        1. create a new row
+                        2. create a new date entry 
+                        3. add the date entry to the row and add the row to the respective page
+                        4. break out since this is the correct page to be in
+                    '''
                     if not created_entry:
                         new_row = SapDataRow("10000", merge_row.wbs, "H", page.startDate, page.endDate)
                         new_entry = DateEntry(str(merge_row.time), merge_row.tickets, merge_row.date)
@@ -182,5 +208,5 @@ class DataFormatter:
                         page.add_row(new_row)
                         break
 
-        # here return data
+        # here return data as SAP pages here
         return pages

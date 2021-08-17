@@ -22,17 +22,18 @@ class DateEntry:
 class SapDataRow:
 
     # Params:
-    #   act - usually 10000
-    #   wbs - wbs of the site
-    #   mu - H for hours or M for minutes
-    #   date_entries - list of DateEntry. Order of elements represents Mon-Sun.
+    #   act - usually 10000.
+    #   wbs - wbs of the site.
+    #   mu - H for hours or M for minutes.
+    #   startDate - the beginning on the week, Monday. 
+    #   endDate - the end of the week, Sunday.
     def __init__(self, act: str, wbs: str, unit: str, startDate, endDate) -> None:
-        self.act = act
+        self.act = act or '10000'
         self.wbs = wbs
         self.unit = unit
         self.startDate = startDate
         self.endDate = endDate 
-        self.date_entries = [None] * 7
+        self.date_entries = [None] * 7 # Order of elements represents Mon-Sun.
     
     def add_time(self, data:DateEntry) -> None:
         dow = data.date.weekday()

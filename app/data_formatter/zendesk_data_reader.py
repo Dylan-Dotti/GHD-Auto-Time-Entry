@@ -20,7 +20,7 @@ class ZendeskDataReader:
             self.data = load_workbook(filename=self._src_file_path).active
 
         except Exception as err:
-            print(f"Failed to parse with error: {err}")
+            print(f"Failed to parse excel with error: {err}")
             exit(0)
 
     def read_all_rows(self) -> List[ZendeskDataRow]:

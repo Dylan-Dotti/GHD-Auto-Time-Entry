@@ -17,7 +17,7 @@ class ZendeskDataRow:
             self.update_date = d
 
         except Exception as err:
-            print(f"failed to parse date with error: {err}")
+            print(f"failed to convert date with error: {err}")
             exit(0)
 
         self.updater_name = row[0]

@@ -7,4 +7,3 @@ if __name__ == '__main__':
     data = reader.read_all_rows()
 
     pickle.dump( data, open( "testing/test_data/zdesk_data.p", "wb" ) )
-    # create ZendeskDataReader object and add code to test
