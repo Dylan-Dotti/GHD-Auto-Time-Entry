@@ -1,7 +1,7 @@
 
 if __name__ == '__main__':
     import pickle
-    from app.data_formatter.zendesk_data_reader import ZendeskDataReader
+    from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataReader
     reader = ZendeskDataReader("testing/test_data/test_zd_data.xlsx")
 
     # load worksheet, should exit with error if error. 
