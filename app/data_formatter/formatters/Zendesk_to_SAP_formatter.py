@@ -2,12 +2,10 @@ from app.data_formatter.formatters.data_formatter import DataFormatter
 from typing import Any, List
 from datetime import datetime
 from collections import defaultdict
-from app.data_formatter.zendesk_data_row import ZendeskDataRow
+from app.data_formatter.readers.zendesk.zendesk_data_row import ZendeskDataRow
 
 from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow, DateEntry
 from app.data_formatter.SAP_Objects.SAP_Page import SapDataPage
-
-from app.data_formatter.utils import date_ranges
 
 '''
   this is a temp structure similar to the zendesk row 
