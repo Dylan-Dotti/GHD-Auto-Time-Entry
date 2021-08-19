@@ -1,29 +1,35 @@
 
+from app.data_formatter.formatters.data_formatter import DataFormatter
 from datetime import date
 
 
 if __name__ == '__main__':
     import pickle
-    from app.data_formatter.SAP_data_formatter import SAPDataFormatter
+    from app.data_formatter.formatters.data_formatter_factory import DataFormatterFactory
 
     # generated from test_zendesk_data_reader
     test_data = pickle.load(open("testing/test_data/zdesk_data.p", "rb"))
 
+    # get a formatter
+    formatter_factory = DataFormatterFactory()
+
+    data_formatter = formatter_factory.get_formatter('ZENDESK')
+
     # create pages for a provided month
-    pages = SAPDataFormatter.create_pages(date.today().month)
+    pages = data_formatter.create_pages(date.today().month)
 
     # create a new formatter instance with the test data
-    formatter = SAPDataFormatter(test_data)
+    zdt_formatter = data_formatter(test_data, pages)
     
+    # format zendesk data to SAP
+    zdt_formatter.format()
 
-    merge_rows = formatter.create_merge_rows()
-
-    # fill the pages with the merge rows
-    complete_sap_pages = formatter.merge_to_sap(pages, merge_rows)
+    # get formatted data
+    formatted_data = zdt_formatter.formatted_data()
 
     # save data to validate
     with open('testing/test_data/test_output.txt', 'w+') as f:
-        for page in complete_sap_pages:
+        for page in formatted_data:
             f.write(f"{str(page.startDate)}\n")
             for row in page.data:
                 f.write(f"{row.to_sap_str()}\n")

@@ -1,3 +1,4 @@
+from app.data_formatter.formatters.data_formatter import DataFormatter
 from typing import Any, List
 from datetime import datetime
 from collections import defaultdict
@@ -36,13 +37,13 @@ class MergeRow:
   methods:
 
 '''
-class SAPDataFormatter:
+class SAPDataFormatter(DataFormatter):
 
     # Params:
     #   zd_data - a list of zendesk rows
-    def __init__(self, zd_data: List[ZendeskDataRow]) -> None:
+    def __init__(self, zd_data: List[ZendeskDataRow], pages: List[SapDataPage]) -> None:
         self.collector_container = self.__merge_wbs_elements(zd_data)
-
+        self.pages = pages
     '''
       this is for aggregating ticketIds for a wbs element, and summing up the time
     '''
@@ -58,13 +59,6 @@ class SAPDataFormatter:
         return collector_container
 
     '''
-      create pages w/ date ranges
-    '''
-    @classmethod
-    def create_pages(self, month) -> List[SapDataPage]:
-        return [SapDataPage(start, end) for start, end in date_ranges(month)]
-
-    '''
     TODO: think about this, not an ideal solution.
       process:
         1. join all ticketIds
@@ -72,7 +66,7 @@ class SAPDataFormatter:
         3. when hit 40, go to previous index
         4. create new merge object from prev index to that one for minutes and tickets
     '''
-    def create_merge_rows(self):
+    def __create_merge_rows(self):
         return_rows = []
         for user in self.collector_container.keys():
             for element in self.collector_container[user].keys():
@@ -167,7 +161,7 @@ class SAPDataFormatter:
            1. create new SAP row and add that date
            2. add row to page
     '''
-    def merge_to_sap(self, pages, merge_rows) -> List[SapDataPage]:
+    def __merge_to_sap(self, pages, merge_rows) -> List[SapDataPage]:
 
         # iterate over all of the merge rows
         while merge_rows:
@@ -224,3 +218,12 @@ class SAPDataFormatter:
 
         # here return data as SAP pages here
         return pages
+
+    def format(self):
+        merge_rows = self.__create_merge_rows()
+
+        # fill the pages with the merge rows
+        complete_sap_pages = self.__merge_to_sap(self.pages, merge_rows)
+        
+        self.cleaned_data = complete_sap_pages
+
