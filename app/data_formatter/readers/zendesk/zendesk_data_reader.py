@@ -1,5 +1,5 @@
 from typing import Any, List
-from app.data_formatter.readers.zendesk.zendesk_data_row import ZendeskDataRow
+from app.data_formatter.readers.zendesk.zendesk_data_row import ZendeskDataRow, ZendeskRowFactory
 from pathlib import Path 
 from openpyxl import load_workbook
 from app.data_formatter.utils import verify_path
@@ -28,7 +28,8 @@ class ZendeskDataReader:
       get the header row so we can match the fields
     '''
     def __get_header(self):
-        self.header = next(self.data.iter_rows(min_row=1, max_row=1, values_only=True))
+        self.header = list(next(self.data.iter_rows(min_row=1, max_row=1, values_only=True)))
 
     def read_all_rows(self) -> List[ZendeskDataRow]:
-        return [ZendeskDataRow(row) for row in self.data.iter_rows(min_row=2, values_only=True)]
+        zendesk_row_factory = ZendeskRowFactory(self.header)
+        return [zendesk_row_factory.create_row(row) for row in self.data.iter_rows(min_row=2, values_only=True)]
