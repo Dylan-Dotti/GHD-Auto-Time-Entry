@@ -36,6 +36,9 @@ class KeyboardController:
         self._wait_for_window_foreground()
         return pag.keyUp(key_name)
 
+    def press_up_arrow(self, num_times=1, post_delay=0) -> None:
+        self.press_key('down', num_times=num_times, post_delay=post_delay)
+
     def press_f2(self, num_times=1, post_delay=0) -> None:
         self.press_key_sequence('fn', 'f2', num_times=num_times, post_delay=post_delay)
 
@@ -50,6 +53,15 @@ class KeyboardController:
 
     def press_reverse_tab(self, num_times=1, post_delay=0) -> None:
         self.press_key_sequence('shift', 'tab', num_times=num_times, post_delay=post_delay)
+    
+    def press_select_all(self, post_delay=0) -> None:
+        self.press_key_sequence('ctrl', 'a', post_delay=post_delay)
+    
+    def press_select_to_end(self, post_delay=0) -> None:
+        self.press_key_sequence('shift', 'end', post_delay=post_delay)
+    
+    def press_copy(self, post_delay=0) -> None:
+        self.press_key_sequence('ctrl', 'c', post_delay=post_delay)
     
     def press_paste(self, num_times=1, post_delay=0) -> None:
         self.press_key_sequence('ctrl', 'v', num_times=num_times, post_delay=post_delay)
