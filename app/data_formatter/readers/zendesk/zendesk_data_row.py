@@ -41,3 +41,7 @@ class ZendeskDataRow:
         self.wbs = wbs or "S-003422.01.02.01"
         self.ticket_id = ticketId
         self.minutes = minutes or 0 
+    
+    def __str__(self) -> str:
+        return ('ZendeskDataRow(user: %s, wbs: %s, ticket: %s, date: %s, minutes: %s)' %
+                (self.updater_name, self.wbs, self.ticket_id, self.update_date, self.minutes))
