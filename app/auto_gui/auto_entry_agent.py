@@ -14,12 +14,14 @@ class AutoEntryAgent:
         self._main_nav = main_nav
         self._data_rows = data_rows
 
-    def execute(self):
+    def execute(self, clear_data: bool = False):
+        if clear_data:
+            self._clear_data()
         for row_index, row in enumerate(self._data_rows):
             # Paste row data
             copy(row.to_sap_str())
             time.sleep(.5)
-            self._main_kc.press_paste(post_delay=.5)
+            self._main_kc.press_paste(post_delay=.25)
             self._main_kc.press_enter(post_delay=.5)
             # Move through cells and input notes
             for day_index, entry in enumerate(row.date_entries):
@@ -28,7 +30,11 @@ class AutoEntryAgent:
                     details_nav, details_kc = self._main_nav.open_cell_details()
                     copy(entry.note)
                     details_nav.move_to_short_text_field()
-                    details_kc.press_paste(post_delay=.5)
+                    details_kc.press_paste(post_delay=.25)
                     details_nav.confirm_and_close()
             if row_index < len(self._data_rows) - 1:
                 self._main_nav.move_next_row_start()
+    
+    def _clear_data(self):
+        reset_nav, _ = self._main_nav.open_reset_entries()
+        reset_nav.select_yes()
