@@ -37,6 +37,9 @@ class KeyboardController:
         return pag.keyUp(key_name)
 
     def press_up_arrow(self, num_times=1, post_delay=0) -> None:
+        self.press_key('up', num_times=num_times, post_delay=post_delay)
+
+    def press_down_arrow(self, num_times=1, post_delay=0) -> None:
         self.press_key('down', num_times=num_times, post_delay=post_delay)
 
     def press_f2(self, num_times=1, post_delay=0) -> None:
@@ -57,6 +60,9 @@ class KeyboardController:
     def press_select_all(self, post_delay=0) -> None:
         self.press_key_sequence('ctrl', 'a', post_delay=post_delay)
     
+    def press_select_to_start(self, post_delay=0) -> None:
+        self.press_key_sequence('shift', 'home', post_delay=post_delay)
+
     def press_select_to_end(self, post_delay=0) -> None:
         self.press_key_sequence('shift', 'end', post_delay=post_delay)
     

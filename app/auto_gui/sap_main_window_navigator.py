@@ -65,6 +65,18 @@ class SapMainWindowNavigator:
     def move_next_row_start(self):
         self.move_current_row_end()
         self.move_next_col()
+    
+    # Immediately moves to next row by pressing down
+    def move_next_row_direct(self):
+        self._kc.press_down_arrow()
+        self._current_row_index += 1
+    
+    # Immediately moves to previous row by pressing up
+    def move_prev_row_direct(self):
+        if self._current_row_index == 0:
+            return
+        self._kc.press_up_arrow()
+        self._current_row_index -= 1
 
     def move_to_day(self, day_index):
         if day_index < 0 or day_index > 6:

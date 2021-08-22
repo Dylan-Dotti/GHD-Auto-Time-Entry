@@ -17,6 +17,8 @@ class AutoEntryAgent:
     def execute(self, clear_data = False) -> None:
         if clear_data:
             self._clear_data()
+        else:
+            self._move_to_first_empty_row()
         for row_index, row in enumerate(self._data_rows):
             # Paste row data
             copy(row.to_sap_str())
@@ -35,14 +37,22 @@ class AutoEntryAgent:
             if row_index < len(self._data_rows) - 1:
                 self._main_nav.move_next_row_start()
     
+    def _move_to_first_empty_row(self) -> None:
+        while self._test_cell_has_data():
+            self._main_nav.move_next_row_direct()
+    
     def _clear_data(self) -> None:
         reset_nav, _ = self._main_nav.open_reset_entries()
         reset_nav.select_yes()
     
     def _test_cell_has_data(self) -> bool:
+        copy('')
+        time.sleep(.25)
+        # pressing ctrl-a will cause the window to lose foreground status
+        # shift-home and shift-end work though
+        self._main_kc.press_key('home', post_delay=.1)
         self._main_kc.press_select_to_end(post_delay=.1)
         self._main_kc.press_copy(post_delay=.25)
         cell_content = paste()
-        print('Clipboard contents: ' + cell_content)
         return cell_content is not None and len(cell_content) > 0 and any(char != ' ' for char in cell_content)
 
