@@ -47,4 +47,4 @@ if __name__ == '__main__':
     main_wc.set_window_foreground()
     main_kc = KeyboardController(main_wc)
     main_nav = SapMainWindowNavigator(main_kc)
-    AutoEntryAgent(main_kc, main_nav, data_rows).execute(True)
+    AutoEntryAgent(main_kc, main_nav, data_rows).execute()

@@ -24,35 +24,32 @@ class SapMainWindowNavigator:
         ]
 
     def open_cell_details(self) -> Tuple[SapDetailsWindowNavigator, KeyboardController]:
-        self._kc.press_f2(post_delay=0.5)
+        self._kc.press_f2(post_delay=.5)
         details_wc = factory.get_sap_details_window_controller()
         details_kc = KeyboardController(details_wc)
         return SapDetailsWindowNavigator(details_kc), details_kc
     
     def open_reset_entries(self) -> Tuple[SapConfirmatPromptWindowNavigator, KeyboardController]:
-        self._kc.press_key_sequence('ctrl', 'fn', 'f11')
-        time.sleep(0.5)
+        self._kc.press_key_sequence('ctrl', 'fn', 'f11', post_delay=.5)
         confirm_wc = factory.get_sap_confirmat_prot_window_controller()
         confirm_kc = KeyboardController(confirm_wc)
         return SapConfirmatPromptWindowNavigator(confirm_kc), confirm_kc
 
     def move_next_col(self):
-        self._kc.press_tab()
         self._current_col_index += 1
         if self._current_col_index == self._row_length():
             self._current_row_index += 1
             self._current_col_index = 0
-        time.sleep(0.1)
+        self._kc.press_tab(post_delay=.05)
 
     def move_prev_col(self):
         if (self._current_row_index == 0 and self._current_col_index == 0):
             return
-        self._kc.press_reverse_tab()
         self._current_col_index -= 1
         if self._current_col_index == -1:
             self._current_row_index -= 1
             self._current_col_index = self._row_length() - 1
-        time.sleep(0.1)
+        self._kc.press_reverse_tab(post_delay=.05)
 
     def move_current_row_start(self):
         while self._current_col_index > 0:

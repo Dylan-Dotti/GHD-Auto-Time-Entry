@@ -13,4 +13,4 @@ class SapDetailsWindowNavigator:
         self._kc.press_enter(post_delay=1)
     
     def move_to_short_text_field(self):
-        self._kc.press_tab(num_times=4, post_delay=0.25)
+        self._kc.press_tab(num_times=4, post_delay=0.1)
