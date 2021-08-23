@@ -2,10 +2,8 @@ from app.auto_gui.window_controller import WindowController
 
 
 def get_sap_main_window_controller() -> WindowController:
-    try:
-        return WindowController('Time Sheet: Data Entry View SP1 (1)')
-    except:
-        return WindowController('Time Sheet: Data Entry View')
+    return WindowController('Time Sheet: Data Entry View', 
+                            alternate_names=['Time Sheet: Data Entry View SP1 (1)'])
 
 
 def get_sap_details_window_controller() -> WindowController:

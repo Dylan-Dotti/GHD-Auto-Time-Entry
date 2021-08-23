@@ -22,7 +22,7 @@ class AutoEntryAgent:
         for row_index, row in enumerate(self._data_rows):
             # Paste row data
             copy(row.to_sap_str())
-            time.sleep(.5)
+            time.sleep(.25)
             self._main_kc.press_paste(post_delay=.25)
             self._main_kc.press_enter(post_delay=.5)
             # Move through cells and input notes
