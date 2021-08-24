@@ -1,11 +1,7 @@
-
-from app.data_formatter.formatters.data_formatter import DataFormatter
-from datetime import date
-
-
 if __name__ == '__main__':
     import pickle
     from app.data_formatter.formatters.data_formatter_factory import DataFormatterFactory
+    from datetime import date
 
     # generated from test_zendesk_data_reader
     test_data = pickle.load(open("testing/test_data/zdesk_data.p", "rb"))

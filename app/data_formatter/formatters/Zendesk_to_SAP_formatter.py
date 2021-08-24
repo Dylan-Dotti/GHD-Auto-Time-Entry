@@ -7,40 +7,6 @@ from app.data_formatter.readers.zendesk.zendesk_data_row import ZendeskDataRow
 from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow, DateEntry
 from app.data_formatter.SAP_Objects.SAP_Page import SapDataPage
 
-'''
-  requirements:
-  - need to take all of the zendesk rows, and merge 
-  1. iterate all zendesk rows:
-    - pop a row
-    - check if , user, wbs, and date exist for a row
-    - if they exist, append time and ticketId
-    - else create new merge row
-'''
-class MergeRowCreator:
-    def __init__(self, zd_data) -> None:
-        self.zd_data = zd_data
-
-
-    def __create_merge_row(self):
-        pass
-    
-    '''
-      This is to seperate a merge_row if it's too large.
-    '''
-    def __sheer(self, row):
-        
-        pass
-
-    def create(self):
-        while self.zd_data:
-            zd_row = self.zd_data.pop()
-            
-        pass
-
-'''
-  this is a temp structure similar to the zendesk row 
-  but is holding the sliced ticket numbers and times for a date
-'''
 class MergeRow:
 
     # Params:
@@ -56,13 +22,6 @@ class MergeRow:
         self.tickets = ",".join(list(tickets))
         self.time = sum(times)
 
-    # def add_ticket_and_time(self, ticket, time):
-    #     self.tickets.add(ticket)
-    #     self.time.append(time)
-
-    # def merge_tickets_and_time(self):
-    #     self.tickets = ",".join(list(self.tickets))
-    #     self.time = sum(self.time)
 
 '''
   this is the object which converts zendesk rows to SAP Pages
