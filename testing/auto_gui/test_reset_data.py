@@ -9,5 +9,4 @@ if __name__ == '__main__':
     main_wc.set_window_foreground()
     main_kc = KeyboardController(main_wc)
     main_nav = SapMainWindowNavigator(main_kc)
-    reset_nav, reset_kc = main_nav.open_reset_entries()
-    reset_nav.select_yes()
+    reset_nav, reset_kc = main_nav.delete_all_entries()

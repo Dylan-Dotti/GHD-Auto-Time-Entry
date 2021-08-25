@@ -16,7 +16,7 @@ class AutoEntryAgent:
 
     def execute(self, clear_data = False) -> None:
         if clear_data:
-            self._clear_data()
+            self._main_nav.delete_all_entries()
         else:
             self._move_to_first_empty_row()
         for row_index, row in enumerate(self._data_rows):

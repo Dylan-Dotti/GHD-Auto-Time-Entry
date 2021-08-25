@@ -35,6 +35,13 @@ class SapMainWindowNavigator:
         confirm_kc = KeyboardController(confirm_wc)
         return SapConfirmatPromptWindowNavigator(confirm_kc), confirm_kc
 
+    def select_all_entries(self) -> None:
+        self._kc.press_key_sequence('shift', 'fn', 'f7', post_delay=1)
+    
+    def delete_all_entries(self) -> None:
+        self.select_all_entries()
+        self._kc.press_key_sequence('shift', 'fn', 'f2', post_delay=1)
+
     def move_next_col(self):
         self._current_col_index += 1
         if self._current_col_index == self._row_length():
