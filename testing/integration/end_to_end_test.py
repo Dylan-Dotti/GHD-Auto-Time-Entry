@@ -32,4 +32,4 @@ if __name__ == '__main__':
     main_nav = SapMainWindowNavigator(main_kc)
     entry_agent = AutoEntryAgent(main_kc, main_nav, data)
     main_wc.set_window_foreground()
-    entry_agent.execute(True)
+    entry_agent.execute(False)
