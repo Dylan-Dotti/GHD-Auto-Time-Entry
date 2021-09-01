@@ -9,7 +9,7 @@ if __name__ == '__main__':
     from app.data_formatter.formatters.data_formatter_factory import DataFormatterFactory
 
     # data formatting
-    zendesk_reader = ZendeskDataReader('C:\\Users\\h4dottd\\Downloads\\Current_Month_08152021_1858.xlsx')
+    zendesk_reader = ZendeskDataReader('.\\Current_Month_09012021_1311.xlsx')
     zendesk_reader.load_wb()
     zendesk_rows = zendesk_reader.read_all_rows()
 
@@ -24,7 +24,7 @@ if __name__ == '__main__':
     zdt_formatter.format()
     # get SAP pages
     formatted_data = zdt_formatter.formatted_data()
-    data = formatted_data[1].data
+    data = formatted_data[0].data
 
     # auto entry
     main_wc = factory.get_sap_main_window_controller()
