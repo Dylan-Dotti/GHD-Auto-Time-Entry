@@ -74,7 +74,7 @@ class SAPDataFormatter(DataFormatter):
                         tickets_str = ",".join(list(tk))
                         time_sum = sum(ti)
                         if time_sum >= 1:
-                            # the issue here is we're creting a new element instance for each date, when we don't care about that..
+                            # the issue here is we're creating a new element instance for each date, when we don't care about that..
                             return_rows.append(MergeRow(user, element, wk_date, tickets_str, time_sum))
         return return_rows
 
