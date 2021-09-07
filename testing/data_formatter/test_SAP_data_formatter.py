@@ -15,7 +15,7 @@ if __name__ == '__main__':
     pages = data_formatter.create_pages(date.today().month - 1)
 
     # create a new formatter instance with the test data
-    zdt_formatter = data_formatter(test_data, pages)
+    zdt_formatter = data_formatter("Logan Enright", test_data, pages)
     
     # format zendesk data to SAP
     zdt_formatter.format()

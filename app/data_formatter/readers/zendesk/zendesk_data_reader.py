@@ -6,9 +6,10 @@ from app.data_formatter.utils import verify_path
 
 class ZendeskDataReader:
 
-    def __init__(self, src_file_path: str) -> None:
+    def __init__(self, src_file_path: str, username=None) -> None:
         # escape path 
         self._src_file_path = Path(r"{input_path}".format(input_path=src_file_path))
+        self.username = username
         self.data = None
         self.header = None
 

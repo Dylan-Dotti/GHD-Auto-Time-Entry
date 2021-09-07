@@ -36,9 +36,10 @@ class SAPDataFormatter(DataFormatter):
 
     # Params:
     #   zd_data - a list of zendesk rows
-    def __init__(self, zd_data: List[ZendeskDataRow], pages: List[SapDataPage]) -> None:
+    def __init__(self, username: str, zd_data: List[ZendeskDataRow], pages: List[SapDataPage]) -> None:
         self.collector_container = self.__merge_wbs_elements(zd_data)
         self.pages = pages
+        self.username = username
     '''
       this is for aggregating ticketIds for a wbs element, and summing up the time
     '''
@@ -64,18 +65,20 @@ class SAPDataFormatter(DataFormatter):
     def __create_merge_rows(self):
         return_rows = []
         for user in self.collector_container.keys():
-            for element in self.collector_container[user].keys():
-                
-                for wk_date in self.collector_container[user][element].keys():
-                    item = self.collector_container[user][element][wk_date]
+            # because of design choices this is the easiest spot to remove unnecessary users.
+            if user == self.username:
+                for element in self.collector_container[user].keys():
+                    
+                    for wk_date in self.collector_container[user][element].keys():
+                        item = self.collector_container[user][element][wk_date]
 
-                    tickets, times = self.__create_merge_slices(item)
-                    for tk, ti in zip(tickets, times):
-                        tickets_str = ",".join(list(tk))
-                        time_sum = sum(ti)
-                        if time_sum >= 1:
-                            # the issue here is we're creating a new element instance for each date, when we don't care about that..
-                            return_rows.append(MergeRow(user, element, wk_date, tickets_str, time_sum))
+                        tickets, times = self.__create_merge_slices(item)
+                        for tk, ti in zip(tickets, times):
+                            tickets_str = ",".join(list(tk))
+                            time_sum = sum(ti)
+                            if time_sum >= 1:
+                                # the issue here is we're creating a new element instance for each date, when we don't care about that..
+                                return_rows.append(MergeRow(user, element, wk_date, tickets_str, time_sum))
         return return_rows
 
     '''

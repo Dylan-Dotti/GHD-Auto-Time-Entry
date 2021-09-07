@@ -22,6 +22,11 @@ class ZendeskRowFactory:
         minutes = row_data[self.minutes_ind]
         return ZendeskDataRow(updater, wbs, ticket_id, up_date, minutes)
 
+    def __check_user(self, row):
+        if row.updater_name == self.username:
+            return row
+        return None
+
 class ZendeskDataRow:
     '''
         zendesk_excel_row by index:
