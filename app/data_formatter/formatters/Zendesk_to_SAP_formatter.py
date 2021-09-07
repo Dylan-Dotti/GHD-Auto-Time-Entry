@@ -19,8 +19,8 @@ class MergeRow:
         self.user = user
         self.wbs = wbs
         self.date = date
-        self.tickets = ",".join(list(tickets))
-        self.time = sum(times)
+        self.tickets = tickets
+        self.time = times 
 
 
 '''
@@ -71,10 +71,11 @@ class SAPDataFormatter(DataFormatter):
 
                     tickets, times = self.__create_merge_slices(item)
                     for tk, ti in zip(tickets, times):
-
-                        # the issue here is we're creting a new element instance for each date, when we don't care about that..
-                        return_rows.append(MergeRow(user, element, wk_date, tk, ti))
-
+                        tickets_str = ",".join(list(tk))
+                        time_sum = sum(ti)
+                        if time_sum >= 1:
+                            # the issue here is we're creting a new element instance for each date, when we don't care about that..
+                            return_rows.append(MergeRow(user, element, wk_date, tickets_str, time_sum))
         return return_rows
 
     '''
@@ -167,19 +168,16 @@ class SAPDataFormatter(DataFormatter):
 
             # iterate over the pages, this is used to determine what page the merge row belongs to.
             for page in pages:
-                
                 # bool for whether or not a new entry was created. If a new entry was not created then create a new row.
                 created_entry = False
 
                 # check if the merge row belongs to this page by checking if it's create data is inside the page date range
                 if page.startDate <= merge_row.date <= page.endDate:
-
                     # go over the existing rows in the pages data to check if one for the wbs element exists
                     for sap_row in page.data:
-
                         # check if the wbs element already exists on this page
                         if sap_row.wbs == merge_row.wbs:
-                            
+
                             '''
                               check if there is a dat entry on this date, if there is 
                               then break out and create new row. This is done because this would

@@ -35,3 +35,6 @@ def date_ranges(month):
     while d.month == month or d.month + 1 == month:
         yield d, (d + timedelta(days=6))
         d += timedelta(days=7)
+
+def validate_timesheet_range():
+    pass
