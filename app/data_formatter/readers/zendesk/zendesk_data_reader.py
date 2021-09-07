@@ -20,7 +20,7 @@ class ZendeskDataReader:
         try:
             self.data = load_workbook(filename=self._src_file_path).active
             self.__get_header()
-
+            
         except Exception as err:
             print(f"Failed to parse excel with error: {err}")
             exit(0)
@@ -29,9 +29,8 @@ class ZendeskDataReader:
       get the header row so we can match the fields
     '''
     def __get_header(self):
-        return list(next(self.data.iter_rows(min_row=1, max_row=1, values_only=True)))
+        self.header = list(next(self.data.iter_rows(min_row=1, max_row=1, values_only=True)))
 
     def read_all_rows(self) -> List[ZendeskDataRow]:
-        header = self.__get_header()
         zendesk_row_factory = ZendeskRowFactory(self.header)
         return [zendesk_row_factory.create_row(row) for row in self.data.iter_rows(min_row=2, values_only=True)]

@@ -3,11 +3,16 @@ from datetime import datetime
 # generate a row with indexes of fields
 class ZendeskRowFactory:
     def __init__(self, header):
-        self.updater_name_ind = header.index("Updater name")
-        self.wbs_ind = header.index("Support WBS Element")
-        self.ticket_id_ind = header.index("Ticket ID")
-        self.data_ind = header.index("Update - Date")
-        self.minutes_ind = header.index("Ticket Handling Time")
+        try:
+
+            self.updater_name_ind = header.index("Updater name")
+            self.wbs_ind = header.index("Support WBS Element")
+            self.ticket_id_ind = header.index("Ticket ID")
+            self.data_ind = header.index("Update - Date")
+            self.minutes_ind = header.index("Ticket Handling Time")
+
+        except IndexError:
+            pass
 
     def create_row(self, row_data):
         updater = row_data[self.updater_name_ind]
