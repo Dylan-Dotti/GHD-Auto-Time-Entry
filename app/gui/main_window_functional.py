@@ -1,6 +1,11 @@
 from PyQt5 import QtWidgets
 from main_window_base import Ui_MainWindow
+from app.app_main import AppMain
 
+'''
+    Extends Ui_MainWindow to provide custom functionality
+    Ui_Main_Window overwrites any changes when rebuilt
+'''
 class MainWindowFunctional(Ui_MainWindow):
     
     def setupUi(self, MainWindow):
@@ -16,6 +21,8 @@ class MainWindowFunctional(Ui_MainWindow):
 
     def run_button_clicked(self):
         print('Running app')
+        AppMain(self.selected_file_label.text(), False).execute()
+
     
     def openFileNameDialog(self):
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(
