@@ -19,7 +19,7 @@ if __name__ == '__main__':
     # create pages for a provided month
     pages = data_formatter.create_pages(date.today().month)
     # create a new formatter instance with the test data
-    zdt_formatter = data_formatter(zendesk_rows, pages)
+    zdt_formatter = data_formatter('Dylan Dotti', zendesk_rows, pages)
     # format zendesk data to SAP
     zdt_formatter.format()
     # get SAP pages
@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     # auto entry
     main_wc = factory.get_sap_main_window_controller()
-    main_kc = KeyboardController(main_wc)
+    main_kc = KeyboardController(main_wc, use_fn_key=False)
     main_nav = SapMainWindowNavigator(main_kc)
     entry_agent = AutoEntryAgent(main_kc, main_nav, data)
     main_wc.set_window_foreground()

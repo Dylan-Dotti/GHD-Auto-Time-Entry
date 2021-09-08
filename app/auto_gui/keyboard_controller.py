@@ -4,8 +4,10 @@ import time
 
 class KeyboardController:
 
-    def __init__(self, window_controller: WindowController) -> None:
+    def __init__(self, window_controller: WindowController,
+                 use_fn_key: bool) -> None:
         self._wc = window_controller
+        self._use_fn_key = use_fn_key
 
     def press_key(self, key_name, num_times=1, duration=0, post_delay=0):
         for _ in range(num_times):
@@ -43,7 +45,17 @@ class KeyboardController:
         self.press_key('down', num_times=num_times, post_delay=post_delay)
 
     def press_f2(self, num_times=1, post_delay=0) -> None:
-        self.press_key_sequence('fn', 'f2', num_times=num_times, post_delay=post_delay)
+        self.press_key('f2', num_times=num_times, post_delay=post_delay)
+    
+    def press_f_key(self, f_key: str, modifier_key: str=None, num_times=1, post_delay=0) -> None:
+        keys = []
+        if modifier_key:
+            keys = [modifier_key]
+        if self._use_fn_key:
+            keys.append('fn')
+        keys.append(f_key)
+        print(keys)
+        self.press_key_sequence(*keys, num_times=num_times, post_delay=post_delay)
 
     def press_enter(self, num_times=1, post_delay=0) -> None:
         self.press_key('enter', num_times=num_times, post_delay=post_delay)

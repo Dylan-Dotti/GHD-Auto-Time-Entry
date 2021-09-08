@@ -1,17 +1,20 @@
 import app.auto_gui.window_controller_factory as factory
-from datetime import date
 from app.auto_gui.keyboard_controller import KeyboardController
 from app.auto_gui.sap_main_window_navigator import SapMainWindowNavigator
 from app.auto_gui.auto_entry_agent import AutoEntryAgent
 from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataReader
 from app.data_formatter.formatters.data_formatter_factory import DataFormatterFactory
+from datetime import date
 
 
 class AppMain:
 
-    def __init__(self, zendesk_excel_path: str, clear_existing_data: bool) -> None:
+    def __init__(self, zendesk_excel_path: str, user_name: str, 
+                 clear_existing_data: bool, use_fn_key: bool) -> None:
         self._zendesk_excel_path = zendesk_excel_path
+        self._user_name = user_name
         self._clear_existing_data = clear_existing_data
+        self._use_fn_key = use_fn_key
 
     def execute(self):
         # data formatting
@@ -34,7 +37,7 @@ class AppMain:
 
         # auto entry
         main_wc = factory.get_sap_main_window_controller()
-        main_kc = KeyboardController(main_wc)
+        main_kc = KeyboardController(main_wc, use_fn_key=self._use_fn_key)
         main_nav = SapMainWindowNavigator(main_kc)
         entry_agent = AutoEntryAgent(main_kc, main_nav, data)
         main_wc.set_window_foreground()

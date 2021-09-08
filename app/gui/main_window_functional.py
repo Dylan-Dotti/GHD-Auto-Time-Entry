@@ -21,7 +21,8 @@ class MainWindowFunctional(Ui_MainWindow):
 
     def run_button_clicked(self):
         print('Running app')
-        AppMain(self.selected_file_label.text(), False).execute()
+        AppMain(self.selected_file_label.text(),
+                'Dylan Dotti', False, True).execute()
 
     
     def openFileNameDialog(self):

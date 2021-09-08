@@ -28,21 +28,21 @@ class SapMainWindowNavigator:
     def open_cell_details(self) -> Tuple[SapDetailsWindowNavigator, KeyboardController]:
         self._kc.press_f2(post_delay=.5)
         details_wc = factory.get_sap_details_window_controller()
-        details_kc = KeyboardController(details_wc)
+        details_kc = KeyboardController(details_wc, False)
         return SapDetailsWindowNavigator(details_kc), details_kc
     
     def open_reset_entries(self) -> Tuple[SapConfirmatPromptWindowNavigator, KeyboardController]:
-        self._kc.press_key_sequence('ctrl', 'fn', 'f11', post_delay=.5)
+        self._kc.press_f_key('f11', modifier_key='ctrl', post_delay=.5)
         confirm_wc = factory.get_sap_confirmat_prot_window_controller()
-        confirm_kc = KeyboardController(confirm_wc)
+        confirm_kc = KeyboardController(confirm_wc, False)
         return SapConfirmatPromptWindowNavigator(confirm_kc), confirm_kc
 
     def select_all_entries(self) -> None:
-        self._kc.press_key_sequence('shift', 'fn', 'f7', post_delay=1)
+        self._kc.press_f_key('f7', modifier_key='shift', post_delay=1)
     
     def delete_all_entries(self) -> None:
         self.select_all_entries()
-        self._kc.press_key_sequence('shift', 'fn', 'f2', post_delay=1)
+        self._kc.press_f_key('f2', modifier_key='shift', post_delay=1)
 
     def move_next_col(self):
         self._current_col_index += 1
