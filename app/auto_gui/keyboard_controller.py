@@ -45,7 +45,7 @@ class KeyboardController:
         self.press_key('down', num_times=num_times, post_delay=post_delay)
 
     def press_f2(self, num_times=1, post_delay=0) -> None:
-        self.press_key('f2', num_times=num_times, post_delay=post_delay)
+        self.press_f_key('f2', num_times=num_times, post_delay=post_delay)
     
     def press_f_key(self, f_key: str, modifier_key: str=None, num_times=1, post_delay=0) -> None:
         keys = []

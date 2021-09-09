@@ -1,0 +1,1 @@
+generate_gui_file.bat main_window.ui main_window_base.py
