@@ -35,7 +35,9 @@ class MainWindowFunctional(Ui_MainWindow):
     def run_button_clicked(self):
         print('Running app')
         AppMain(self.selected_file_label.text(),
-                self.username_input.text(), False, True).execute()
+                self.username_input.text(),
+                self.clear_data_checkbox.isChecked(),
+                self.use_fn_checkbox.isChecked()).execute()
 
     def openFileNameDialog(self):
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(

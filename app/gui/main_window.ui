@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>348</width>
-    <height>243</height>
+    <width>390</width>
+    <height>226</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -143,7 +143,7 @@ margin-right: 0px;
               </sizepolicy>
              </property>
              <property name="styleSheet">
-              <string notr="true">margin: 5px;
+              <string notr="true">margin: 8px;
 
 QCheckBox::indicator {
      width: 12px;
@@ -164,7 +164,7 @@ QCheckBox::indicator {
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Some computers need to press the 'Fn' button in order to use the F keys (F1-F12)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="styleSheet">
-              <string notr="true">margin: 5px;
+              <string notr="true">margin: 8px;
 
 QCheckBox::indicator {
      width: 12px;
@@ -254,7 +254,7 @@ QCheckBox::indicator {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>348</width>
+     <width>390</width>
      <height>22</height>
     </rect>
    </property>
