@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(334, 213)
+        MainWindow.resize(348, 243)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -32,7 +32,7 @@ class Ui_MainWindow(object):
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
-        self.verticalLayout.setSpacing(5)
+        self.verticalLayout.setSpacing(10)
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setSpacing(3)
@@ -56,8 +56,8 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.selected_file_label.sizePolicy().hasHeightForWidth())
         self.selected_file_label.setSizePolicy(sizePolicy)
-        self.selected_file_label.setStyleSheet("Margin: 10px;\n"
-"margin-left: 0px;")
+        self.selected_file_label.setStyleSheet("padding: 10px 10px 10px 0px;\n"
+"")
         self.selected_file_label.setScaledContents(True)
         self.selected_file_label.setWordWrap(True)
         self.selected_file_label.setObjectName("selected_file_label")
@@ -104,6 +104,8 @@ class Ui_MainWindow(object):
 " }")
         self.use_fn_checkbox.setObjectName("use_fn_checkbox")
         self.horizontalLayout_2.addWidget(self.use_fn_checkbox, 0, QtCore.Qt.AlignVCenter)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
         self.verticalLayout_2.addWidget(self.groupBox)
@@ -134,7 +136,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 334, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 348, 22))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
 

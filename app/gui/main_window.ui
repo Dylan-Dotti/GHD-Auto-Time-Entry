@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>334</width>
-    <height>213</height>
+    <width>348</width>
+    <height>243</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -39,7 +39,7 @@
        <item row="0" column="0">
         <layout class="QVBoxLayout" name="verticalLayout">
          <property name="spacing">
-          <number>5</number>
+          <number>10</number>
          </property>
          <property name="sizeConstraint">
           <enum>QLayout::SetDefaultConstraint</enum>
@@ -80,8 +80,8 @@ margin-right: 0px;
               </sizepolicy>
              </property>
              <property name="styleSheet">
-              <string notr="true">Margin: 10px;
-margin-left: 0px;</string>
+              <string notr="true">padding: 10px 10px 10px 0px;
+</string>
              </property>
              <property name="text">
               <string>No file selected</string>
@@ -176,6 +176,19 @@ QCheckBox::indicator {
              </property>
             </widget>
            </item>
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
           </layout>
          </item>
         </layout>
@@ -241,7 +254,7 @@ QCheckBox::indicator {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>334</width>
+     <width>348</width>
      <height>22</height>
     </rect>
    </property>
