@@ -12,7 +12,7 @@ if __name__ == '__main__':
     data_formatter = formatter_factory.get_formatter('ZENDESK')
 
     # create pages for a provided month
-    pages = data_formatter.create_pages(date.today().month - 1)
+    pages = data_formatter.create_pages(date.today().month)
 
     # create a new formatter instance with the test data
     zdt_formatter = data_formatter("Logan Enright", test_data, pages)
