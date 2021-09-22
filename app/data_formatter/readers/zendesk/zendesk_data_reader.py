@@ -34,7 +34,7 @@ class ZendeskDataReader:
     '''
     def get_users(self):
         user_col = self.header.index("Updater name")
-        self.users = list(set([dt[user_col] for dt in self.data.iter_rows(min_row=2, values_only=True)]))
+        return list(set([dt[user_col] for dt in self.data.iter_rows(min_row=2, values_only=True)]))
 
     '''
       get the date range to populate the spreadsheet date range dropdown
@@ -48,7 +48,7 @@ class ZendeskDataReader:
              d = datetime.strptime(dt[date_col], '%Y-%m-%d').date()
              r.append(d)
 
-        self.range_st, self.range_nd = min(r), max(r)
+        return min(r), max(r)
     '''
       get the header row so we can match the fields
     '''

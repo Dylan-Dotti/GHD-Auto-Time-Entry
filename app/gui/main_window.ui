@@ -109,11 +109,12 @@ margin-right: 0px;
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="username_input">
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-              </font>
+            <widget class="QComboBox" name="username_selector">
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -148,10 +149,10 @@ margin-right: 0px;
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox">
+            <widget class="QComboBox" name="week_selector">
              <property name="minimumSize">
               <size>
-               <width>150</width>
+               <width>250</width>
                <height>0</height>
               </size>
              </property>

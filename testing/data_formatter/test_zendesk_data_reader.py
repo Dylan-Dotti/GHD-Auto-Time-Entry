@@ -7,6 +7,7 @@ if __name__ == '__main__':
     # load worksheet, should exit with error if error. 
     reader.load_wb()
     reader.get_dates()
+    reader.get_users()
     
     print(reader.range_st, reader.range_nd)
 

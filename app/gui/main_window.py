@@ -4,6 +4,8 @@ from main_window_base import Ui_MainWindow
 from app.app_main import AppMain
 from app.data_formatter.utils import date_ranges
 from datetime import date
+from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataReader
+
 '''
     Extends Ui_MainWindow to provide custom functionality
     Ui_Main_Window overwrites any changes when rebuilt
@@ -14,15 +16,23 @@ class MainWindowFunctional(Ui_MainWindow):
     def setupUi(self, MainWindow):
         super().setupUi(MainWindow)
         self.select_data_button.clicked.connect(self.select_data_button_clicked)
-        self.username_input.textChanged.connect(self.username_changed)
+        # self.username_input.textChanged.connect(self.username_changed)
         self.run_button.clicked.connect(self.run_button_clicked)
-        self.comboBox.addItems([i.strftime('%m/%d/%Y') +" - "+ j.strftime('%m/%d/%Y') for i,j in date_ranges(date.today().month)])
-        self.comboBox.activated.connect(self.week_changed)
+        # self.week_selector.activated.connect(self.week_changed)
 
     def select_data_button_clicked(self):
         file_name = self.openFileNameDialog()
         if file_name:
             self.selected_file_label.setText(file_name)
+
+            # set the username dropdown here..? 
+            name_and_month_reader = ZendeskDataReader(file_name)
+            name_and_month_reader.load_wb()
+            self.username_selector.addItems(name_and_month_reader.get_users())
+
+            d_min, d_max = name_and_month_reader.get_dates()
+            self.week_selector.addItems([i.strftime('%m/%d/%Y') +" - "+ j.strftime('%m/%d/%Y') for i,j in date_ranges(d_min.month)])
+
             self.run_button.setEnabled(True)
     
     def username_changed(self):
@@ -35,16 +45,16 @@ class MainWindowFunctional(Ui_MainWindow):
             self.run_button.setEnabled(False)
             self._publish_status_message(reason)
 
-    def week_changed(self):
-        pass
+    # def week_changed(self):
+    #     pass
 
     def run_button_clicked(self):
         print('Running app')
         AppMain(self.selected_file_label.text(),
-                self.username_input.text(),
+                self.username_selector.currentText(),
                 self.clear_data_checkbox.isChecked(),
                 self.use_fn_checkbox.isChecked(),
-                self.comboBox.currentText()).execute()
+                self.week_selector.currentText()).execute()
 
     def openFileNameDialog(self):
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(
