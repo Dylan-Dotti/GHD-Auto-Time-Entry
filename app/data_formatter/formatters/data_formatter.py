@@ -19,3 +19,12 @@ class DataFormatter:
 
     def formatted_data(self) -> List[SapDataPage]:
         return self.cleaned_data
+
+    '''
+      get a specific page, kind of messy
+    '''
+    def get_page(self, st, ed) -> SapDataPage:
+        for i in self.cleaned_data:
+            if i.startDate.strftime('%m/%d/%Y') == st and i.endDate.strftime('%m/%d/%Y') == ed:
+                return i
+        return None

@@ -2,7 +2,8 @@ from typing import Tuple
 from PyQt5 import QtWidgets
 from main_window_base import Ui_MainWindow
 from app.app_main import AppMain
-
+from app.data_formatter.utils import date_ranges
+from datetime import date
 '''
     Extends Ui_MainWindow to provide custom functionality
     Ui_Main_Window overwrites any changes when rebuilt
@@ -15,6 +16,7 @@ class MainWindowFunctional(Ui_MainWindow):
         self.select_data_button.clicked.connect(self.select_data_button_clicked)
         self.username_input.textChanged.connect(self.username_changed)
         self.run_button.clicked.connect(self.run_button_clicked)
+        self.comboBox.addItems([i.strftime('%m/%d/%Y') +" - "+ j.strftime('%m/%d/%Y') for i,j in date_ranges(date.today().month)])
         self.comboBox.activated.connect(self.week_changed)
 
     def select_data_button_clicked(self):
@@ -38,12 +40,11 @@ class MainWindowFunctional(Ui_MainWindow):
 
     def run_button_clicked(self):
         print('Running app')
-
-        # need to get the weeks to populate here..? 
         AppMain(self.selected_file_label.text(),
                 self.username_input.text(),
                 self.clear_data_checkbox.isChecked(),
-                self.use_fn_checkbox.isChecked()).execute()
+                self.use_fn_checkbox.isChecked(),
+                self.comboBox.currentText()).execute()
 
     def openFileNameDialog(self):
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(
