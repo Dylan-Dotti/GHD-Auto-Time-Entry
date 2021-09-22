@@ -140,7 +140,7 @@ margin-right: 0px;
               <string>Select Week</string>
              </property>
              <property name="margin">
-              <number>10</number>
+              <number>0</number>
              </property>
              <property name="indent">
               <number>-1</number>

@@ -27,6 +27,18 @@ class ZendeskDataReader:
             exit(0)
 
     '''
+      get the users on the spreadsheet to populate the dropdown
+    '''
+    def get_users(self):
+        pass
+    
+    '''
+      get the date range to populate the spreadsheet date range dropdown
+    '''
+    def get_dates(self):
+        pass
+    
+    '''
       get the header row so we can match the fields
     '''
     def __get_header(self):
