@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(348, 243)
+        MainWindow.resize(738, 603)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -78,6 +78,19 @@ class Ui_MainWindow(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.label_2 = QtWidgets.QLabel(self.groupBox)
+        self.label_2.setIndent(-1)
+        self.label_2.setObjectName("label_2")
+        self.horizontalLayout_7.addWidget(self.label_2)
+        self.comboBox = QtWidgets.QComboBox(self.groupBox)
+        self.comboBox.setMinimumSize(QtCore.QSize(150, 0))
+        self.comboBox.setObjectName("comboBox")
+        self.horizontalLayout_7.addWidget(self.comboBox)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem1)
+        self.verticalLayout.addLayout(self.horizontalLayout_7)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.clear_data_checkbox = QtWidgets.QCheckBox(self.groupBox)
@@ -86,7 +99,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.clear_data_checkbox.sizePolicy().hasHeightForWidth())
         self.clear_data_checkbox.setSizePolicy(sizePolicy)
-        self.clear_data_checkbox.setStyleSheet("margin: 5px;\n"
+        self.clear_data_checkbox.setStyleSheet("margin: 8px;\n"
 "\n"
 "QCheckBox::indicator {\n"
 "     width: 12px;\n"
@@ -96,7 +109,7 @@ class Ui_MainWindow(object):
         self.clear_data_checkbox.setObjectName("clear_data_checkbox")
         self.horizontalLayout_2.addWidget(self.clear_data_checkbox, 0, QtCore.Qt.AlignVCenter)
         self.use_fn_checkbox = QtWidgets.QCheckBox(self.groupBox)
-        self.use_fn_checkbox.setStyleSheet("margin: 5px;\n"
+        self.use_fn_checkbox.setStyleSheet("margin: 8px;\n"
 "\n"
 "QCheckBox::indicator {\n"
 "     width: 12px;\n"
@@ -104,8 +117,8 @@ class Ui_MainWindow(object):
 " }")
         self.use_fn_checkbox.setObjectName("use_fn_checkbox")
         self.horizontalLayout_2.addWidget(self.use_fn_checkbox, 0, QtCore.Qt.AlignVCenter)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem2)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
         self.verticalLayout_2.addWidget(self.groupBox)
@@ -136,7 +149,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 348, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 738, 18))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
 
@@ -152,6 +165,7 @@ class Ui_MainWindow(object):
         self.select_data_button.setText(_translate("MainWindow", "Select time data"))
         self.selected_file_label.setText(_translate("MainWindow", "No file selected"))
         self.label.setText(_translate("MainWindow", "User name"))
+        self.label_2.setText(_translate("MainWindow", "Select Week"))
         self.clear_data_checkbox.setText(_translate("MainWindow", "Clear Existing Data"))
         self.use_fn_checkbox.setWhatsThis(_translate("MainWindow", "<html><head/><body><p>Some computers need to press the \'Fn\' button in order to use the F keys (F1-F12)</p></body></html>"))
         self.use_fn_checkbox.setText(_translate("MainWindow", "Use Fn Button"))
