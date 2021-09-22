@@ -15,7 +15,8 @@ class MainWindowFunctional(Ui_MainWindow):
         self.select_data_button.clicked.connect(self.select_data_button_clicked)
         self.username_input.textChanged.connect(self.username_changed)
         self.run_button.clicked.connect(self.run_button_clicked)
-    
+        self.comboBox.activated.connect(self.week_changed)
+
     def select_data_button_clicked(self):
         file_name = self.openFileNameDialog()
         if file_name:
@@ -32,8 +33,13 @@ class MainWindowFunctional(Ui_MainWindow):
             self.run_button.setEnabled(False)
             self._publish_status_message(reason)
 
+    def week_changed(self):
+        pass
+
     def run_button_clicked(self):
         print('Running app')
+
+        # need to get the weeks to populate here..? 
         AppMain(self.selected_file_label.text(),
                 self.username_input.text(),
                 self.clear_data_checkbox.isChecked(),
