@@ -6,6 +6,11 @@ if __name__ == '__main__':
 
     # load worksheet, should exit with error if error. 
     reader.load_wb()
+    reader.get_dates()
+    
+    print(reader.range_st, reader.range_nd)
+
+    print(reader.users)
 
     # generate zendesk rows for read zendesk data
     data = reader.read_all_rows()

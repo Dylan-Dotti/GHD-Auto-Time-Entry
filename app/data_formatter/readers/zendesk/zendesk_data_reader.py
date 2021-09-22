@@ -3,6 +3,7 @@ from app.data_formatter.readers.zendesk.zendesk_data_row import ZendeskDataRow, 
 from pathlib import Path 
 from openpyxl import load_workbook
 from app.data_formatter.utils import verify_path
+from datetime import datetime
 
 class ZendeskDataReader:
 
@@ -12,6 +13,8 @@ class ZendeskDataReader:
         self.username = username
         self.data = None
         self.header = None
+        self.users = None
+        self.range_st = self.range_nd = None
 
     def load_wb(self):
         if not verify_path(self._src_file_path):
@@ -30,14 +33,22 @@ class ZendeskDataReader:
       get the users on the spreadsheet to populate the dropdown
     '''
     def get_users(self):
-        pass
-    
+        user_col = self.header.index("Updater name")
+        self.users = list(set([dt[user_col] for dt in self.data.iter_rows(min_row=2, values_only=True)]))
+
     '''
       get the date range to populate the spreadsheet date range dropdown
     '''
     def get_dates(self):
-        pass
-    
+
+        date_col = self.header.index("Update - Date")
+        r = []
+
+        for dt in self.data.iter_rows(min_row=2, values_only=True):
+             d = datetime.strptime(dt[date_col], '%Y-%m-%d').date()
+             r.append(d)
+
+        self.range_st, self.range_nd = min(r), max(r)
     '''
       get the header row so we can match the fields
     '''
