@@ -28,9 +28,11 @@ class MainWindowFunctional(Ui_MainWindow):
             # set the username dropdown here..? 
             name_and_month_reader = ZendeskDataReader(file_name)
             name_and_month_reader.load_wb()
+            self.username_selector.clear()
             self.username_selector.addItems(name_and_month_reader.get_users())
 
             d_min, d_max = name_and_month_reader.get_dates()
+            self.week_selector.clear()
             self.week_selector.addItems([i.strftime('%m/%d/%Y') +" - "+ j.strftime('%m/%d/%Y') for i,j in date_ranges(d_min.month)])
 
             self.run_button.setEnabled(True)
