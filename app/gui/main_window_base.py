@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(738, 603)
+        MainWindow.resize(564, 297)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -70,6 +70,7 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
         self.horizontalLayout_3.addWidget(self.label)
         self.username_selector = QtWidgets.QComboBox(self.groupBox)
+        self.username_selector.setEnabled(False)
         self.username_selector.setMinimumSize(QtCore.QSize(150, 0))
         self.username_selector.setObjectName("username_selector")
         self.horizontalLayout_3.addWidget(self.username_selector)
@@ -83,6 +84,7 @@ class Ui_MainWindow(object):
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_7.addWidget(self.label_2)
         self.week_selector = QtWidgets.QComboBox(self.groupBox)
+        self.week_selector.setEnabled(False)
         self.week_selector.setMinimumSize(QtCore.QSize(250, 0))
         self.week_selector.setObjectName("week_selector")
         self.horizontalLayout_7.addWidget(self.week_selector)
@@ -147,7 +149,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 738, 18))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 564, 22))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
 

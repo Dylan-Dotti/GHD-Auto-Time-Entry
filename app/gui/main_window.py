@@ -1,5 +1,5 @@
-from typing import Tuple
-from PyQt5 import QtWidgets
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 from main_window_base import Ui_MainWindow
 from app.app_main import AppMain
 from app.data_formatter.utils import date_ranges
@@ -26,7 +26,19 @@ class MainWindowFunctional(Ui_MainWindow):
         if file_name:
             self.reset_file_selector()
 
+        self.run_button.clicked.connect(self.run_button_clicked)
+        self.error_dialog = QMessageBox()
+        self.error_dialog.setWindowTitle('Error!')
+        self.error_dialog.setIcon(QMessageBox.Critical)
+        self.error_dialog.setStandardButtons(QMessageBox.Ok)
+
+    def select_data_button_clicked(self):
+        file_name = self._open_file_selector()
+
+        if file_name: # if valid file is selected
             self.selected_file_label.setText(file_name)
+            self.username_selector.setEnabled(True)
+            self.week_selector.setEnabled(True)
 
             # set the username dropdown here..? 
             self.reader = ZendeskDataReader(file_name)
@@ -39,6 +51,7 @@ class MainWindowFunctional(Ui_MainWindow):
     
     def reset_file_selector(self):
         if self.reader:
+            print("I RAN")
             self.reader = None
             self.username_selector.clear()
             self.week_selector.clear()
@@ -69,29 +82,31 @@ class MainWindowFunctional(Ui_MainWindow):
 
     def run_button_clicked(self):
         print('Running app')
-        AppMain(self.selected_file_label.text(),
-                self.username_selector.currentText(),
-                self.clear_data_checkbox.isChecked(),
-                self.use_fn_checkbox.isChecked(),
-                self.week_selector.currentText()).execute()
+        self._publish_status_message('App is running')
+        try:
+            AppMain(self.selected_file_label.text(),
+                    self.username_selector.currentText(),
+                    self.clear_data_checkbox.isChecked(),
+                    self.use_fn_checkbox.isChecked(),
+                    self.week_selector.currentText()).execute()
+        except Exception as ex:
+            print(ex)
+            self._show_error_popup(str(ex))
+        self._publish_status_message(MainWindowFunctional._not_running_message)
 
-    def openFileNameDialog(self):
+    def _open_file_selector(self):
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(
             None, "Select Zendesk Data", "","Excel Files (*.xlsx)")
         return fileName
-    
+
+    def _show_error_popup(self, msg: str):
+        self.error_dialog.setText(msg)
+        self.error_dialog.exec()
+
     def _publish_status_message(self, message: str):
         self.status_label.setText(message)
-        self.status_label.setEnabled(message != 'App is not running')
-    
-    def _is_input_valid_w_reason(self) -> Tuple[bool, str]:
-        username = self.username_input.text()
-        if len(username) == 0:
-            return False, 'Username can\'t be empty'
-        username_spaces = [c == ' ' for c in username]
-        if all(username_spaces):
-            return False, 'Username can\'t be all spaces'
-        return True, None
+        self.status_label.setEnabled(
+            message != MainWindowFunctional._not_running_message)
 
 
 if __name__ == "__main__":

@@ -36,12 +36,15 @@ class AppMain:
 
         # get SAP pages
         # formatted_data = zdt_formatter.formatted_data()
-        data = zdt_formatter.get_page(self.st, self.ed)
+        sap_rows = zdt_formatter.get_page(self.st, self.ed).data
+
+        if len(sap_rows) == 0:
+            raise Exception('No results were produced for the configured settings.')
         
         # auto entry
         main_wc = factory.get_sap_main_window_controller()
         main_kc = KeyboardController(main_wc, use_fn_key=self._use_fn_key)
         main_nav = SapMainWindowNavigator(main_kc)
-        entry_agent = AutoEntryAgent(main_kc, main_nav, data)
         main_wc.set_window_foreground()
+        entry_agent = AutoEntryAgent(main_kc, main_nav, sap_rows)
         entry_agent.execute(self._clear_existing_data)
