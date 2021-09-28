@@ -1,8 +1,5 @@
-from typing import Tuple
 from PyQt5 import QtCore, QtWidgets
-from PyQt5 import QtGui
 from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtGui import QIcon
 from main_window_base import Ui_MainWindow
 from app.app_main import AppMain
 from app.data_formatter.utils import date_ranges
@@ -19,22 +16,19 @@ class MainWindowFunctional(Ui_MainWindow):
     def setupUi(self, MainWindow):
         super().setupUi(MainWindow)
         self.select_data_button.clicked.connect(self.select_data_button_clicked)
-        # self.username_input.textChanged.connect(self.username_changed)
         self.run_button.clicked.connect(self.run_button_clicked)
-        # self.week_selector.activated.connect(self.week_changed)
         self.error_dialog = QMessageBox()
         self.error_dialog.setWindowTitle('Error!')
         self.error_dialog.setIcon(QMessageBox.Critical)
         self.error_dialog.setStandardButtons(QMessageBox.Ok)
 
     def select_data_button_clicked(self):
-        file_name = self.openFileNameDialog()
-        if file_name:
+        file_name = self._open_file_selector()
+        if file_name: # if valid file is selected
             self.selected_file_label.setText(file_name)
             self.username_selector.setEnabled(True)
             self.week_selector.setEnabled(True)
 
-            # set the username dropdown here..? 
             name_and_month_reader = ZendeskDataReader(file_name)
             name_and_month_reader.load_wb()
             self.username_selector.clear()
@@ -45,22 +39,10 @@ class MainWindowFunctional(Ui_MainWindow):
             self.week_selector.addItems([i.strftime('%m/%d/%Y') +" - "+ j.strftime('%m/%d/%Y') for i,j in date_ranges(d_min.month)])
 
             self.run_button.setEnabled(True)
-    
-    def username_changed(self):
-        valid, reason = self._is_input_valid_w_reason()
-        if valid:
-            self.run_button.setEnabled(True)
-            self._publish_status_message(
-                MainWindowFunctional._not_running_message)
-        else:
-            self.run_button.setEnabled(False)
-            self._publish_status_message(reason)
-
-    # def week_changed(self):
-    #     pass
 
     def run_button_clicked(self):
         print('Running app')
+        self._publish_status_message('App is running')
         try:
             AppMain(self.selected_file_label.text(),
                     self.username_selector.currentText(),
@@ -69,30 +51,22 @@ class MainWindowFunctional(Ui_MainWindow):
                     self.week_selector.currentText()).execute()
         except Exception as ex:
             print(ex)
-            self._show_error_msg(str(ex))
+            self._show_error_popup(str(ex))
+        self._publish_status_message(MainWindowFunctional._not_running_message)
 
-    def openFileNameDialog(self):
+    def _open_file_selector(self):
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(
             None, "Select Zendesk Data", "","Excel Files (*.xlsx)")
         return fileName
-    
+
+    def _show_error_popup(self, msg: str):
+        self.error_dialog.setText(msg)
+        self.error_dialog.exec()
+
     def _publish_status_message(self, message: str):
         self.status_label.setText(message)
         self.status_label.setEnabled(
             message != MainWindowFunctional._not_running_message)
-    
-    def _is_input_valid_w_reason(self) -> Tuple[bool, str]:
-        username = self.username_input.text()
-        if len(username) == 0:
-            return False, 'Username can\'t be empty'
-        username_spaces = [c == ' ' for c in username]
-        if all(username_spaces):
-            return False, 'Username can\'t be all spaces'
-        return True, None
-
-    def _show_error_msg(self, msg: str):
-        self.error_dialog.setText(msg)
-        self.error_dialog.exec()
 
 
 if __name__ == "__main__":
