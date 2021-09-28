@@ -24,6 +24,8 @@ class MainWindowFunctional(Ui_MainWindow):
     def select_data_button_clicked(self):
         file_name = self.openFileNameDialog()
         if file_name:
+            self.reset_file_selector()
+
             self.selected_file_label.setText(file_name)
 
             # set the username dropdown here..? 
@@ -35,12 +37,18 @@ class MainWindowFunctional(Ui_MainWindow):
 
             self.run_button.setEnabled(True)
     
-    def username_changed(self):
-        # Set this users week selector here? 
-        username = self.username_selector.currentText()
+    def reset_file_selector(self):
+        if self.reader:
+            self.reader = None
+            self.username_selector.clear()
+            self.week_selector.clear()
 
-        self.week_selector.clear()
-        self.set_week_selector(username)
+    def username_changed(self):
+        # need this because this is triggered when the selector is cleared as well
+        if self.reader:
+            username = self.username_selector.currentText()
+            self.week_selector.clear()
+            self.set_week_selector(username)
 
         # valid, reason = self._is_input_valid_w_reason()
         # if valid:

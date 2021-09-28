@@ -57,7 +57,7 @@ class ZendeskDataReader:
              user = dt[user_col]
              if username == user: 
                 for st, ed in weeks:
-                    if d <= st <= ed:
+                    if st <= d <= ed:
                         res.add((st, ed))
 
         return res
