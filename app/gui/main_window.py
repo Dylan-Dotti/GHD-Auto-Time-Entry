@@ -22,20 +22,12 @@ class MainWindowFunctional(Ui_MainWindow):
         self.reader = None
 
     def select_data_button_clicked(self):
-        file_name = self.openFileNameDialog()
-        if file_name:
-            self.reset_file_selector()
 
-        self.run_button.clicked.connect(self.run_button_clicked)
-        self.error_dialog = QMessageBox()
-        self.error_dialog.setWindowTitle('Error!')
-        self.error_dialog.setIcon(QMessageBox.Critical)
-        self.error_dialog.setStandardButtons(QMessageBox.Ok)
 
-    def select_data_button_clicked(self):
         file_name = self._open_file_selector()
 
         if file_name: # if valid file is selected
+            self.reset_file_selector()
             self.selected_file_label.setText(file_name)
             self.username_selector.setEnabled(True)
             self.week_selector.setEnabled(True)
@@ -48,7 +40,12 @@ class MainWindowFunctional(Ui_MainWindow):
             # self.set_week_selector(self.username_selector.currentText())
 
             self.run_button.setEnabled(True)
-    
+
+        self.error_dialog = QMessageBox()
+        self.error_dialog.setWindowTitle('Error!')
+        self.error_dialog.setIcon(QMessageBox.Critical)
+        self.error_dialog.setStandardButtons(QMessageBox.Ok)
+
     def reset_file_selector(self):
         if self.reader:
             print("I RAN")
