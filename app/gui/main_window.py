@@ -1,5 +1,8 @@
 from typing import Tuple
-from PyQt5 import QtWidgets
+from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtGui
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtGui import QIcon
 from main_window_base import Ui_MainWindow
 from app.app_main import AppMain
 from app.data_formatter.utils import date_ranges
@@ -19,6 +22,10 @@ class MainWindowFunctional(Ui_MainWindow):
         # self.username_input.textChanged.connect(self.username_changed)
         self.run_button.clicked.connect(self.run_button_clicked)
         # self.week_selector.activated.connect(self.week_changed)
+        self.error_dialog = QMessageBox()
+        self.error_dialog.setWindowTitle('Error!')
+        self.error_dialog.setIcon(QMessageBox.Critical)
+        self.error_dialog.setStandardButtons(QMessageBox.Ok)
 
     def select_data_button_clicked(self):
         file_name = self.openFileNameDialog()
@@ -52,11 +59,15 @@ class MainWindowFunctional(Ui_MainWindow):
 
     def run_button_clicked(self):
         print('Running app')
-        AppMain(self.selected_file_label.text(),
-                self.username_selector.currentText(),
-                self.clear_data_checkbox.isChecked(),
-                self.use_fn_checkbox.isChecked(),
-                self.week_selector.currentText()).execute()
+        try:
+            AppMain(self.selected_file_label.text(),
+                    self.username_selector.currentText(),
+                    self.clear_data_checkbox.isChecked(),
+                    self.use_fn_checkbox.isChecked(),
+                    self.week_selector.currentText()).execute()
+        except Exception as ex:
+            print(ex)
+            self._show_error_msg(str(ex))
 
     def openFileNameDialog(self):
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(
@@ -65,7 +76,8 @@ class MainWindowFunctional(Ui_MainWindow):
     
     def _publish_status_message(self, message: str):
         self.status_label.setText(message)
-        self.status_label.setEnabled(message != 'App is not running')
+        self.status_label.setEnabled(
+            message != MainWindowFunctional._not_running_message)
     
     def _is_input_valid_w_reason(self) -> Tuple[bool, str]:
         username = self.username_input.text()
@@ -75,6 +87,10 @@ class MainWindowFunctional(Ui_MainWindow):
         if all(username_spaces):
             return False, 'Username can\'t be all spaces'
         return True, None
+
+    def _show_error_msg(self, msg: str):
+        self.error_dialog.setText(msg)
+        self.error_dialog.exec()
 
 
 if __name__ == "__main__":
