@@ -22,8 +22,6 @@ class MainWindowFunctional(Ui_MainWindow):
         self.reader = None
 
     def select_data_button_clicked(self):
-
-
         file_name = self._open_file_selector()
 
         if file_name: # if valid file is selected
