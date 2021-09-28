@@ -16,9 +16,10 @@ class MainWindowFunctional(Ui_MainWindow):
     def setupUi(self, MainWindow):
         super().setupUi(MainWindow)
         self.select_data_button.clicked.connect(self.select_data_button_clicked)
-        # self.username_input.textChanged.connect(self.username_changed)
+        self.username_selector.currentIndexChanged.connect(self.username_changed)
         self.run_button.clicked.connect(self.run_button_clicked)
         # self.week_selector.activated.connect(self.week_changed)
+        self.reader = None
 
     def select_data_button_clicked(self):
         file_name = self.openFileNameDialog()
@@ -26,27 +27,37 @@ class MainWindowFunctional(Ui_MainWindow):
             self.selected_file_label.setText(file_name)
 
             # set the username dropdown here..? 
-            name_and_month_reader = ZendeskDataReader(file_name)
-            name_and_month_reader.load_wb()
-            self.username_selector.addItems(name_and_month_reader.get_users())
+            self.reader = ZendeskDataReader(file_name)
+            self.reader.load_wb()
 
-            d_min, d_max = name_and_month_reader.get_dates()
-            self.week_selector.addItems([i.strftime('%m/%d/%Y') +" - "+ j.strftime('%m/%d/%Y') for i,j in date_ranges(d_min.month)])
+            self.set_username_selector()
+            # self.set_week_selector(self.username_selector.currentText())
 
             self.run_button.setEnabled(True)
     
     def username_changed(self):
-        valid, reason = self._is_input_valid_w_reason()
-        if valid:
-            self.run_button.setEnabled(True)
-            self._publish_status_message(
-                MainWindowFunctional._not_running_message)
-        else:
-            self.run_button.setEnabled(False)
-            self._publish_status_message(reason)
+        # Set this users week selector here? 
+        username = self.username_selector.currentText()
 
-    # def week_changed(self):
-    #     pass
+        self.week_selector.clear()
+        self.set_week_selector(username)
+
+        # valid, reason = self._is_input_valid_w_reason()
+        # if valid:
+        #     self.run_button.setEnabled(True)
+        #     self._publish_status_message(
+        #         MainWindowFunctional._not_running_message)
+        # else:
+        #     self.run_button.setEnabled(False)
+        #     self._publish_status_message(reason)
+
+    def set_week_selector(self, username):
+        weeks = self.reader.get_weeks_with_data(username)
+        self.week_selector.addItems([start.strftime('%m/%d/%Y') +" - "+ end.strftime('%m/%d/%Y') for start, end in sorted(list(weeks))])
+
+
+    def set_username_selector(self):  
+        self.username_selector.addItems(self.reader.get_users())
 
     def run_button_clicked(self):
         print('Running app')

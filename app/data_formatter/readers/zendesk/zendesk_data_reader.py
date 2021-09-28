@@ -4,7 +4,7 @@ from pathlib import Path
 from openpyxl import load_workbook
 from app.data_formatter.utils import verify_path
 from datetime import datetime
-
+from app.data_formatter.utils import date_ranges
 class ZendeskDataReader:
 
     def __init__(self, src_file_path: str, username=None) -> None:
@@ -34,21 +34,33 @@ class ZendeskDataReader:
     '''
     def get_users(self):
         user_col = self.header.index("Updater name")
-        return list(set([dt[user_col] for dt in self.data.iter_rows(min_row=2, values_only=True)]))
+        return sorted(list(set([dt[user_col] for dt in self.data.iter_rows(min_row=2, values_only=True)])))
 
     '''
-      get the date range to populate the spreadsheet date range dropdown
-    '''
-    def get_dates(self):
+      Get the available date ranges.
+      * user username as well
+      * a user could not have data for a week, that shouldn't be in the week list.
 
+      this is kind of becoming a mess..
+    '''
+    def get_weeks_with_data(self, username):
         date_col = self.header.index("Update - Date")
-        r = []
+        user_col = self.header.index("Updater name")
+
+        month = datetime.strptime(list(next(self.data.iter_rows(min_row=2, max_row=2, values_only=True)))[date_col], '%Y-%m-%d').date().month
+
+        weeks = {(start, end) for start, end in date_ranges(month)}
+        res = set()
 
         for dt in self.data.iter_rows(min_row=2, values_only=True):
              d = datetime.strptime(dt[date_col], '%Y-%m-%d').date()
-             r.append(d)
+             user = dt[user_col]
+             if username == user: 
+                for st, ed in weeks:
+                    if d <= st <= ed:
+                        res.add((st, ed))
 
-        return min(r), max(r)
+        return res
     '''
       get the header row so we can match the fields
     '''
