@@ -31,6 +31,8 @@ class MainWindowFunctional(Ui_MainWindow):
         file_name = self.openFileNameDialog()
         if file_name:
             self.selected_file_label.setText(file_name)
+            self.username_selector.setEnabled(True)
+            self.week_selector.setEnabled(True)
 
             # set the username dropdown here..? 
             name_and_month_reader = ZendeskDataReader(file_name)
