@@ -6,12 +6,13 @@ if __name__ == '__main__':
     # generated from test_zendesk_data_reader
     test_data = pickle.load(open("testing/test_data/zdesk_data.p", "rb"))
 
-    # get a formatter
+    # get a formatter factory
     formatter_factory = DataFormatterFactory()
 
+    # get a class of the sap formatter
     data_formatter = formatter_factory.get_formatter('ZENDESK')
 
-    # create pages for a provided month
+    # create pages for a provided month, class method
     pages = data_formatter.create_pages(date.today().month)
 
     # create a new formatter instance with the test data
