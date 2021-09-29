@@ -32,7 +32,6 @@ class ZendeskDataReader:
             print(f"Failed to parse excel with error: {err}")
             exit(0)
 
-
     # get the header row so we can match the fields
     def __set_header(self):
         self.header = list(next(self.data.iter_rows(min_row=1, max_row=1, values_only=True)))
