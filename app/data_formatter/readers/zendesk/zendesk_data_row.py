@@ -31,7 +31,7 @@ class ZendeskDataRow:
             d = datetime.strptime(update_date, '%Y-%m-%d').date()
             self.update_date = d
 
-        except Exception as err:
+        except Exception:
             print(f"failed to convert date in spreadsheet with error: Date must be in format YYYY-mm-dd")
             exit(0)
 
