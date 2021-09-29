@@ -10,11 +10,11 @@ from app.data_formatter.SAP_Objects.SAP_Page import SapDataPage
 class MergeRow:
 
     # Params:
-    #   user - the user
-    #   wbs - the wbs element
-    #   date - the date of the as a datetime
-    #   tickets - tickets, as a list of the ticketIds
-    #   times - list of the time spent on the tickets, in minutes
+    # user    - the user
+    # wbs     - the wbs element
+    # date    - the date of the as a datetime
+    # tickets - tickets, as a list of the ticketIds
+    # times   - list of the time spent on the tickets, in minutes
     def __init__(self, user: str, wbs: str, date: datetime, tickets, times) -> None:
         self.user = user
         self.wbs = wbs
@@ -22,9 +22,8 @@ class MergeRow:
         self.tickets = tickets
         self.time = times 
 
-
 '''
-  this is the object which converts zendesk rows to SAP Pages
+  this is the object which converts zendesk rows to SAP Page rows. 
 
   parameters:
   zd_data: a list of Zendesk Rows
@@ -35,7 +34,8 @@ class MergeRow:
 class SAPDataFormatter(DataFormatter):
 
     # Params:
-    #   zd_data - a list of zendesk rows
+    #  zd_data - a list of zendesk rows
+    #  pages   - a list of SAP page objects
     def __init__(self, username: str, zd_data: List[ZendeskDataRow], pages: List[SapDataPage]) -> None:
         self.collector_container = self.__merge_wbs_elements(zd_data)
         self.pages = pages
