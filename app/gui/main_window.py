@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from main_window_base import Ui_MainWindow
-from app.app_main import AppMain
+from app.auto_entry_main import AutoEntryMain
 from app.data_formatter.utils import date_ranges
 from datetime import date
 from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataReader
@@ -68,7 +68,7 @@ class MainWindowFunctional(Ui_MainWindow):
         print('Running app')
         self._publish_status_message('App is running')
         try:
-            AppMain(self.selected_file_label.text(),
+            AutoEntryMain(self.selected_file_label.text(),
                     self.username_selector.currentText(),
                     self.clear_data_checkbox.isChecked(),
                     self.use_fn_checkbox.isChecked(),

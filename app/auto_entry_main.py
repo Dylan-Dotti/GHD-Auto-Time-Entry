@@ -7,7 +7,7 @@ from app.data_formatter.formatters.data_formatter_factory import DataFormatterFa
 from datetime import date
 
 
-class AppMain:
+class AutoEntryMain:
 
     def __init__(self, zendesk_excel_path: str, user_name: str,
                  clear_existing_data: bool, use_fn_key: bool, selected_week: str,
