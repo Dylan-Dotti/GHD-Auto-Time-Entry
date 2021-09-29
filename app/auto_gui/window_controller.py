@@ -35,6 +35,6 @@ class WindowController:
                 window = wgui.FindWindow(None, window_name)
                 if window != 0:
                     return window
-            if find_window_timeout is not None and time.time() - start_time >= find_window_timeout:
+            if find_window_timeout is not None and (time.time() - start_time) >= find_window_timeout:
                 raise TimeoutError('Timed out attempting to find window: ' + window_names_str)
             time.sleep(check_interval)
