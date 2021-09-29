@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>564</width>
-    <height>297</height>
+    <width>527</width>
+    <height>327</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -61,13 +61,13 @@
               <cursorShape>ArrowCursor</cursorShape>
              </property>
              <property name="styleSheet">
-              <string notr="true">padding: 6px 12px;
+              <string notr="true">padding: 8px 12px;
 margin: 5px;
 margin-right: 0px;
 </string>
              </property>
              <property name="text">
-              <string>Select time data</string>
+              <string>Select Time Data</string>
              </property>
             </widget>
            </item>
@@ -104,7 +104,7 @@ margin-right: 0px;
               <string notr="true">margin-left: 5px</string>
              </property>
              <property name="text">
-              <string>User name</string>
+              <string>Select Name:</string>
              </property>
             </widget>
            </item>
@@ -118,6 +118,10 @@ margin-right: 0px;
                <width>150</width>
                <height>0</height>
               </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">padding: 5px
+</string>
              </property>
             </widget>
            </item>
@@ -140,8 +144,11 @@ margin-right: 0px;
           <layout class="QHBoxLayout" name="horizontalLayout_7">
            <item>
             <widget class="QLabel" name="label_2">
+             <property name="styleSheet">
+              <string notr="true">margin-left: 5px</string>
+             </property>
              <property name="text">
-              <string>Select Week</string>
+              <string>Select Week:</string>
              </property>
              <property name="margin">
               <number>0</number>
@@ -162,6 +169,9 @@ margin-right: 0px;
                <height>0</height>
               </size>
              </property>
+             <property name="styleSheet">
+              <string notr="true">padding: 5px</string>
+             </property>
             </widget>
            </item>
            <item>
@@ -181,6 +191,42 @@ margin-right: 0px;
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">padding-left: 5px</string>
+             </property>
+             <property name="text">
+              <string>Rows per Page:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="rows_per_page_box">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">padding: 2px 5px</string>
+             </property>
+             <property name="value">
+              <number>8</number>
+             </property>
+            </widget>
+           </item>
            <item alignment="Qt::AlignVCenter">
             <widget class="QCheckBox" name="clear_data_checkbox">
              <property name="sizePolicy">
@@ -285,7 +331,7 @@ QCheckBox::indicator {
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">padding: 5px 50px</string>
+         <string notr="true">padding: 10px 50px</string>
         </property>
         <property name="text">
          <string>Run</string>
@@ -301,7 +347,7 @@ QCheckBox::indicator {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>564</width>
+     <width>527</width>
      <height>22</height>
     </rect>
    </property>

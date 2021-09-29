@@ -115,7 +115,6 @@ class SapMainWindowNavigator:
     def page_down(self):
         self._kc.press_key('pgdn', post_delay=1)
         self._current_row_index = self._rows_per_page - 1
-        print('current row index: ' + str(self._current_row_index))
         while self._current_row_index > 1:
             self.move_prev_row_direct()
 

@@ -83,7 +83,9 @@ class MainWindowFunctional(Ui_MainWindow):
                     self.username_selector.currentText(),
                     self.clear_data_checkbox.isChecked(),
                     self.use_fn_checkbox.isChecked(),
-                    self.week_selector.currentText()).execute()
+                    self.week_selector.currentText(),
+                    self.rows_per_page_box.value()
+                    ).execute()
         except Exception as ex:
             print(ex)
             self._show_error_popup(str(ex))

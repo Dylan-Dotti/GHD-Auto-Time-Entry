@@ -9,10 +9,12 @@ from datetime import date
 
 class AppMain:
 
-    def __init__(self, zendesk_excel_path: str, user_name: str, 
-                 clear_existing_data: bool, use_fn_key: bool, selected_week: str) -> None:
+    def __init__(self, zendesk_excel_path: str, user_name: str,
+                 clear_existing_data: bool, use_fn_key: bool, selected_week: str,
+                 num_sap_rows_per_page: int = None) -> None:
         self._zendesk_excel_path = zendesk_excel_path
         self._user_name = user_name
+        self._num_sap_rows_per_page = num_sap_rows_per_page
         self._clear_existing_data = clear_existing_data
         self._use_fn_key = use_fn_key
         self.st, self.ed = selected_week.split(" - ")
@@ -27,6 +29,8 @@ class AppMain:
         formatter_factory = DataFormatterFactory()
         data_formatter = formatter_factory.get_formatter('ZENDESK')
         # create pages for a provided month
+
+        # ***Needs to be changed to use the month of the selected sheet**
         pages = data_formatter.create_pages(date.today().month)
 
         # create a new formatter instance with the test data
@@ -44,7 +48,7 @@ class AppMain:
         # auto entry
         main_wc = factory.get_sap_main_window_controller()
         main_kc = KeyboardController(main_wc, use_fn_key=self._use_fn_key)
-        main_nav = SapMainWindowNavigator(main_kc)
+        main_nav = SapMainWindowNavigator(main_kc, rows_per_page=self._num_sap_rows_per_page)
         main_wc.set_window_foreground()
         entry_agent = AutoEntryAgent(main_kc, main_nav, sap_rows)
         entry_agent.execute(self._clear_existing_data)
