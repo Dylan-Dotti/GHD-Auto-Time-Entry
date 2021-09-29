@@ -9,8 +9,6 @@ if __name__ == '__main__':
     reader.get_dates()
     reader.get_users()
     
-    print(reader.range_st, reader.range_nd)
-
     print(reader.users)
 
     # generate zendesk rows for read zendesk data
