@@ -18,7 +18,6 @@ class MainWindowFunctional(Ui_MainWindow):
         self.select_data_button.clicked.connect(self.select_data_button_clicked)
         self.username_selector.currentIndexChanged.connect(self.username_changed)
         self.run_button.clicked.connect(self.run_button_clicked)
-        # self.week_selector.activated.connect(self.week_changed)
         self.reader = None
 
     def select_data_button_clicked(self):
@@ -29,7 +28,6 @@ class MainWindowFunctional(Ui_MainWindow):
             
             self.reset_file_selector()
             self.selected_file_label.setText(file_name)
-
 
             self.username_selector.setEnabled(True)
             self.week_selector.setEnabled(True)

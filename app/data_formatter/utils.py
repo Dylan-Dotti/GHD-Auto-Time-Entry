@@ -1,18 +1,6 @@
 from datetime import date, timedelta
 
-'''
-**** DON'T DELETE ****
-this is the SAP test paste format, it works. don't change spaces here at all.
-
-TEST	 	 	 	TEST	 	 	 		 	 	 TEST	 	 	 TEST	 	 	 TEST	 	 	 TEST	 	 	 TEST	 	 	 TEST	 	 	 TEST
-
-Zendesk Header:
-"Updater name","Ticket Organization Name", "Support WBS Element", "Ticket Form", "Region", "Ticket ID", "Update - Timestamp", "Update - Date", "Ticket Handling Time"
-
-SAP Header:
-None, "ACCTYPE", None, "COST_CENTER", "WBS_ELEMENT", None, None, None, None, None, None, "MON", None, None, "TUES", None, None, "WED", None, None, "THURS", None, None, "FRI", None, None, "SAT", None, None, "SUN", None, None
-'''
-
+# verify input path for excel parse
 def verify_path(p: str) -> bool: 
     if p.exists() and p.is_file() and (str(p).endswith(".xlsm") or str(p).endswith(".xlsx")):
         return True
@@ -35,6 +23,3 @@ def date_ranges(month):
     while d.month == month or d.month + 1 == month:
         yield d, (d + timedelta(days=6))
         d += timedelta(days=7)
-
-def validate_timesheet_range():
-    pass
