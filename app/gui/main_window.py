@@ -23,19 +23,21 @@ class MainWindowFunctional(Ui_MainWindow):
 
     def select_data_button_clicked(self):
         file_name = self._open_file_selector()
-
-        if file_name: # if valid file is selected
+        
+        # if valid file name selected
+        if file_name:
+            
             self.reset_file_selector()
             self.selected_file_label.setText(file_name)
+
+
             self.username_selector.setEnabled(True)
             self.week_selector.setEnabled(True)
 
-            # set the username dropdown here..? 
             self.reader = ZendeskDataReader(file_name)
             self.reader.load_wb()
 
             self.set_username_selector()
-            # self.set_week_selector(self.username_selector.currentText())
 
             self.run_button.setEnabled(True)
 
@@ -46,10 +48,12 @@ class MainWindowFunctional(Ui_MainWindow):
 
     def reset_file_selector(self):
         if self.reader:
-            print("I RAN")
             self.reader = None
             self.username_selector.clear()
             self.week_selector.clear()
+
+    def set_username_selector(self):  
+        self.username_selector.addItems(self.reader.get_users())
 
     def username_changed(self):
         # need this because this is triggered when the selector is cleared as well
@@ -58,22 +62,9 @@ class MainWindowFunctional(Ui_MainWindow):
             self.week_selector.clear()
             self.set_week_selector(username)
 
-        # valid, reason = self._is_input_valid_w_reason()
-        # if valid:
-        #     self.run_button.setEnabled(True)
-        #     self._publish_status_message(
-        #         MainWindowFunctional._not_running_message)
-        # else:
-        #     self.run_button.setEnabled(False)
-        #     self._publish_status_message(reason)
-
     def set_week_selector(self, username):
         weeks = self.reader.get_weeks_with_data(username)
         self.week_selector.addItems([start.strftime('%m/%d/%Y') +" - "+ end.strftime('%m/%d/%Y') for start, end in sorted(list(weeks))])
-
-
-    def set_username_selector(self):  
-        self.username_selector.addItems(self.reader.get_users())
 
     def run_button_clicked(self):
         print('Running app')
@@ -104,7 +95,6 @@ class MainWindowFunctional(Ui_MainWindow):
         self.status_label.setText(message)
         self.status_label.setEnabled(
             message != MainWindowFunctional._not_running_message)
-
 
 if __name__ == "__main__":
     import sys
