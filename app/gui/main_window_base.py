@@ -170,6 +170,17 @@ class Ui_MainWindow(object):
         self.run_button.setStyleSheet("padding: 10px 50px")
         self.run_button.setObjectName("run_button")
         self.horizontalLayout_4.addWidget(self.run_button, 0, QtCore.Qt.AlignVCenter)
+        self.stop_button = QtWidgets.QPushButton(self.centralwidget)
+        self.stop_button.setEnabled(False)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.stop_button.sizePolicy().hasHeightForWidth())
+        self.stop_button.setSizePolicy(sizePolicy)
+        self.stop_button.setMinimumSize(QtCore.QSize(150, 25))
+        self.stop_button.setStyleSheet("padding: 10px 50px")
+        self.stop_button.setObjectName("stop_button")
+        self.horizontalLayout_4.addWidget(self.stop_button)
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -196,6 +207,7 @@ class Ui_MainWindow(object):
         self.use_fn_checkbox.setText(_translate("MainWindow", "Use Fn Button"))
         self.status_label.setText(_translate("MainWindow", "App is not running"))
         self.run_button.setText(_translate("MainWindow", "Run"))
+        self.stop_button.setText(_translate("MainWindow", "Stop"))
 
 
 if __name__ == "__main__":

@@ -25,6 +25,7 @@ class MainWindowFunctional(Ui_MainWindow):
         self.select_data_button.clicked.connect(self.select_data_button_clicked)
         self.username_selector.currentIndexChanged.connect(self.username_changed)
         self.run_button.clicked.connect(self.run_button_clicked)
+        self.stop_button.clicked.connect(self.stop_button_clicked)
 
     def select_data_button_clicked(self):
         file_name = self._open_file_selector()
@@ -92,13 +93,21 @@ class MainWindowFunctional(Ui_MainWindow):
         self.auto_entry_worker.finished_signal.connect(self._on_auto_entry_finished)
         self.auto_entry_worker.exception_signal.connect(self._on_auto_entry_exception)
         self.auto_entry_thread.start()
+
+        self.stop_button.setEnabled(True)
+    
+    def stop_button_clicked(self):
+        self.auto_entry_thread.terminate()
+        self._on_auto_entry_finished()
     
     def _on_auto_entry_started(self):
         self._publish_status_message('App is running')
     
     def _on_auto_entry_finished(self):
         self._publish_status_message(MainWindowFunctional._not_running_message)
+        self.stop_button.setEnabled(False)
         self.run_button.setEnabled(True)
+        print('Auto Entry finished')
     
     def _on_auto_entry_exception(self, ex: Exception):
         print(ex)
