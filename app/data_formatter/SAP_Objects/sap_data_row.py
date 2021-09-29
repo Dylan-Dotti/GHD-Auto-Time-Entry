@@ -1,6 +1,4 @@
 from datetime import datetime
-from typing import List
-
 
 # Contains the data that is entered on a single day of a single row
 class DateEntry:

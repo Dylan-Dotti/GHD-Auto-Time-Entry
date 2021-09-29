@@ -10,11 +10,11 @@ from app.data_formatter.SAP_Objects.SAP_Page import SapDataPage
 class MergeRow:
 
     # Params:
-    #   user - the user
-    #   wbs - the wbs element
-    #   date - the date of the as a datetime
-    #   tickets - tickets, as a list of the ticketIds
-    #   times - list of the time spent on the tickets, in minutes
+    # user    - the user
+    # wbs     - the wbs element
+    # date    - the date of the as a datetime
+    # tickets - tickets, as a list of the ticketIds
+    # times   - list of the time spent on the tickets, in minutes
     def __init__(self, user: str, wbs: str, date: datetime, tickets, times) -> None:
         self.user = user
         self.wbs = wbs
@@ -22,28 +22,19 @@ class MergeRow:
         self.tickets = tickets
         self.time = times 
 
-
-'''
-  this is the object which converts zendesk rows to SAP Pages
-
-  parameters:
-  zd_data: a list of Zendesk Rows
-
-  methods:
-
-'''
+# This is the object which converts zendesk rows to SAP Page rows. 
 class SAPDataFormatter(DataFormatter):
 
     # Params:
-    #   zd_data - a list of zendesk rows
+    #  zd_data - a list of zendesk rows
+    #  pages   - a list of SAP page objects
     def __init__(self, username: str, zd_data: List[ZendeskDataRow], pages: List[SapDataPage]) -> None:
         self.collector_container = self.__merge_wbs_elements(zd_data)
         self.pages = pages
         self.username = username
-    '''
-      this is for aggregating ticketIds for a wbs element, and summing up the time
-    '''
-    def __merge_wbs_elements(self, zd_data) -> Any:
+
+    # Aggregate ticketIds and summing up the time for a wbs element.
+    def __merge_wbs_elements(self, zd_data):
 
         # user, wbs_element, date: {time:[], tickets:[]} time and tickets being corresponding index
         collector_container = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(dict, {"time": [], "tickets":[]}))))
@@ -222,5 +213,5 @@ class SAPDataFormatter(DataFormatter):
         # fill the pages with the merge rows
         complete_sap_pages = self.__merge_to_sap(self.pages, merge_rows)
         
-        self.cleaned_data = complete_sap_pages
+        self.data = complete_sap_pages
 

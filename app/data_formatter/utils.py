@@ -7,8 +7,10 @@ def verify_path(p: str) -> bool:
     return False
 
 '''
-  if first monday is not the first, go back a week to get first monday
-  get corresponding sunday
+  If first monday is not the first of the month, go back a week.
+  We have to do this because SAP begins a page on a monday, not the beginning of the month.
+  
+  returns generator of (data of Monday, date of following Sunday)
 '''
 def date_ranges(month):
     year = date.today().year
