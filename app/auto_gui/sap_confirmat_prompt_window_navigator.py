@@ -1,7 +1,8 @@
 from app.auto_gui.keyboard_controller import KeyboardController
+from app.interfaces.stoppable import Stoppable
 
 
-class SapConfirmatPromptWindowNavigator:
+class SapConfirmatPromptWindowNavigator(Stoppable):
 
     def __init__(self, window_kc: KeyboardController) -> None:
         self._kc = window_kc

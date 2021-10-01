@@ -1,8 +1,9 @@
+from app.interfaces.stoppable import Stoppable
 from app.auto_gui.window_controller import WindowController
 import pyautogui as pag
 import time
 
-class KeyboardController:
+class KeyboardController(Stoppable):
 
     def __init__(self, window_controller: WindowController,
                  use_fn_key: bool) -> None:

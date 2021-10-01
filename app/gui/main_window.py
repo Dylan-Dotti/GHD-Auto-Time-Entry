@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import QThread
+from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QMessageBox
 from main_window_base import Ui_MainWindow
 from app.auto_entry_main import AutoEntryMain
@@ -13,6 +13,8 @@ from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataRe
 '''
 class MainWindowFunctional(Ui_MainWindow):
     _not_running_message = 'App is not running'
+
+    _stop_signal = pyqtSignal()
 
     def __init__(self) -> None:
         super().__init__()
@@ -97,8 +99,7 @@ class MainWindowFunctional(Ui_MainWindow):
         self.stop_button.setEnabled(True)
     
     def stop_button_clicked(self):
-        self.auto_entry_thread.terminate()
-        self._on_auto_entry_finished()
+        self.auto_entry_worker.stop()
     
     def _on_auto_entry_started(self):
         self._publish_status_message('App is running')

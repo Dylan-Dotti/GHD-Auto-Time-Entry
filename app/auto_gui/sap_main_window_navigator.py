@@ -1,3 +1,4 @@
+from app.interfaces.stoppable import Stoppable
 from app.auto_gui.sap_confirmat_prompt_window_navigator import SapConfirmatPromptWindowNavigator
 from typing import Tuple
 from app.auto_gui.keyboard_controller import KeyboardController
@@ -7,7 +8,7 @@ import app.auto_gui.window_controller_factory as factory
 import time
 
 
-class SapMainWindowNavigator:
+class SapMainWindowNavigator(Stoppable):
 
     def __init__(self, sap_keyboard_controller: KeyboardController, rows_per_page: int=None) -> None:
         self._kc = sap_keyboard_controller

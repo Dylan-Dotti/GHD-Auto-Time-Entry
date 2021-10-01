@@ -1,3 +1,4 @@
+from app.interfaces.stoppable import Stoppable
 from app.auto_gui.keyboard_controller import KeyboardController
 from app.auto_gui.sap_main_window_navigator import SapMainWindowNavigator
 from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow
@@ -5,7 +6,7 @@ from typing import List
 from pandas.io.clipboard import copy, paste
 import time
 
-class AutoEntryAgent:
+class AutoEntryAgent(Stoppable):
 
     def __init__(self, main_kc: KeyboardController,
                  main_nav: SapMainWindowNavigator,
@@ -36,6 +37,9 @@ class AutoEntryAgent:
                     details_nav.confirm_and_close()
             if row_index < len(self._data_rows) - 1:
                 self._main_nav.move_next_row_start()
+    
+    def stop(self):
+        pass
     
     def _clear_data(self) -> None:
         reset_nav, _ = self._main_nav.open_reset_entries()
