@@ -1,3 +1,4 @@
+import traceback
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QMessageBox
@@ -12,7 +13,7 @@ from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataRe
     Ui_Main_Window overwrites any changes when rebuilt
 '''
 class MainWindowFunctional(Ui_MainWindow):
-    _not_running_message = 'App is not running'
+    _not_running_message = 'Not running'
 
     _stop_signal = pyqtSignal()
 
@@ -75,6 +76,7 @@ class MainWindowFunctional(Ui_MainWindow):
 
     def run_button_clicked(self):
         print('Running Auto Entry...')
+        self._set_configure_controls_enabled(False)
         self.run_button.setEnabled(False)
 
         self.auto_entry_thread = QThread()
@@ -99,19 +101,21 @@ class MainWindowFunctional(Ui_MainWindow):
         self.stop_button.setEnabled(True)
     
     def stop_button_clicked(self):
+        self.stop_button.setEnabled(False)
+        self._publish_status_message('Stopping...')
         self.auto_entry_worker.stop()
     
     def _on_auto_entry_started(self):
-        self._publish_status_message('App is running')
+        self._publish_status_message('Running')
     
     def _on_auto_entry_finished(self):
         self._publish_status_message(MainWindowFunctional._not_running_message)
+        self._set_configure_controls_enabled(True)
         self.stop_button.setEnabled(False)
         self.run_button.setEnabled(True)
         print('Auto Entry finished')
     
     def _on_auto_entry_exception(self, ex: Exception):
-        print(ex)
         self._show_error_popup(str(ex))
 
     def _open_file_selector(self):
@@ -127,6 +131,14 @@ class MainWindowFunctional(Ui_MainWindow):
         self.status_label.setText(message)
         self.status_label.setEnabled(
             message != MainWindowFunctional._not_running_message)
+    
+    def _set_configure_controls_enabled(self, enabled: bool):
+        self.select_data_button.setEnabled(enabled)
+        self.username_selector.setEnabled(enabled)
+        self.week_selector.setEnabled(enabled)
+        self.rows_per_page_box.setEnabled(enabled)
+        self.clear_data_checkbox.setEnabled(enabled)
+        self.use_fn_checkbox.setEnabled(enabled)
 
 if __name__ == "__main__":
     import sys

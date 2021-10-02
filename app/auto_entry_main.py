@@ -1,7 +1,11 @@
-import app.auto_gui.window_controller_factory as wc_factory
+from typing import List
+#import app.auto_gui.window_controller_factory as wc_factory
+import app.auto_gui.window_names as win_names
+import traceback
 from app.auto_gui.keyboard_controller import KeyboardController
 from app.auto_gui.sap_main_window_navigator import SapMainWindowNavigator
 from app.auto_gui.auto_entry_agent import AutoEntryAgent
+from app.auto_gui.window_controller import WindowController
 from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataReader
 from app.data_formatter.formatters.data_formatter_factory import DataFormatterFactory
 from app.interfaces.stoppable import Stoppable
@@ -25,6 +29,9 @@ class AutoEntryMain(QObject, Stoppable):
         self._use_fn_key = use_fn_key
         self.st, self.ed = selected_week.split(" - ")
 
+        self._stop_requested = False
+        self._stoppable_subcomponents: List[Stoppable] = []
+
     def run(self):
         self.started_signal.emit()
         try:
@@ -39,7 +46,7 @@ class AutoEntryMain(QObject, Stoppable):
             # create pages for a provided month
 
             # ***Needs to be changed to use the month of the selected sheet**
-            pages = data_formatter.create_pages(date.today().month)
+            pages = data_formatter.create_pages(9)
 
             # create a new formatter instance with the test data
             zdt_formatter = data_formatter(self._user_name, zendesk_rows, pages)
@@ -54,17 +61,34 @@ class AutoEntryMain(QObject, Stoppable):
                 raise Exception('No results were produced for the configured settings.')
             
             # auto entry
-            main_wc = wc_factory.get_sap_main_window_controller()
-            main_kc = KeyboardController(main_wc, use_fn_key=self._use_fn_key)
-            main_nav = SapMainWindowNavigator(main_kc, rows_per_page=self._num_sap_rows_per_page)
-            main_wc.set_window_foreground()
-            entry_agent = AutoEntryAgent(main_kc, main_nav, sap_rows)
-            entry_agent.execute(self._clear_existing_data)
+            self._stoppable_subcomponents.clear()
+
+            # main_wc = wc_factory.get_sap_main_window_controller()
+            if not self._stop_requested:
+                main_wc = WindowController()
+                self._stoppable_subcomponents.append(main_wc)
+                main_wc.bind_to_window(win_names.MAIN_WINDOW_NAMES)
+
+            if not self._stop_requested:
+                main_kc = KeyboardController(main_wc, use_fn_key=self._use_fn_key)
+                main_nav = SapMainWindowNavigator(main_kc, rows_per_page=self._num_sap_rows_per_page)
+                main_wc.set_window_foreground()
+
+            if not self._stop_requested:
+                entry_agent = AutoEntryAgent(main_kc, main_nav, sap_rows)
+                entry_agent.execute(self._clear_existing_data)
 
         except Exception as ex:
+            print(traceback.format_exc())
             self.exception_signal.emit(ex)
+        
 
+        print('AutoEntryMainFinished')
+        self._stop_requested = False
         self.finished_signal.emit()
     
     def stop(self):
-        pass
+        print('Stopping AutoEntryMain...')
+        self._stop_requested = True
+        for comp in self._stoppable_subcomponents:
+            comp.stop()

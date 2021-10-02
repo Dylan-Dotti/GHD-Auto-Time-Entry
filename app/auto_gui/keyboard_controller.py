@@ -9,15 +9,23 @@ class KeyboardController(Stoppable):
                  use_fn_key: bool) -> None:
         self._wc = window_controller
         self._use_fn_key = use_fn_key
+        self._stop_requested = False
+
+    def stop(self):
+        self._wc.stop()
+        self._stop_requested = True
 
     def press_key(self, key_name, num_times=1, duration=0, post_delay=0):
         for _ in range(num_times):
+            if self._stop_requested:
+                break
             self.press_key_down(key_name)
             if duration > 0 and self._wc.is_window_foreground():
                 time.sleep(duration)
             self.press_key_up(key_name)
-            if post_delay > 0 and self._wc.is_window_foreground():
+            if not self._stop_requested and post_delay > 0 and self._wc.is_window_foreground():
                 time.sleep(post_delay)
+        self._stop_requested = False
 
     # kwargs:
     #   num_times - number of times to press the sequence. Default 1
@@ -26,10 +34,13 @@ class KeyboardController(Stoppable):
         num_times = kwargs.pop('num_times', 1)
         post_delay = kwargs.pop('post_delay', 0)
         for _ in range(num_times):
+            if self._stop_requested:
+                break
             self._wait_for_window_foreground()
             pag.hotkey(*keys)
-            if post_delay > 0:
+            if not self._stop_requested and post_delay > 0:
                 time.sleep(post_delay)
+        self._stop_requested = False
 
     def press_key_down(self, key_name) -> None:
         self._wait_for_window_foreground()
@@ -95,3 +106,4 @@ class KeyboardController(Stoppable):
         if not self._wc.is_window_foreground():
             print('waiting for window to be foreground for key event...')
             self._wc.wait_for_window_foreground()
+        self._stop_requested = False
