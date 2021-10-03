@@ -1,12 +1,9 @@
-import traceback
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QMessageBox
-from main_window_base import Ui_MainWindow
-from app.auto_entry_main import AutoEntryMain
-from app.data_formatter.utils import date_ranges
-from datetime import date
+from app.integration.auto_entry_main import AutoEntryMain
 from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataReader
+from app.gui.main_window_base import Ui_MainWindow
 
 '''
     Extends Ui_MainWindow to provide custom functionality
@@ -138,7 +135,8 @@ class MainWindowFunctional(Ui_MainWindow):
         self.clear_data_checkbox.setEnabled(enabled)
         self.use_fn_checkbox.setEnabled(enabled)
 
-if __name__ == "__main__":
+
+def launch_window():
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
@@ -146,3 +144,7 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    launch_window()

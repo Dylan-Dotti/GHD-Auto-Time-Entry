@@ -1,7 +1,6 @@
 from app.interfaces.threadsafe_stoppable_w_subcomponents import ThreadSafeStoppableWithSubComponents
 from app.interfaces.stop_requested_error import StopRequestedError
 from typing import List
-#import app.auto_gui.window_controller_factory as wc_factory
 import app.auto_gui.window_names as win_names
 import traceback
 from app.auto_gui.keyboard_controller import KeyboardController
@@ -10,7 +9,6 @@ from app.auto_gui.auto_entry_agent import AutoEntryAgent
 from app.auto_gui.window_controller import WindowController
 from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataReader
 from app.data_formatter.formatters.data_formatter_factory import DataFormatterFactory
-from app.interfaces.stoppable import Stoppable
 from datetime import date
 from PyQt5.QtCore import QObject, pyqtSignal
 
