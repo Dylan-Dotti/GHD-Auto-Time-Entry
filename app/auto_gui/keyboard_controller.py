@@ -66,7 +66,6 @@ class KeyboardController(Stoppable):
         if self._use_fn_key:
             keys.append('fn')
         keys.append(f_key)
-        print(keys)
         self.press_key_sequence(*keys, num_times=num_times, post_delay=post_delay)
 
     def press_enter(self, num_times=1, post_delay=0) -> None:

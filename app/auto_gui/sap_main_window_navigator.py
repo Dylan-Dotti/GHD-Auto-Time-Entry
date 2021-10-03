@@ -1,4 +1,5 @@
 from app.interfaces.stoppable import Stoppable
+from app.interfaces.threadsafe_stoppable import ThreadSafeStoppable
 from app.auto_gui.sap_confirmat_prompt_window_navigator import SapConfirmatPromptWindowNavigator
 from typing import List, Tuple
 from app.auto_gui.keyboard_controller import KeyboardController
@@ -9,9 +10,10 @@ import app.auto_gui.window_names as win_names
 import time
 
 
-class SapMainWindowNavigator(Stoppable):
+class SapMainWindowNavigator(ThreadSafeStoppable):
 
     def __init__(self, sap_keyboard_controller: KeyboardController, rows_per_page: int=None) -> None:
+        super().__init__()
         self._kc = sap_keyboard_controller
         self._current_row_index = 0
         self._current_col_index = 0
@@ -30,19 +32,26 @@ class SapMainWindowNavigator(Stoppable):
         self._stoppable_subcomponents: List[Stoppable] = [self._kc]
     
     def stop(self):
+        self._stop_lock.acquire()
+        self._stop_requested = True
         for comp in self._stoppable_subcomponents:
             comp.stop()
-        self._stop_requested = True
+        self._stop_lock.release()
 
     def open_cell_details(self) -> Tuple[SapDetailsWindowNavigator, KeyboardController]:
         self._kc.press_f2(post_delay=.5)
         details_wc = WindowController()
+        self._stop_lock.acquire()
         if self._stop_requested:
             self._stop_requested = False
-        else:   
+            self._stop_lock.release()
+        else:
             self._stoppable_subcomponents.append(details_wc)
+            self._stop_lock.release()
             details_wc.bind_to_window(win_names.DETAILS_WINDOW_NAMES)
+            self._stop_lock.acquire()
             self._stoppable_subcomponents.remove(details_wc)
+            self._stop_lock.release()
         details_kc = KeyboardController(details_wc, False)
         return SapDetailsWindowNavigator(details_kc), details_kc
     
