@@ -32,36 +32,28 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
         self.add_stoppable_subcomponent(self._kc)
     
     def stop(self):
-        self._stop_requested = True
-        self.stop_subcomponents()
+        print('Stopping SapMainWindowNavigator...')
+        ThreadSafeStoppableWithSubComponents.stop(self)
 
     def open_cell_details(self) -> Tuple[SapDetailsWindowNavigator, KeyboardController]:
         self._kc.press_f2(post_delay=.5)
         details_wc = WindowController()
-        self._stop_lock.acquire()
         if self._stop_requested:
-            self._stop_requested = False
-            self._stop_lock.release()
-        else:
-            self.add_stoppable_subcomponent(details_wc)
-            self._stop_lock.release()
-            details_wc.bind_to_window(win_names.DETAILS_WINDOW_NAMES)
-            self.remove_stoppable_subcomponent(details_wc)
+            self._on_stop_request_acknowledge()
+        self.add_stoppable_subcomponent(details_wc)
+        details_wc.bind_to_window(win_names.DETAILS_WINDOW_NAMES)
+        self.remove_stoppable_subcomponent(details_wc)
         details_kc = KeyboardController(details_wc, False)
         return SapDetailsWindowNavigator(details_kc), details_kc
     
     def open_reset_entries(self) -> Tuple[SapConfirmatPromptWindowNavigator, KeyboardController]:
         self._kc.press_f_key('f11', modifier_key='ctrl', post_delay=.5)
         confirm_wc = WindowController()
-        self._stop_lock.acquire()
         if self._stop_requested:
-            self._stop_requested = False
-            self._stop_lock.release()
-        else:   
-            self.add_stoppable_subcomponent(confirm_wc)
-            self._stop_lock.release()
-            confirm_wc.bind_to_window(win_names.CONFIRMAT_PROMPT_NAMES)
-            self.remove_stoppable_subcomponent(confirm_wc)
+            self._on_stop_request_acknowledge()
+        self.add_stoppable_subcomponent(confirm_wc)
+        confirm_wc.bind_to_window(win_names.CONFIRMAT_PROMPT_NAMES)
+        self.remove_stoppable_subcomponent(confirm_wc)
         confirm_kc = KeyboardController(confirm_wc, False)
         return SapConfirmatPromptWindowNavigator(confirm_kc), confirm_kc
 
@@ -70,9 +62,9 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
     
     def delete_all_entries(self) -> None:
         self.select_all_entries()
-        if not self._stop_requested:
-            self._kc.press_f_key('f2', modifier_key='shift', post_delay=1)
-        self._stop_requested = False
+        if self._stop_requested:
+            self._on_stop_request_acknowledge()
+        self._kc.press_f_key('f2', modifier_key='shift', post_delay=1)
 
     def move_next_col(self):
         self._current_col_index += 1
@@ -91,11 +83,15 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
         self._kc.press_reverse_tab(post_delay=.05)
 
     def move_current_row_start(self):
-        while not self._stop_requested and self._current_col_index > 0:
+        while self._current_col_index > 0:
+            if self._stop_requested:
+                self._on_stop_request_acknowledge()
             self.move_prev_col()
 
     def move_current_row_end(self):
         while self._current_col_index < self._row_length() - 1:
+            if self._stop_requested:
+                self._on_stop_request_acknowledge()
             self.move_next_col()
 
     def move_next_row_start(self):

@@ -66,13 +66,14 @@ class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
             main_wc = WindowController()
             self.add_stoppable_subcomponent(main_wc)
             main_wc.bind_to_window(win_names.MAIN_WINDOW_NAMES)
-            self.remove_stoppable_subcomponent()
+            self.remove_stoppable_subcomponent(main_wc)
 
             main_kc = KeyboardController(main_wc, use_fn_key=self._use_fn_key)
             main_nav = SapMainWindowNavigator(main_kc, rows_per_page=self._num_sap_rows_per_page)
-            main_wc.set_window_foreground()
-
             entry_agent = AutoEntryAgent(main_kc, main_nav, sap_rows)
+            self.add_stoppable_subcomponent(entry_agent)
+
+            main_wc.set_window_foreground()
             entry_agent.execute(self._clear_existing_data)
         
         except StopRequestedError:
