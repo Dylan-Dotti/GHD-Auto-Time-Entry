@@ -15,8 +15,6 @@ from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataRe
 class MainWindowFunctional(Ui_MainWindow):
     _not_running_message = 'Not running'
 
-    _stop_signal = pyqtSignal()
-
     def __init__(self) -> None:
         super().__init__()
         self.auto_entry_thread = None

@@ -1,10 +1,11 @@
 from app.interfaces.stoppable import Stoppable
 from app.auto_gui.sap_confirmat_prompt_window_navigator import SapConfirmatPromptWindowNavigator
-from typing import Tuple
+from typing import List, Tuple
 from app.auto_gui.keyboard_controller import KeyboardController
 from app.auto_gui.sap_details_window_navigator import SapDetailsWindowNavigator
+from app.auto_gui.window_controller import WindowController
 from pandas.io.clipboard import copy, paste
-import app.auto_gui.window_controller_factory as factory
+import app.auto_gui.window_names as win_names
 import time
 
 
@@ -25,16 +26,35 @@ class SapMainWindowNavigator(Stoppable):
             'to5', 'day6', 'from6', 'to6',
             'day7', 'from7', 'to7'
         ]
+        self._stop_requested = False
+        self._stoppable_subcomponents: List[Stoppable] = [self._kc]
+    
+    def stop(self):
+        for comp in self._stoppable_subcomponents:
+            comp.stop()
+        self._stop_requested = True
 
     def open_cell_details(self) -> Tuple[SapDetailsWindowNavigator, KeyboardController]:
         self._kc.press_f2(post_delay=.5)
-        details_wc = factory.get_sap_details_window_controller()
+        details_wc = WindowController()
+        if self._stop_requested:
+            self._stop_requested = False
+        else:   
+            self._stoppable_subcomponents.append(details_wc)
+            details_wc.bind_to_window(win_names.DETAILS_WINDOW_NAMES)
+            self._stoppable_subcomponents.remove(details_wc)
         details_kc = KeyboardController(details_wc, False)
         return SapDetailsWindowNavigator(details_kc), details_kc
     
     def open_reset_entries(self) -> Tuple[SapConfirmatPromptWindowNavigator, KeyboardController]:
         self._kc.press_f_key('f11', modifier_key='ctrl', post_delay=.5)
-        confirm_wc = factory.get_sap_confirmat_prot_window_controller()
+        confirm_wc = WindowController()
+        if self._stop_requested:
+            self._stop_requested = False
+        else:   
+            self._stoppable_subcomponents.append(confirm_wc)
+            confirm_wc.bind_to_window(win_names.DETAILS_WINDOW_NAMES)
+            self._stoppable_subcomponents.remove(confirm_wc)
         confirm_kc = KeyboardController(confirm_wc, False)
         return SapConfirmatPromptWindowNavigator(confirm_kc), confirm_kc
 
@@ -43,7 +63,10 @@ class SapMainWindowNavigator(Stoppable):
     
     def delete_all_entries(self) -> None:
         self.select_all_entries()
-        self._kc.press_f_key('f2', modifier_key='shift', post_delay=1)
+        if self._stop_requested:
+            self._stop_requested = False
+        else:
+            self._kc.press_f_key('f2', modifier_key='shift', post_delay=1)
 
     def move_next_col(self):
         self._current_col_index += 1

@@ -309,7 +309,7 @@ QCheckBox::indicator {
          <string notr="true">margin-left: 2px</string>
         </property>
         <property name="text">
-         <string>App is not running</string>
+         <string>Not running</string>
         </property>
        </widget>
       </item>

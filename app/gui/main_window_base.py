@@ -205,7 +205,7 @@ class Ui_MainWindow(object):
         self.clear_data_checkbox.setText(_translate("MainWindow", "Clear Existing Data"))
         self.use_fn_checkbox.setWhatsThis(_translate("MainWindow", "<html><head/><body><p>Some computers need to press the \'Fn\' button in order to use the F keys (F1-F12)</p></body></html>"))
         self.use_fn_checkbox.setText(_translate("MainWindow", "Use Fn Button"))
-        self.status_label.setText(_translate("MainWindow", "App is not running"))
+        self.status_label.setText(_translate("MainWindow", "Not running"))
         self.run_button.setText(_translate("MainWindow", "Run"))
         self.stop_button.setText(_translate("MainWindow", "Stop"))
 

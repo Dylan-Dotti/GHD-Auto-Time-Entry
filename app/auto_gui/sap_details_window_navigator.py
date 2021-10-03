@@ -1,10 +1,15 @@
+from app.interfaces.stoppable import Stoppable
 from app.auto_gui.keyboard_controller import KeyboardController
 
 # Handles the controlling of the cell details window where notes are added
-class SapDetailsWindowNavigator:
+class SapDetailsWindowNavigator(Stoppable):
 
     def __init__(self, sap_details_keyboard_controller: KeyboardController) -> None:
         self._kc = sap_details_keyboard_controller
+    
+    def stop(self):
+        print('Stopping SapDetailsWindowNavigator...')
+        self._kc.stop()
 
     def cancel_and_close(self):
         self._kc.press_esc(post_delay=1)
