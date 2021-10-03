@@ -1,0 +1,3 @@
+
+class StopRequestedError(RuntimeError):
+    pass

@@ -26,3 +26,9 @@ class ThreadSafeStoppableWithSubComponents(ThreadSafeStoppable):
             return True
         self._stop_lock.release()
         return False
+    
+    def stop_subcomponents(self) -> None:
+        self._stop_lock.acquire()
+        for comp in self._subcomponents:
+            comp.stop()
+        self._stop_lock.release()
