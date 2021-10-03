@@ -4,15 +4,17 @@ from typing import Dict
 # converts to and from dictionary for storage in option_prefs.json
 class OptionPrefs:
 
-    def __init__(self, preferred_name: str, 
+    def __init__(self, data_directory: str, name: str, 
                  num_sap_rows: int, use_fn_button: bool) -> None:
-        self.preferred_name = preferred_name
+        self.data_directory = data_directory
+        self.name = name
         self.num_sap_rows = num_sap_rows
         self.use_fn_button = use_fn_button
     
     def to_dict(self) -> Dict[any]:
         return {
-            'preferred_name': self.preferred_name,
+            'data_directory': self.data_directory,
+            'name': self.name,
             'num_sap_rows': self.num_sap_rows,
             'use_fn_button': self.use_fn_button
         }
@@ -20,7 +22,8 @@ class OptionPrefs:
     @staticmethod
     def from_dict(data: Dict[any]):
         return OptionPrefs(
-            data['preferred_name'],
+            data['data_directory'],
+            data['name'],
             data['num_sap_rows'],
             data['use_fn_button']
         )
