@@ -57,3 +57,11 @@ class SapDataRow:
         return ('SapDataRow(act: %s, wbs: %s, mu: %s, date_entries: %s)' %
                     (self.act, self.wbs, self.unit, 
                      [str(s) for s in self.date_entries]))
+    
+    def __lt__(self, other):
+        for entry, other_entry in zip(self.date_entries, other.date_entries):
+            if entry is None and other_entry is not None:
+                return False
+            if entry is not None and other_entry is None:
+                return True
+        return False

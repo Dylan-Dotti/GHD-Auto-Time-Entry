@@ -53,9 +53,9 @@ class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
             # get SAP pages
             # formatted_data = zdt_formatter.formatted_data()
             sap_rows = zdt_formatter.get_page(self.st, self.ed).data
-
             if len(sap_rows) == 0:
                 raise Exception('No results were produced for the configured settings.')
+            sap_rows = sorted(sap_rows)
             
             # auto entry
             self.clear_subcomponents()
