@@ -12,12 +12,13 @@ import time
 
 class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
 
-    def __init__(self, sap_keyboard_controller: KeyboardController, rows_per_page: int=None) -> None:
+    def __init__(self, sap_keyboard_controller: KeyboardController, rows_per_page: int) -> None:
         super().__init__()
         self._kc = sap_keyboard_controller
         self._current_row_index = 0
         self._current_col_index = 0
         self._rows_per_page = rows_per_page
+        self._has_paged_down = False
         self._row_layout = [
             'activity_type', 'receiver_cc',
             'receiver_wbs', 'abs_type',
@@ -96,18 +97,19 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
 
     def move_next_row_start(self):
         self.move_current_row_end()
-        if self._current_row_index > 0 and (self._rows_per_page is None or self._current_row_index == self._rows_per_page - 1):
+        if self._current_row_index > 0 and (self._current_row_index == self._rows_per_page - 1):
             self.move_next_row_alternate()
             if self._test_cell_has_data():
                 self._rows_per_page = self._current_row_index + 1
-                print('rows per page: ' + str(self._rows_per_page))
                 self.page_down()
         else:
             self.move_next_col()
     
     # Immediately moves to next row by pressing down
     def move_next_row_direct(self):
-        self._kc.press_down_arrow()
+        if self._current_row_index >= self._rows_per_page - 1:
+            return
+        self._kc.press_down_arrow(post_delay=.1)
         self._current_row_index += 1
     
     # Immediately moves to previous row by pressing up
@@ -123,9 +125,20 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
         self.move_next_col()
         self.move_next_row_direct()
     
-    def move_first_empty_row(self) -> None:
-        while self._test_cell_has_data():
-            self.move_next_row_direct()
+    def move_first_empty_row(self, reversed=False, empty_reversed=False) -> None:
+        loop_condition = ((lambda: not self._test_cell_has_data()) if empty_reversed 
+                          else (lambda: self._test_cell_has_data()))
+        while loop_condition():
+            if reversed:
+                if self._current_row_index > 0:
+                    self.move_prev_row_direct()
+                else:
+                    return
+            else:
+                if self._current_row_index < self._rows_per_page - 1:
+                    self.move_next_row_direct()
+                else:
+                    self.page_down()
 
     def move_to_day(self, day_index):
         if day_index < 0 or day_index > 6:
@@ -139,17 +152,22 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
                 self.move_prev_col()
     
     def page_down(self):
-        self._kc.press_key('pgdn', post_delay=1)
+        self._kc.press_key('pgdn', post_delay=2)
+        if not self._has_paged_down:
+            self._has_paged_down = True
+            self._rows_per_page += 1
         self._current_row_index = self._rows_per_page - 1
-        while self._current_row_index > 1:
+        while self._current_row_index > 0:
             self.move_prev_row_direct()
+        self.move_first_empty_row(reversed=True, empty_reversed=True)
+        self.move_next_row_direct()
 
     def _row_length(self):
         return len(self._row_layout)
     
     def _test_cell_has_data(self):
         copy('')
-        time.sleep(.25)
+        time.sleep(.2)
         # pressing ctrl-a will cause the window to lose foreground status
         # shift-home and shift-end work though
         self._kc.press_key('home', post_delay=.1)
