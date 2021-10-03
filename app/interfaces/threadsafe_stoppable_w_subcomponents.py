@@ -9,6 +9,12 @@ class ThreadSafeStoppableWithSubComponents(ThreadSafeStoppable):
         super().__init__()
         self._subcomponents: List[Stoppable] = []
     
+    def stop(self):
+        super().stop()
+        self._stop_lock.acquire()
+        self.stop_subcomponents()
+        self._stop_lock.release()
+    
     def add_stoppable_subcomponent(self, sub_comp: Stoppable) -> bool:
         self._stop_lock.acquire()
         if sub_comp not in self._subcomponents:
@@ -26,6 +32,9 @@ class ThreadSafeStoppableWithSubComponents(ThreadSafeStoppable):
             return True
         self._stop_lock.release()
         return False
+    
+    def clear_subcomponents(self):
+        self._subcomponents.clear()
     
     def stop_subcomponents(self) -> None:
         self._stop_lock.acquire()

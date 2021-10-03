@@ -1,3 +1,5 @@
+from app.interfaces.threadsafe_stoppable_w_subcomponents import ThreadSafeStoppableWithSubComponents
+from app.interfaces.stop_requested_error import StopRequestedError
 from typing import List
 #import app.auto_gui.window_controller_factory as wc_factory
 import app.auto_gui.window_names as win_names
@@ -13,7 +15,7 @@ from datetime import date
 from PyQt5.QtCore import QObject, pyqtSignal
 
 
-class AutoEntryMain(QObject, Stoppable):
+class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
     started_signal = pyqtSignal()
     finished_signal = pyqtSignal()
     exception_signal = pyqtSignal(Exception)
@@ -28,9 +30,6 @@ class AutoEntryMain(QObject, Stoppable):
         self._clear_existing_data = clear_existing_data
         self._use_fn_key = use_fn_key
         self.st, self.ed = selected_week.split(" - ")
-
-        self._stop_requested = False
-        self._stoppable_subcomponents: List[Stoppable] = []
 
     def run(self):
         self.started_signal.emit()
@@ -61,34 +60,32 @@ class AutoEntryMain(QObject, Stoppable):
                 raise Exception('No results were produced for the configured settings.')
             
             # auto entry
-            self._stoppable_subcomponents.clear()
+            self.clear_subcomponents()
 
             # main_wc = wc_factory.get_sap_main_window_controller()
-            if not self._stop_requested:
-                main_wc = WindowController()
-                self._stoppable_subcomponents.append(main_wc)
-                main_wc.bind_to_window(win_names.MAIN_WINDOW_NAMES)
+            main_wc = WindowController()
+            self.add_stoppable_subcomponent(main_wc)
+            main_wc.bind_to_window(win_names.MAIN_WINDOW_NAMES)
+            self.remove_stoppable_subcomponent()
 
-            if not self._stop_requested:
-                main_kc = KeyboardController(main_wc, use_fn_key=self._use_fn_key)
-                main_nav = SapMainWindowNavigator(main_kc, rows_per_page=self._num_sap_rows_per_page)
-                main_wc.set_window_foreground()
+            main_kc = KeyboardController(main_wc, use_fn_key=self._use_fn_key)
+            main_nav = SapMainWindowNavigator(main_kc, rows_per_page=self._num_sap_rows_per_page)
+            main_wc.set_window_foreground()
 
-            if not self._stop_requested:
-                entry_agent = AutoEntryAgent(main_kc, main_nav, sap_rows)
-                entry_agent.execute(self._clear_existing_data)
+            entry_agent = AutoEntryAgent(main_kc, main_nav, sap_rows)
+            entry_agent.execute(self._clear_existing_data)
+        
+        except StopRequestedError:
+            self._stop_requested = False
+            print('AutoEntryMain stopped')
 
         except Exception as ex:
             print(traceback.format_exc())
             self.exception_signal.emit(ex)
-        
 
-        print('AutoEntryMainFinished')
-        self._stop_requested = False
+        print('AutoEntryMain finished')
         self.finished_signal.emit()
     
     def stop(self):
         print('Stopping AutoEntryMain...')
-        self._stop_requested = True
-        for comp in self._stoppable_subcomponents:
-            comp.stop()
+        ThreadSafeStoppableWithSubComponents.stop(self)
