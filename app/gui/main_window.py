@@ -1,6 +1,7 @@
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QMessageBox
+from pathlib import Path
 from app.integration.auto_entry_main import AutoEntryMain
 from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataReader
 from app.gui.main_window_base import Ui_MainWindow
@@ -20,6 +21,12 @@ class MainWindowFunctional(Ui_MainWindow):
     
     def setupUi(self, MainWindow):
         super().setupUi(MainWindow)
+
+        icon_path = str(Path(__file__).parent / "red_clock_z0x_2.ico")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(icon_path), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
+
         self.select_data_button.clicked.connect(self.select_data_button_clicked)
         self.username_selector.currentIndexChanged.connect(self.username_changed)
         self.run_button.clicked.connect(self.run_button_clicked)

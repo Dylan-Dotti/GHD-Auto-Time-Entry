@@ -174,4 +174,4 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
         self._kc.press_select_to_end(post_delay=.1)
         self._kc.press_copy(post_delay=.25)
         cell_content = paste()
-        return cell_content is not None and len(cell_content) > 0 and any(char != ' ' for char in cell_content)
+        return len(cell_content) > 0 and any(char != ' ' for char in cell_content)
