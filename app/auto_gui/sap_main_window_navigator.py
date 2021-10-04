@@ -62,6 +62,9 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
         self._kc.press_f_key('f7', modifier_key='shift', post_delay=1)
     
     def delete_all_entries(self) -> None:
+        if not self._test_cell_has_data():
+            print('No data detected in starting cell, cancelling delete all entries')
+            return
         self.select_all_entries()
         if self._stop_requested:
             self._on_stop_request_acknowledge()
