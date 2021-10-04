@@ -11,7 +11,7 @@ class OptionPrefs:
         self.num_sap_rows = num_sap_rows
         self.use_fn_button = use_fn_button
     
-    def to_dict(self) -> Dict[any]:
+    def to_dict(self) -> Dict[str, any]:
         return {
             'data_directory': self.data_directory,
             'name': self.name,
@@ -20,7 +20,7 @@ class OptionPrefs:
         }
     
     @staticmethod
-    def from_dict(data: Dict[any]):
+    def from_dict(data: Dict[str, any]):
         return OptionPrefs(
             data['data_directory'],
             data['name'],
