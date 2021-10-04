@@ -187,12 +187,12 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
     
     def _get_cell_data(self) -> str:
         copy('')
-        time.sleep(.2)
+        time.sleep(.05)
         # pressing ctrl-a will cause the window to lose foreground status
         # shift-home and shift-end work though
-        self._kc.press_key('home', post_delay=.1)
-        self._kc.press_select_to_end(post_delay=.1)
-        self._kc.press_copy(post_delay=.2)
+        self._kc.press_key('home', post_delay=.05)
+        self._kc.press_select_to_end(post_delay=.05)
+        self._kc.press_copy(post_delay=.1)
         return paste()
     
     def _test_cell_has_data(self, test_data: str = None) -> bool:

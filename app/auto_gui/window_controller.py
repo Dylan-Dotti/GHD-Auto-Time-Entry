@@ -15,7 +15,7 @@ class WindowController(ThreadSafeStoppable):
         self._window = self._find_window(window_names, find_window_timeout)
     
     def stop(self):
-        print('Stopping window_controller')
+        print('Stopping window_controller...')
         super().stop()
     
     def _on_stop_request_acknowledge(self):

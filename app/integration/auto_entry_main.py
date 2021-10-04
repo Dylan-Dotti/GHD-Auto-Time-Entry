@@ -43,7 +43,12 @@ class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
             # create pages for a provided month
 
             # ***Needs to be changed to use the month of the selected sheet**
-            pages = data_formatter.create_pages(9)
+            start_month = int(self.st.split('/')[0])
+            end_month = int(self.ed.split('/')[0])
+            try:
+                pages = data_formatter.create_pages(start_month)
+            except:
+                pages = data_formatter.create_pages(end_month)
 
             # create a new formatter instance with the test data
             zdt_formatter = data_formatter(self._user_name, zendesk_rows, pages)
