@@ -172,7 +172,10 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
 
     
     def page_down(self):
-        self._kc.press_key('pgdn', post_delay=2)
+        for _ in range(15):
+            self._kc.press_key('pgdn', post_delay=2)
+            if not self._test_cell_has_data():
+                break
         if not self._has_paged_down:
             self._has_paged_down = True
             self._rows_per_page += 1
