@@ -140,16 +140,36 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
                 else:
                     self.page_down()
 
-    def move_to_day(self, day_index):
+    def move_to_day(self, day_index, expected_data: str = None):
         if day_index < 0 or day_index > 6:
             raise ValueError('Invalid day index: ' + day_index)
         target_str = 'day' + str((day_index + 1))
         target_index = self._row_layout.index(target_str)
+        start_index = self._current_col_index
         while self._current_col_index != target_index:
             if self._current_col_index < target_index:
                 self.move_next_col()
             elif self._current_col_index > target_index:
                 self.move_prev_col()
+        # check for misalignment in case of SAP lag
+        if expected_data is not None and not self._test_cell_has_data(expected_data):
+            print('Misalignment detected. Attempting correction...')
+            self._current_col_index = start_index
+            while self._current_col_index != target_index:
+                # move in direction of target
+                if self._current_col_index < target_index:
+                    self.move_next_col()
+                elif self._current_col_index > target_index:
+                    self.move_prev_col()
+                # check if reached target
+                if self._test_cell_has_data(expected_data):
+                    print('Alignment corrected')
+                    self._current_col_index = target_index
+                    return
+            # failed correction, throw error
+            print()
+            raise RuntimeError('Failed misalignment correction.')
+
     
     def page_down(self):
         self._kc.press_key('pgdn', post_delay=2)
@@ -162,16 +182,29 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
         self.move_first_empty_row(reversed=True, empty_reversed=True)
         self.move_next_row_direct()
 
-    def _row_length(self):
+    def _row_length(self) -> int:
         return len(self._row_layout)
     
-    def _test_cell_has_data(self):
+    def _get_cell_data(self) -> str:
         copy('')
         time.sleep(.2)
         # pressing ctrl-a will cause the window to lose foreground status
         # shift-home and shift-end work though
         self._kc.press_key('home', post_delay=.1)
         self._kc.press_select_to_end(post_delay=.1)
-        self._kc.press_copy(post_delay=.25)
-        cell_content = paste()
-        return len(cell_content) > 0 and any(char != ' ' for char in cell_content)
+        self._kc.press_copy(post_delay=.2)
+        return paste()
+    
+    def _test_cell_has_data(self, test_data: str = None) -> bool:
+        cell_content = self._get_cell_data()
+        if test_data is None:
+            return len(cell_content) > 0
+        else:
+            if cell_content == test_data:
+                return True
+            try:
+                cell_content_f = float(cell_content)
+                test_data_f = float(test_data)
+                return abs(cell_content_f - test_data_f) <= 0.009
+            except ValueError:
+                return False

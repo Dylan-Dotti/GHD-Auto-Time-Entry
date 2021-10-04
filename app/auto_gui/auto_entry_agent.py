@@ -31,17 +31,23 @@ class AutoEntryAgent(ThreadSafeStoppableWithSubComponents):
             # Paste row data
             copy(row.to_sap_str())
             time.sleep(.25)
-            self._main_kc.press_paste(post_delay=.25)
+            self._main_kc.press_paste(post_delay=.2)
             self._main_kc.press_enter(post_delay=.5)
             # Move through cells and input notes
+            verified_alignment = False
             for day_index, entry in enumerate(row.date_entries):
                 if entry is not None:
-                    self._main_nav.move_to_day(day_index)
+                    # move to day in grid, verify alignment if needed
+                    expected_data = None if verified_alignment else entry.time
+                    if expected_data is not None:
+                        verified_alignment = True
+                    self._main_nav.move_to_day(day_index, expected_data=expected_data)
+                    # open details window and paste note
                     details_nav, details_kc = self._main_nav.open_cell_details()
                     self.add_stoppable_subcomponent(details_nav)
                     copy(entry.note)
                     details_nav.move_to_short_text_field()
-                    details_kc.press_paste(post_delay=.25)
+                    details_kc.press_paste(post_delay=.2)
                     details_nav.confirm_and_close()
                     self.remove_stoppable_subcomponent(details_nav)
             if row_index < len(self._data_rows) - 1:
