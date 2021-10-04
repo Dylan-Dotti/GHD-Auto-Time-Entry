@@ -5,6 +5,7 @@ from pathlib import Path
 from app.integration.auto_entry_main import AutoEntryMain
 from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataReader
 from app.gui.main_window_base import Ui_MainWindow
+from app.option_preferences.option_prefs import OptionPrefs
 
 '''
     Extends Ui_MainWindow to provide custom functionality
@@ -13,8 +14,9 @@ from app.gui.main_window_base import Ui_MainWindow
 class MainWindowFunctional(Ui_MainWindow):
     _not_running_message = 'Not running'
 
-    def __init__(self) -> None:
+    def __init__(self, option_prefs: OptionPrefs = None) -> None:
         super().__init__()
+        self._option_prefs = option_prefs
         self.auto_entry_thread = None
         self.auto_entry_worker = None
         self.reader = None
@@ -143,14 +145,14 @@ class MainWindowFunctional(Ui_MainWindow):
         self.use_fn_checkbox.setEnabled(enabled)
 
 
-def launch_window():
+def launch_window(option_prefs: OptionPrefs = None):
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = MainWindowFunctional()
+    ui = MainWindowFunctional(option_prefs=option_prefs)
     ui.setupUi(MainWindow)
     MainWindow.show()
-    sys.exit(app.exec_())
+    app.exec_()
 
 
 if __name__ == "__main__":
