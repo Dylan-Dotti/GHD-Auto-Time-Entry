@@ -7,6 +7,7 @@ def main():
     option_prefs_interface = OptionPrefsJsonInterface()
     try:
         option_prefs = option_prefs_interface.load_option_prefs()
+        print(option_prefs)
     except:
         print(traceback.format_exc())
         option_prefs = None

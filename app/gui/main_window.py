@@ -66,6 +66,8 @@ class MainWindowFunctional(Ui_MainWindow):
 
     def set_username_selector(self):  
         self.username_selector.addItems(self.reader.get_users())
+        if self._option_prefs.name:
+           self.username_selector.setCurrentIndex(self.reader.get_users().index(self._option_prefs.name))
 
     def username_changed(self):
         # need this because this is triggered when the selector is cleared as well
@@ -83,6 +85,8 @@ class MainWindowFunctional(Ui_MainWindow):
         self._set_configure_controls_enabled(False)
         self.run_button.setEnabled(False)
 
+        # if a user is running the app w/ a name, they probably want that name to be the default
+        self._option_prefs.name = self.username_selector.currentText()
         self.auto_entry_thread = QThread()
         self.auto_entry_worker = AutoEntryMain(
             self.selected_file_label.text(),
