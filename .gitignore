@@ -1,6 +1,7 @@
 
 app.egg-info/
 dist/
+build/
 __pycache__/
 venv/
 .vscode/settings.json

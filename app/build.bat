@@ -1,0 +1,1 @@
+pyinstaller --onefile  GHD_TIME_ENTRY_PL.spec
