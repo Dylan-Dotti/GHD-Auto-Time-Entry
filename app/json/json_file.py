@@ -2,6 +2,7 @@ from typing import Dict
 import json
 # Logical representation of a Json file
 # that provides reading and writing functionality
+
 class JsonFile:
 
     def __init__(self, file_path: str) -> None:

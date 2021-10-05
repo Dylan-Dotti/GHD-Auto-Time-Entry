@@ -3,4 +3,4 @@
 from pathlib import Path
 
 def get_option_prefs_path() -> str:
-    return str(Path(__file__).parent / "json_files" / "option_prefs.json")
+    return Path(r"{input_path}".format(input_path=f"{str(Path.cwd())}\option_prefs.json"))
