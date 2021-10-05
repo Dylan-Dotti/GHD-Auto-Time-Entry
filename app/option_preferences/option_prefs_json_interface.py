@@ -12,7 +12,6 @@ class OptionPrefsJsonInterface:
         print('Loading option preferences...')
         option_prefs_file = self._json_file_factory.get_option_prefs_file()
         option_prefs_dict = option_prefs_file.read_data()
-        print(option_prefs_dict)
         return OptionPrefs.from_dict(option_prefs_dict)
     
     def save_option_prefs(self, prefs: OptionPrefs) -> None:
