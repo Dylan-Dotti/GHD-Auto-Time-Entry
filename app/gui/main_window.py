@@ -29,8 +29,21 @@ class MainWindowFunctional(Ui_MainWindow):
         icon.addPixmap(QtGui.QPixmap(icon_path), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
 
+        self.error_dialog = QMessageBox()
+        self.error_dialog.setWindowTitle('Error!')
+        self.error_dialog.setIcon(QMessageBox.Critical)
+        self.error_dialog.setStandardButtons(QMessageBox.Ok)
+
+        if self._option_prefs is not None:
+            if self._option_prefs.num_sap_rows is not None:
+                self.rows_per_page_box.setValue(self._option_prefs.num_sap_rows)
+            if self._option_prefs.use_fn_button is not None:
+                self.use_fn_checkbox.setChecked(self._option_prefs.use_fn_button)
+
         self.select_data_button.clicked.connect(self.select_data_button_clicked)
         self.username_selector.currentIndexChanged.connect(self.username_changed)
+        self.rows_per_page_box.valueChanged.connect(self.rows_per_page_changed)
+        self.use_fn_checkbox.stateChanged.connect(self.use_fn_state_changed)
         self.run_button.clicked.connect(self.run_button_clicked)
         self.stop_button.clicked.connect(self.stop_button_clicked)
 
@@ -39,7 +52,8 @@ class MainWindowFunctional(Ui_MainWindow):
         
         # if valid file name selected
         if file_name:
-            
+            self._option_prefs.data_directory = str(Path(file_name).parent)
+
             self.reset_file_selector()
             self.selected_file_label.setText(file_name)
 
@@ -53,26 +67,22 @@ class MainWindowFunctional(Ui_MainWindow):
 
             self.run_button.setEnabled(True)
 
-        self.error_dialog = QMessageBox()
-        self.error_dialog.setWindowTitle('Error!')
-        self.error_dialog.setIcon(QMessageBox.Critical)
-        self.error_dialog.setStandardButtons(QMessageBox.Ok)
-
     def reset_file_selector(self):
         if self.reader:
             self.reader = None
             self.username_selector.clear()
             self.week_selector.clear()
 
-    def set_username_selector(self):  
+    def set_username_selector(self):
         self.username_selector.addItems(self.reader.get_users())
         if self._option_prefs.name:
-           self.username_selector.setCurrentIndex(self.reader.get_users().index(self._option_prefs.name))
+            self.username_selector.setCurrentIndex(self.reader.get_users().index(self._option_prefs.name))
 
     def username_changed(self):
         # need this because this is triggered when the selector is cleared as well
         if self.reader:
             username = self.username_selector.currentText()
+            self._option_prefs.name = username
             self.week_selector.clear()
             self.set_week_selector(username)
 
@@ -113,6 +123,12 @@ class MainWindowFunctional(Ui_MainWindow):
         self._publish_status_message('Stopping...')
         self.auto_entry_worker.stop()
     
+    def rows_per_page_changed(self, value):
+        self._option_prefs.num_sap_rows = value
+    
+    def use_fn_state_changed(self, state):
+        self._option_prefs.use_fn_button = self.use_fn_checkbox.isChecked()
+    
     def _on_auto_entry_started(self):
         self._publish_status_message('Running')
     
@@ -127,9 +143,13 @@ class MainWindowFunctional(Ui_MainWindow):
         self._show_error_popup(str(ex))
 
     def _open_file_selector(self):
+        base_dir = str(("" if not self._option_prefs or 
+                    not self._option_prefs.data_directory else
+                    self._option_prefs.data_directory))
+        print('base_dir:', base_dir)
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(
-            None, "Select Zendesk Data", "","Excel Files (*.xlsx)")
-        return fileName
+            None, "Select Zendesk Data", base_dir, "Excel Files (*.xlsx)")
+        return str(fileName)
 
     def _show_error_popup(self, msg: str):
         self.error_dialog.setText(msg)
