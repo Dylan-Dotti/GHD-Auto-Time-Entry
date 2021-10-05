@@ -1,3 +1,4 @@
+import traceback
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QMessageBox
@@ -48,24 +49,29 @@ class MainWindowFunctional(Ui_MainWindow):
         self.stop_button.clicked.connect(self.stop_button_clicked)
 
     def select_data_button_clicked(self):
-        file_name = self._open_file_selector()
-        
-        # if valid file name selected
-        if file_name:
-            self._option_prefs.data_directory = str(Path(file_name).parent)
+        try:
+            file_path = self._open_file_selector()
+            
+            # if valid file name selected
+            if file_path:
+                self._option_prefs.data_directory = str(Path(file_path).parent)
 
-            self.reset_file_selector()
-            self.selected_file_label.setText(file_name)
+                self.reset_file_selector()
+                self.selected_file_label.setText(file_path)
 
-            self.username_selector.setEnabled(True)
-            self.week_selector.setEnabled(True)
+                self.username_selector.setEnabled(True)
+                self.week_selector.setEnabled(True)
 
-            self.reader = ZendeskDataReader(file_name)
-            self.reader.load_wb()
+                self.reader = ZendeskDataReader(file_path)
+                self.reader.load_wb()
 
-            self.set_username_selector()
+                self.set_username_selector()
 
-            self.run_button.setEnabled(True)
+                self.run_button.setEnabled(True)
+
+        except Exception as ex:
+            print(traceback.format_exc())
+            self._show_error_popup(str(ex))
 
     def reset_file_selector(self):
         if self.reader:
