@@ -11,7 +11,6 @@ class JsonFileFactory:
         p_str = str(p)
         print('option prefs path:', p_str)
         if p.is_file():
-            print('found option prefs file')
             return JsonFile(p_str)
         
         print("Option prefs file not found. Generating default...")
