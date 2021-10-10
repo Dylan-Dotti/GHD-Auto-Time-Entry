@@ -7,6 +7,8 @@ from app.data_formatter.readers.zendesk.zendesk_data_row import ZendeskDataRow
 from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow, DateEntry
 from app.data_formatter.SAP_Objects.SAP_Page import SapDataPage
 
+CHAR_CUTOFF = 35
+
 class MergeRow:
 
     # Params:
@@ -124,7 +126,7 @@ class SAPDataFormatter(DataFormatter):
 
                 changed from 40 to 35.
             '''
-            if count >= 35: # this should also allow the commas to be added since it will drop the last ticket id, we'll have 5 chars for commas
+            if count >= CHAR_CUTOFF: # this should also allow the commas to be added since it will drop the last ticket id, we'll have 5 chars for commas
                 ticket_slices.append(curr_ticket)
                 curr_ticket = set()
 
