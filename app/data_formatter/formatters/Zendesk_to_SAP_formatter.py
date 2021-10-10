@@ -117,7 +117,14 @@ class SAPDataFormatter(DataFormatter):
                 4. create a new list for time
                 5. set the char count to 0
             '''
-            if count >= 40: # this should also allow the commas to be added since it will drop the last ticket id, we'll have 5 chars for commas
+            '''
+                10/10/21
+                cut off the last digit because of adding commas, the below comment is incorrect.
+                ** this should also allow the commas to be added since it will drop the last ticket id, we'll have 5 chars for commas
+
+                changed from 40 to 35.
+            '''
+            if count >= 35: # this should also allow the commas to be added since it will drop the last ticket id, we'll have 5 chars for commas
                 ticket_slices.append(curr_ticket)
                 curr_ticket = set()
 
