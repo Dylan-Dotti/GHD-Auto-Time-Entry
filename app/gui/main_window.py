@@ -41,7 +41,9 @@ class MainWindowFunctional(Ui_MainWindow):
         self.error_dialog.setIcon(QMessageBox.Critical)
         self.error_dialog.setStandardButtons(QMessageBox.Ok)
 
-        self._configure_cols_dialog = ConfigureColumnsWindow()
+        # initialize configure columns dialog
+        self._configure_cols_dialog = ConfigureColumnsWindow(
+            self._option_prefs.column_layout if self._option_prefs else None)
 
         # setup GUI prefs where possible
         if self._option_prefs is not None:

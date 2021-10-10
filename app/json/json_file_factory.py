@@ -9,7 +9,7 @@ class JsonFileFactory:
     def get_option_prefs_file(self) -> JsonFile:
         p = get_option_prefs_path()
         p_str = str(p)
-        print('option prefs path:', p_str)
+        print('Option prefs path:', p_str)
         if p.is_file():
             return JsonFile(p_str)
         

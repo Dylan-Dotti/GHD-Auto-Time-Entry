@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>338</width>
+    <width>363</width>
     <height>396</height>
    </rect>
   </property>
@@ -18,270 +18,306 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="widgetResizable">
-      <bool>true</bool>
+    <widget class="QLabel" name="label_2">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
      </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>318</width>
-        <height>346</height>
-       </rect>
+     <property name="text">
+      <string>Configure column visibility &amp; ordering</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QListWidget" name="configure_columns_list">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="dragDropMode">
+      <enum>QAbstractItemView::InternalMove</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>ActTyp</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QListWidget" name="listWidget">
-         <property name="font">
-          <font>
-           <pointsize>11</pointsize>
-          </font>
-         </property>
-         <property name="dragDropMode">
-          <enum>QAbstractItemView::InternalMove</enum>
-         </property>
-         <item>
-          <property name="text">
-           <string>Act. Typ</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>A/AType</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Rec. CCtr</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Receiver WBS</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>MU</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Monday</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-          <property name="flags">
-           <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Monday - from</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Monday - to</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Tuesday</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-          <property name="flags">
-           <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Tuesday - from</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Tuesday - to</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Wednesday</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-          <property name="flags">
-           <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Wednesday - from</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Wednesday - to</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Thursday</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-          <property name="flags">
-           <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Thursday - from</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Thursday - to</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Friday</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-          <property name="flags">
-           <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Friday - from</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Friday - to</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Saturday</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-          <property name="flags">
-           <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Saturday - from</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Saturday - to</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Sunday</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-          <property name="flags">
-           <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Sunday - from</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Sunday - to</string>
-          </property>
-          <property name="checkState">
-           <enum>Checked</enum>
-          </property>
-         </item>
-        </widget>
-       </item>
-      </layout>
-     </widget>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>ActivityTypeText</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Rec. CCtr</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Receiver WBS</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+      <property name="flags">
+       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>A/AType</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Att./abs type text</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Project description</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>WBS element description</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>MU</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Total</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Monday</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+      <property name="flags">
+       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Monday - from</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Monday - to</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Tuesday</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+      <property name="flags">
+       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Tuesday - from</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Tuesday - to</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Wednesday</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+      <property name="flags">
+       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Wednesday - from</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Wednesday - to</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Thursday</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+      <property name="flags">
+       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Thursday - from</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Thursday - to</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Friday</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+      <property name="flags">
+       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Friday - from</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Friday - to</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Saturday</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+      <property name="flags">
+       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Saturday - from</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Saturday - to</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Sunday</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+      <property name="flags">
+       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Sunday - from</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Sunday - to</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
     </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="font">
       <font>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="orientation">
