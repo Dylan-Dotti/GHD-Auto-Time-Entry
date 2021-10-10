@@ -1,5 +1,6 @@
 from app.gui.configure_columns_base import Ui_Dialog
-from PyQt5 import QtWidgets
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import QDialog
 
 
 class ConfigureColumnsWindow(Ui_Dialog):
@@ -9,13 +10,11 @@ class ConfigureColumnsWindow(Ui_Dialog):
 
     def setupUi(self, Dialog):
         super().setupUi(Dialog)
-
-
-def launch_window():
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = ConfigureColumnsWindow()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    app.exec_()
+    
+    def show_as_dialog(self):
+        dialog = QDialog()
+        dialog.ui = self
+        dialog.ui.setupUi(dialog)
+        dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        dialog.show()
+        dialog.exec_()

@@ -28,17 +28,22 @@ class MainWindowFunctional(Ui_MainWindow):
     def setupUi(self, MainWindow):
         super().setupUi(MainWindow)
 
+        # set window icon
         icon_path = str(Path(__file__).parent / "red_clock_z0x_2.ico")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(icon_path),
                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
 
+        # initialize error window
         self.error_dialog = QMessageBox()
         self.error_dialog.setWindowTitle('Error!')
         self.error_dialog.setIcon(QMessageBox.Critical)
         self.error_dialog.setStandardButtons(QMessageBox.Ok)
 
+        self._configure_cols_dialog = ConfigureColumnsWindow()
+
+        # setup GUI prefs where possible
         if self._option_prefs is not None:
             if self._option_prefs.num_sap_rows is not None:
                 self.rows_per_page_box.setValue(
@@ -47,6 +52,7 @@ class MainWindowFunctional(Ui_MainWindow):
                 self.use_fn_checkbox.setChecked(
                     self._option_prefs.use_fn_button)
 
+        # connect events
         self.select_data_button.clicked.connect(
             self.select_data_button_clicked)
         self.username_selector.currentIndexChanged.connect(
@@ -99,12 +105,7 @@ class MainWindowFunctional(Ui_MainWindow):
             '%m/%d/%Y') + " - " + end.strftime('%m/%d/%Y') for start, end in sorted(list(weeks))])
 
     def configure_columns_clicked(self):
-        dialog = QDialog()
-        dialog.ui = ConfigureColumnsWindow()
-        dialog.ui.setupUi(dialog)
-        dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-        dialog.show()
-        dialog.exec_()
+        self._configure_cols_dialog.show_as_dialog()
 
     def run_button_clicked(self):
         print('Running Auto Entry...')
