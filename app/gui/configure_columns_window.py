@@ -1,3 +1,4 @@
+from typing import Callable
 from app.gui.configure_columns_base import Ui_Dialog
 from app.option_preferences.column_layout.sap_column import SapColumn
 from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
@@ -7,10 +8,12 @@ from PyQt5.QtWidgets import QDialog, QListWidgetItem
 
 class ConfigureColumnsWindow(Ui_Dialog):
 
-    def __init__(self, column_layout: SapColumnLayout = None) -> None:
+    def __init__(self, column_layout: SapColumnLayout = None,
+                 on_layout_changed: Callable[[SapColumnLayout], None] = None) -> None:
         super().__init__()
         self._column_layout = column_layout
         self._item_index_tuples = []
+        self._on_layout_changed = on_layout_changed
 
     def setupUi(self, Dialog):
         super().setupUi(Dialog)
@@ -52,4 +55,6 @@ class ConfigureColumnsWindow(Ui_Dialog):
             current_col.visible = list_item.checkState() != 0
             new_columns.append(current_col)
         self._column_layout = SapColumnLayout(new_columns)
+        if self._on_layout_changed:
+            self._on_layout_changed(self._column_layout)
 

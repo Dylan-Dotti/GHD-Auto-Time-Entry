@@ -1,20 +1,20 @@
 import traceback
-from PyQt5 import QtCore, QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import QThread
-from PyQt5.QtWidgets import QMessageBox, QDialog
+from PyQt5.QtWidgets import QMessageBox
 from pathlib import Path
 from app.integration.auto_entry_main import AutoEntryMain
 from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataReader
 from app.gui.main_window_base import Ui_MainWindow
 from app.gui.configure_columns_window import ConfigureColumnsWindow
+from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
 from app.option_preferences.option_prefs import OptionPrefs
+
 
 '''
     Extends Ui_MainWindow to provide custom functionality
     Ui_Main_Window overwrites any changes when rebuilt
 '''
-
-
 class MainWindowFunctional(Ui_MainWindow):
     _not_running_message = 'Not running'
 
@@ -42,8 +42,9 @@ class MainWindowFunctional(Ui_MainWindow):
         self.error_dialog.setStandardButtons(QMessageBox.Ok)
 
         # initialize configure columns dialog
-        self._configure_cols_dialog = ConfigureColumnsWindow(
-            self._option_prefs.column_layout if self._option_prefs else None)
+        self.configure_cols_dialog = ConfigureColumnsWindow(
+            self._option_prefs.column_layout if self._option_prefs else None,
+            on_layout_changed=self.column_layout_changed)
 
         # setup GUI prefs where possible
         if self._option_prefs is not None:
@@ -107,17 +108,23 @@ class MainWindowFunctional(Ui_MainWindow):
             '%m/%d/%Y') + " - " + end.strftime('%m/%d/%Y') for start, end in sorted(list(weeks))])
 
     def configure_columns_clicked(self):
-        self._configure_cols_dialog.show_as_dialog()
+        self.configure_cols_dialog.show_as_dialog()
+    
+    def column_layout_changed(self, new_layout: SapColumnLayout):
+        if self._option_prefs:
+            self._option_prefs.column_layout = new_layout
 
     def run_button_clicked(self):
         print('Running Auto Entry...')
         self._set_configure_controls_enabled(False)
         self.run_button.setEnabled(False)
 
-        # if a user is running the app w/ a name, they probably want that name to be the default
-        self._option_prefs.name = self.username_selector.currentText()
-        self._option_prefs.num_sap_rows = self.rows_per_page_box.value()
-        self._option_prefs.use_fn_button = self.use_fn_checkbox.isChecked()
+        # Update option prefs object if it isn't None
+        if self._option_prefs:
+            self._option_prefs.name = self.username_selector.currentText()
+            self._option_prefs.num_sap_rows = self.rows_per_page_box.value()
+            self._option_prefs.use_fn_button = self.use_fn_checkbox.isChecked()
+            self._option_prefs.column_layout = self.configure_cols_dialog.get_column_layout()
 
         self.auto_entry_thread = QThread()
         self.auto_entry_worker = AutoEntryMain(
@@ -126,7 +133,8 @@ class MainWindowFunctional(Ui_MainWindow):
             self.clear_data_checkbox.isChecked(),
             self.use_fn_checkbox.isChecked(),
             self.week_selector.currentText(),
-            self.rows_per_page_box.value())
+            self.rows_per_page_box.value(),
+            self.configure_cols_dialog.get_column_layout())
 
         self.auto_entry_worker.moveToThread(self.auto_entry_thread)
         self.auto_entry_thread.started.connect(self.auto_entry_worker.run)
