@@ -76,8 +76,10 @@ class MainWindowFunctional(Ui_MainWindow):
                 self.reader = ZendeskDataReader(file_path)
                 self.reader.load_wb()
                 self.set_username_selector()
-                self.username_selector.setEnabled(True)
-                self.week_selector.setEnabled(True)
+                self.username_selector.setEnabled(
+                    self.username_selector.count() > 1)
+                self.week_selector.setEnabled(
+                    self.week_selector.count() > 1)
                 self.run_button.setEnabled(True)
         except Exception as ex:
             print(traceback.format_exc())
@@ -126,6 +128,7 @@ class MainWindowFunctional(Ui_MainWindow):
             self._option_prefs.use_fn_button = self.use_fn_checkbox.isChecked()
             self._option_prefs.column_layout = self.configure_cols_dialog.get_column_layout()
 
+        # setup app thread
         self.auto_entry_thread = QThread()
         self.auto_entry_worker = AutoEntryMain(
             self.selected_file_label.text(),
@@ -136,6 +139,7 @@ class MainWindowFunctional(Ui_MainWindow):
             self.rows_per_page_box.value(),
             self.configure_cols_dialog.get_column_layout())
 
+        # connect thread events
         self.auto_entry_worker.moveToThread(self.auto_entry_thread)
         self.auto_entry_thread.started.connect(self.auto_entry_worker.run)
         self.auto_entry_thread.finished.connect(
@@ -150,8 +154,9 @@ class MainWindowFunctional(Ui_MainWindow):
             self._on_auto_entry_finished)
         self.auto_entry_worker.exception_signal.connect(
             self._on_auto_entry_exception)
-        self.auto_entry_thread.start()
 
+        # Start running auto entry main in thread
+        self.auto_entry_thread.start()
         self.stop_button.setEnabled(True)
 
     def stop_button_clicked(self):
@@ -196,6 +201,7 @@ class MainWindowFunctional(Ui_MainWindow):
         self.rows_per_page_box.setEnabled(enabled)
         self.clear_data_checkbox.setEnabled(enabled)
         self.use_fn_checkbox.setEnabled(enabled)
+        self.configure_columns_button.setEnabled(enabled)
 
 
 def launch_window(option_prefs: OptionPrefs = None):
