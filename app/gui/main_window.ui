@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>527</width>
-    <height>353</height>
+    <height>369</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -59,7 +59,7 @@
              </property>
              <property name="font">
               <font>
-               <pointsize>10</pointsize>
+               <pointsize>8</pointsize>
               </font>
              </property>
              <property name="cursor">
@@ -195,6 +195,75 @@ margin-right: 0px;
           </layout>
          </item>
          <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item alignment="Qt::AlignLeft">
+            <widget class="QLabel" name="label_3">
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">padding-left: 5px</string>
+             </property>
+             <property name="text">
+              <string>Rows per Page:</string>
+             </property>
+            </widget>
+           </item>
+           <item alignment="Qt::AlignLeft">
+            <widget class="QSpinBox" name="rows_per_page_box">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">padding: 2px 5px</string>
+             </property>
+             <property name="value">
+              <number>8</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="configure_columns_button">
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">padding: 6px 15px;
+margin-left: 20px</string>
+             </property>
+             <property name="text">
+              <string>Configure Columns</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item alignment="Qt::AlignVCenter">
             <widget class="QCheckBox" name="clear_data_checkbox">
@@ -240,75 +309,6 @@ QCheckBox::indicator {
            </item>
            <item>
             <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
-           <item alignment="Qt::AlignLeft">
-            <widget class="QLabel" name="label_3">
-             <property name="font">
-              <font>
-               <pointsize>8</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">padding-left: 5px</string>
-             </property>
-             <property name="text">
-              <string>Rows per Page:</string>
-             </property>
-            </widget>
-           </item>
-           <item alignment="Qt::AlignLeft">
-            <widget class="QSpinBox" name="rows_per_page_box">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>9</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">padding: 2px 5px</string>
-             </property>
-             <property name="value">
-              <number>8</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="configure_columns_button">
-             <property name="font">
-              <font>
-               <pointsize>9</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">padding: 6px 15px;
-margin-left: 25px</string>
-             </property>
-             <property name="text">
-              <string>Configure Columns</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_4">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -411,7 +411,7 @@ margin-left: 25px</string>
      <x>0</x>
      <y>0</y>
      <width>527</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
