@@ -1,20 +1,23 @@
-from app.interfaces.threadsafe_stoppable_w_subcomponents import ThreadSafeStoppableWithSubComponents
+import time
 from app.auto_gui.keyboard_controller import KeyboardController
 from app.auto_gui.sap_main_window_navigator import SapMainWindowNavigator
 from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow
-from typing import List
+from app.interfaces.threadsafe_stoppable_w_subcomponents import ThreadSafeStoppableWithSubComponents
+from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
 from pandas.io.clipboard import copy, paste
-import time
+from typing import List
 
 class AutoEntryAgent(ThreadSafeStoppableWithSubComponents):
 
     def __init__(self, main_kc: KeyboardController,
                  main_nav: SapMainWindowNavigator,
-                 data_rows: List[SapDataRow]) -> None:
+                 data_rows: List[SapDataRow],
+                 column_layout: SapColumnLayout) -> None:
         super().__init__()
         self._main_kc = main_kc
         self._main_nav = main_nav
         self._data_rows = data_rows
+        self._column_layout = column_layout
 
     def execute(self, clear_data = False) -> None:
         self.clear_subcomponents()
@@ -29,8 +32,8 @@ class AutoEntryAgent(ThreadSafeStoppableWithSubComponents):
             if self._stop_requested:
                 self._on_stop_request_acknowledge()
             # Paste row data
-            copy(row.to_sap_str())
-            time.sleep(.25)
+            copy(row.to_sap_str_dynamic(self._column_layout))
+            time.sleep(.05)
             self._main_kc.press_paste(post_delay=.2)
             self._main_kc.press_enter(post_delay=.5)
             # Move through cells and input notes

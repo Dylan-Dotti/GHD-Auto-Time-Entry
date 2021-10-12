@@ -75,8 +75,9 @@ class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
             self.remove_stoppable_subcomponent(main_wc)
 
             main_kc = KeyboardController(main_wc, use_fn_key=self._use_fn_key)
-            main_nav = SapMainWindowNavigator(main_kc, rows_per_page=self._num_sap_rows_per_page)
-            entry_agent = AutoEntryAgent(main_kc, main_nav, sap_rows)
+            main_nav = SapMainWindowNavigator(main_kc, self._num_sap_rows_per_page,
+                                              self._column_layout)
+            entry_agent = AutoEntryAgent(main_kc, main_nav, sap_rows, self._column_layout)
             self.add_stoppable_subcomponent(entry_agent)
 
             main_wc.set_window_foreground()

@@ -1,5 +1,5 @@
 from app.interfaces.threadsafe_stoppable_w_subcomponents import ThreadSafeStoppableWithSubComponents
-from app.interfaces.stoppable import Stoppable
+from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
 from app.auto_gui.sap_confirmat_prompt_window_navigator import SapConfirmatPromptWindowNavigator
 from typing import Tuple
 from app.auto_gui.keyboard_controller import KeyboardController
@@ -7,28 +7,26 @@ from app.auto_gui.sap_details_window_navigator import SapDetailsWindowNavigator
 from app.auto_gui.window_controller import WindowController
 from pandas.io.clipboard import copy, paste
 import app.auto_gui.window_names as win_names
+import app.option_preferences.column_layout.column_names as cnames
 import time
 
 
 class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
 
-    def __init__(self, sap_keyboard_controller: KeyboardController, rows_per_page: int) -> None:
+    def __init__(self, sap_keyboard_controller: KeyboardController,
+                 rows_per_page: int, column_layout: SapColumnLayout) -> None:
         super().__init__()
         self._kc = sap_keyboard_controller
         self._current_row_index = 0
         self._current_col_index = 0
         self._rows_per_page = rows_per_page
         self._has_paged_down = False
-        self._row_layout = [
-            'activity_type', 'receiver_cc',
-            'receiver_wbs', 'abs_type',
-            'measure_unit', 'day1', 'from1',
-            'to1', 'day2', 'from2', 'to2',
-            'day3', 'from3', 'to3', 'day4',
-            'from4', 'to4', 'day5', 'from5',
-            'to5', 'day6', 'from6', 'to6',
-            'day7', 'from7', 'to7'
-        ]
+
+        self._col_layout_names = list(map(
+            lambda c: c.column_name, 
+            filter(lambda c: c.visible and c.interactable,
+                   column_layout.get_current_layout())))
+        
         self._stop_requested = False
         self.add_stoppable_subcomponent(self._kc)
     
@@ -146,8 +144,8 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
     def move_to_day(self, day_index, expected_data: str = None):
         if day_index < 0 or day_index > 6:
             raise ValueError('Invalid day index: ' + day_index)
-        target_str = 'day' + str((day_index + 1))
-        target_index = self._row_layout.index(target_str)
+        target_str = self._get_day(day_index)
+        target_index = self._col_layout_names.index(target_str)
         start_index = self._current_col_index
         while self._current_col_index != target_index:
             if self._current_col_index < target_index:
@@ -189,7 +187,7 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
         self.move_next_row_direct()
 
     def _row_length(self) -> int:
-        return len(self._row_layout)
+        return len(self._col_layout_names)
     
     def _get_cell_data(self) -> str:
         copy('')
@@ -214,3 +212,20 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
                 return abs(cell_content_f - test_data_f) <= 0.009
             except ValueError:
                 return False
+    
+    def _get_day(self, day_index) -> str:
+        if day_index == 0:
+            return cnames.MONDAY
+        if day_index == 1:
+            return cnames.TUESDAY
+        if day_index == 2:
+            return cnames.WEDNESDAY
+        if day_index == 3:
+            return cnames.THURSDAY
+        if day_index == 4:
+            return cnames.FRIDAY
+        if day_index == 5:
+            return cnames.SATURDAY
+        if day_index == 6:
+            return cnames.SUNDAY
+        return None
