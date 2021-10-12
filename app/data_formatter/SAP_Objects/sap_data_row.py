@@ -60,11 +60,7 @@ class SapDataRow:
         # generate column strings
         col_strings = []
         for col in column_layout.get_current_layout():
-            if not col.visible:
-                continue
-            if not col.interactable:
-                col_str = col.noninteractable_str
-            elif col.column_name == cnames.ACTTYP:
+            if col.column_name == cnames.ACTTYP:
                 col_str = self.act
             elif col.column_name == cnames.RECEIVER_WBS:
                 col_str = self.wbs
