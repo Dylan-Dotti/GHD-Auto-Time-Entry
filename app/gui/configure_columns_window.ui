@@ -57,6 +57,14 @@
      </item>
      <item>
       <property name="text">
+       <string>Project</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>Rec. CCtr</string>
       </property>
       <property name="checkState">

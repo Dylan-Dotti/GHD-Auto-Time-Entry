@@ -1,6 +1,7 @@
 
 ACTTYP = 'ActTyp'
 ACTIVITY_TYPE = 'Activity type text'
+PROJECT = 'Project'
 REC_CCTR = 'Rec. CCtr'
 RECEIVER_WBS = 'Receiver WBS element'
 AATYPE = 'A/AType'
