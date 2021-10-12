@@ -64,7 +64,7 @@ class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
             if len(sap_rows) == 0:
                 raise Exception('No results were produced for the configured settings.')
             sap_rows = sorted(sap_rows)
-            
+
             # auto entry
             self.clear_subcomponents()
 

@@ -1,3 +1,6 @@
+from typing import List
+import app.option_preferences.column_layout.column_names as cnames
+from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
 from datetime import datetime
 
 # Contains the data that is entered on a single day of a single row
@@ -31,7 +34,7 @@ class SapDataRow:
         self.unit = unit
         self.startDate = startDate
         self.endDate = endDate 
-        self.date_entries = [None] * 7 # Order of elements represents Mon-Sun.
+        self.date_entries: List[DateEntry] = [None] * 7 # Order of elements represents Mon-Sun.
     
     def add_time(self, data:DateEntry) -> None:
         dow = data.date.weekday()
@@ -44,14 +47,48 @@ class SapDataRow:
         sap_str = sap_str.replace('act', self.act)
         sap_str = sap_str.replace('wbs', self.wbs)
         sap_str = sap_str.replace('mu', self.unit)
-        sap_str = sap_str.replace('mon', self.date_entries[0].time if self.date_entries[0] is not None else '')
-        sap_str = sap_str.replace('tue', self.date_entries[1].time if self.date_entries[1] is not None else '')
-        sap_str = sap_str.replace('wed', self.date_entries[2].time if self.date_entries[2] is not None else '')
-        sap_str = sap_str.replace('thu', self.date_entries[3].time if self.date_entries[3] is not None else '')
-        sap_str = sap_str.replace('fri', self.date_entries[4].time if self.date_entries[4] is not None else '')
-        sap_str = sap_str.replace('sat', self.date_entries[5].time if self.date_entries[5] is not None else '')
-        sap_str = sap_str.replace('sun', self.date_entries[6].time if self.date_entries[6] is not None else '')
+        sap_str = sap_str.replace('mon', self.date_entries[0].time if self.date_entries[0] else '')
+        sap_str = sap_str.replace('tue', self.date_entries[1].time if self.date_entries[1] else '')
+        sap_str = sap_str.replace('wed', self.date_entries[2].time if self.date_entries[2] else '')
+        sap_str = sap_str.replace('thu', self.date_entries[3].time if self.date_entries[3] else '')
+        sap_str = sap_str.replace('fri', self.date_entries[4].time if self.date_entries[4] else '')
+        sap_str = sap_str.replace('sat', self.date_entries[5].time if self.date_entries[5] else '')
+        sap_str = sap_str.replace('sun', self.date_entries[6].time if self.date_entries[6] else '')
         return sap_str
+    
+    def to_sap_str_dynamic(self, column_layout: SapColumnLayout):
+        # generate column strings
+        col_strings = []
+        for col in column_layout.get_current_layout():
+            if not col.visible:
+                continue
+            if not col.interactable:
+                col_str = col.noninteractable_str
+            elif col.column_name == cnames.ACTTYP:
+                col_str = self.act
+            elif col.column_name == cnames.RECEIVER_WBS:
+                col_str = self.wbs
+            elif col.column_name == cnames.MU:
+                col_str = self.unit
+            elif col.column_name == cnames.MONDAY:
+                col_str = self.date_entries[0].time if self.date_entries[0] else ''
+            elif col.column_name == cnames.TUESDAY:
+                col_str = self.date_entries[1].time if self.date_entries[1] else ''
+            elif col.column_name == cnames.WEDNESDAY:
+                col_str = self.date_entries[2].time if self.date_entries[2] else ''
+            elif col.column_name == cnames.THURSDAY:
+                col_str = self.date_entries[3].time if self.date_entries[3] else ''
+            elif col.column_name == cnames.FRIDAY:
+                col_str = self.date_entries[4].time if self.date_entries[4] else ''
+            elif col.column_name == cnames.SATURDAY:
+                col_str = self.date_entries[5].time if self.date_entries[5] else ''
+            elif col.column_name == cnames.SUNDAY:
+                col_str = self.date_entries[6].time if self.date_entries[6] else ''
+            else:
+                col_str = ''
+            col_strings.append(col_str)
+        # combine column strings into row
+        return '\t'.join(col_strings)
 
     def __str__(self) -> str:
         return ('SapDataRow(act: %s, wbs: %s, mu: %s, date_entries: %s)' %
