@@ -18,6 +18,7 @@ class ConfigureColumnsWindow(Ui_Dialog):
     def setupUi(self, Dialog):
         super().setupUi(Dialog)
         self.buttonBox.accepted.connect(self._save_column_layout)
+        self.default_button.clicked.connect(self._default_button_clicked)
         self.set_column_layout(self._column_layout if self._column_layout else 
                                SapColumnLayout.from_default_layout())
     
@@ -57,4 +58,7 @@ class ConfigureColumnsWindow(Ui_Dialog):
         self._column_layout = SapColumnLayout(new_columns)
         if self._on_layout_changed:
             self._on_layout_changed(self._column_layout)
+    
+    def _default_button_clicked(self):
+        pass
 

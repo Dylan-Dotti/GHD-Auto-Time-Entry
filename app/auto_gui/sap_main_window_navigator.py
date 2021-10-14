@@ -22,6 +22,7 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
         self._rows_per_page = rows_per_page
         self._has_paged_down = False
 
+        # use the column names for columns that are visible and interactable
         self._col_layout_names = list(map(
             lambda c: c.column_name, 
             filter(lambda c: c.visible and c.interactable,

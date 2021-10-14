@@ -15,7 +15,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.setWindowModality(QtCore.Qt.ApplicationModal)
-        Dialog.resize(363, 396)
+        Dialog.resize(414, 425)
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_2 = QtWidgets.QLabel(Dialog)
@@ -135,6 +135,14 @@ class Ui_Dialog(object):
         item.setCheckState(QtCore.Qt.Checked)
         self.configure_columns_list.addItem(item)
         self.verticalLayout.addWidget(self.configure_columns_list)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.default_button = QtWidgets.QPushButton(Dialog)
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.default_button.setFont(font)
+        self.default_button.setObjectName("default_button")
+        self.horizontalLayout.addWidget(self.default_button)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         font = QtGui.QFont()
         font.setPointSize(9)
@@ -143,7 +151,8 @@ class Ui_Dialog(object):
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setCenterButtons(False)
         self.buttonBox.setObjectName("buttonBox")
-        self.verticalLayout.addWidget(self.buttonBox)
+        self.horizontalLayout.addWidget(self.buttonBox)
+        self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
@@ -221,6 +230,7 @@ class Ui_Dialog(object):
         item = self.configure_columns_list.item(31)
         item.setText(_translate("Dialog", "Sunday - to"))
         self.configure_columns_list.setSortingEnabled(__sortingEnabled)
+        self.default_button.setText(_translate("Dialog", "Defaults"))
 
 
 if __name__ == "__main__":
