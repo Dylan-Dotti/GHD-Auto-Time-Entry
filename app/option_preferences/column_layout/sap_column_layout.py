@@ -11,11 +11,8 @@ class SapColumnLayout:
     def set_layout(self, columns: List[SapColumn]) -> None:
         self._columns = columns
     
-    def get_current_layout(self) -> List[SapColumn]:
+    def get_column_list(self) -> List[SapColumn]:
         return self._columns
-    
-    def get_default_layout(self) -> List[SapColumn]:
-        return sorted(self._columns, key=lambda c: c.default_index)
     
     def to_json_data(self) -> List[Dict[str, any]]:
         return [c.to_dict() for c in self._columns]

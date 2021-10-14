@@ -26,7 +26,7 @@ class SapMainWindowNavigator(ThreadSafeStoppableWithSubComponents):
         self._col_layout_names = list(map(
             lambda c: c.column_name, 
             filter(lambda c: c.visible and c.interactable,
-                   column_layout.get_current_layout())))
+                   column_layout.get_column_list())))
         
         self._stop_requested = False
         self.add_stoppable_subcomponent(self._kc)
