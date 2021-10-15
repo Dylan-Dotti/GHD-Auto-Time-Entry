@@ -1,0 +1,38 @@
+from app.option_preferences.column_layout.column_names import *
+from app.option_preferences.column_layout.sap_column import SapColumn
+
+
+DEFAULT_COLUMN_LAYOUT = [
+    SapColumn(ACTTYP, True, True, True, 0),
+    SapColumn(ACTIVITY_TYPE, True, True, False, 1),
+    SapColumn(PROJECT, False, False, False, 2),
+    SapColumn(REC_CCTR, True, True, True, 3),
+    SapColumn(RECEIVER_WBS, True, True, True, 4),
+    SapColumn(AATYPE, True, True, True, 5),
+    SapColumn(ATT_ABS_TYPE, True, True, False, 6),
+    SapColumn(PROJECT_DESCRIPTION, True, True, False, 7),
+    SapColumn(WBS_DESCRIPTION, True, True, False, 8),
+    SapColumn(MU, True, True, True, 9),
+    SapColumn(TOTAL, True, True, False, 10),
+    SapColumn(MONDAY, True, True, True, 11),
+    SapColumn(MONDAY_FROM, True, True, True, 12),
+    SapColumn(MONDAY_TO, True, True, True, 13),
+    SapColumn(TUESDAY, True, True, True, 14),
+    SapColumn(TUESDAY_FROM, True, True, True, 15),
+    SapColumn(TUESDAY_TO, True, True, True, 16),
+    SapColumn(WEDNESDAY, True, True, True, 17),
+    SapColumn(WEDNESDAY_FROM, True, True, True, 18),
+    SapColumn(WEDNESDAY_TO, True, True, True, 19),
+    SapColumn(THURSDAY, True, True, True, 20),
+    SapColumn(THURSDAY_FROM, True, True, True, 21),
+    SapColumn(THURSDAY_TO, True, True, True, 22),
+    SapColumn(FRIDAY, True, True, True, 23),
+    SapColumn(FRIDAY_FROM, True, True, True, 24),
+    SapColumn(FRIDAY_TO, True, True, True, 25),
+    SapColumn(SATURDAY, True, True, True, 26),
+    SapColumn(SATURDAY_FROM, True, True, True, 27),
+    SapColumn(SATURDAY_TO, True, True, True, 28),
+    SapColumn(SUNDAY, True, True, True, 29),
+    SapColumn(SUNDAY_FROM, True, True, True, 30),
+    SapColumn(SUNDAY_TO, True, True, True, 31),
+]

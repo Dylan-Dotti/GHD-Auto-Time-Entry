@@ -12,6 +12,8 @@ from app.data_formatter.formatters.data_formatter_factory import DataFormatterFa
 from datetime import date
 from PyQt5.QtCore import QObject, pyqtSignal
 
+from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
+
 
 class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
     started_signal = pyqtSignal()
@@ -20,7 +22,7 @@ class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
 
     def __init__(self, zendesk_excel_path: str, user_name: str,
                  clear_existing_data: bool, use_fn_key: bool, selected_week: str,
-                 num_sap_rows_per_page: int) -> None:
+                 num_sap_rows_per_page: int, column_layout: SapColumnLayout) -> None:
         super().__init__()
         self._zendesk_excel_path = zendesk_excel_path
         self._user_name = user_name
@@ -28,6 +30,7 @@ class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
         self._clear_existing_data = clear_existing_data
         self._use_fn_key = use_fn_key
         self.st, self.ed = selected_week.split(" - ")
+        self._column_layout = column_layout
 
     def run(self):
         self.started_signal.emit()
@@ -61,7 +64,7 @@ class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
             if len(sap_rows) == 0:
                 raise Exception('No results were produced for the configured settings.')
             sap_rows = sorted(sap_rows)
-            
+
             # auto entry
             self.clear_subcomponents()
 
@@ -72,8 +75,9 @@ class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
             self.remove_stoppable_subcomponent(main_wc)
 
             main_kc = KeyboardController(main_wc, use_fn_key=self._use_fn_key)
-            main_nav = SapMainWindowNavigator(main_kc, rows_per_page=self._num_sap_rows_per_page)
-            entry_agent = AutoEntryAgent(main_kc, main_nav, sap_rows)
+            main_nav = SapMainWindowNavigator(main_kc, self._num_sap_rows_per_page,
+                                              self._column_layout)
+            entry_agent = AutoEntryAgent(main_kc, main_nav, sap_rows, self._column_layout)
             self.add_stoppable_subcomponent(entry_agent)
 
             main_wc.set_window_foreground()
