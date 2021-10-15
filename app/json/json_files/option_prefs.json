@@ -7,226 +7,162 @@
         {
             "column_name": "ActTyp",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 0
+            "interactable": true
         },
         {
             "column_name": "Activity type text",
             "visible": true,
-            "visible_default": true,
-            "interactable": false,
-            "default_index": 1
+            "interactable": false
         },
         {
             "column_name": "Project",
             "visible": false,
-            "visible_default": false,
-            "interactable": false,
-            "default_index": 2
+            "interactable": false
         },
         {
             "column_name": "Rec. CCtr",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 3
+            "interactable": true
         },
         {
             "column_name": "Receiver WBS element",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 4
+            "interactable": true
         },
         {
             "column_name": "A/AType",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 5
+            "interactable": true
         },
         {
             "column_name": "Att./abs type text",
             "visible": true,
-            "visible_default": true,
-            "interactable": false,
-            "default_index": 6
+            "interactable": false
         },
         {
             "column_name": "Project description",
             "visible": true,
-            "visible_default": true,
-            "interactable": false,
-            "default_index": 7
+            "interactable": false
         },
         {
             "column_name": "WBS element description",
             "visible": true,
-            "visible_default": true,
-            "interactable": false,
-            "default_index": 8
+            "interactable": false
         },
         {
             "column_name": "MU",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 9
+            "interactable": true
         },
         {
             "column_name": "Total",
             "visible": true,
-            "visible_default": true,
-            "interactable": false,
-            "default_index": 10
+            "interactable": false
         },
         {
             "column_name": "Monday",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 11
+            "interactable": true
         },
         {
             "column_name": "Monday - from",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 12
+            "interactable": true
         },
         {
             "column_name": "Monday - to",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 13
+            "interactable": true
         },
         {
             "column_name": "Tuesday",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 14
+            "interactable": true
         },
         {
             "column_name": "Tuesday - from",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 15
+            "interactable": true
         },
         {
             "column_name": "Tuesday - to",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 16
+            "interactable": true
         },
         {
             "column_name": "Wednesday",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 17
+            "interactable": true
         },
         {
             "column_name": "Wednesday - from",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 18
+            "interactable": true
         },
         {
             "column_name": "Wednesday - to",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 19
+            "interactable": true
         },
         {
             "column_name": "Thursday",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 20
+            "interactable": true
         },
         {
             "column_name": "Thursday - from",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 21
+            "interactable": true
         },
         {
             "column_name": "Thursday - to",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 22
+            "interactable": true
         },
         {
             "column_name": "Friday",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 23
+            "interactable": true
         },
         {
             "column_name": "Friday - from",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 24
+            "interactable": true
         },
         {
             "column_name": "Friday - to",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 25
+            "interactable": true
         },
         {
             "column_name": "Saturday",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 26
+            "interactable": true
         },
         {
             "column_name": "Saturday - from",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 27
+            "interactable": true
         },
         {
             "column_name": "Saturday - to",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 28
+            "interactable": true
         },
         {
             "column_name": "Sunday",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 29
+            "interactable": true
         },
         {
             "column_name": "Sunday - from",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 30
+            "interactable": true
         },
         {
             "column_name": "Sunday - to",
             "visible": true,
-            "visible_default": true,
-            "interactable": true,
-            "default_index": 31
+            "interactable": true
         }
     ]
 }
