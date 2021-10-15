@@ -1,3 +1,4 @@
+import app.option_preferences.column_layout.column_names as cnames
 from typing import Dict, List
 from app.option_preferences.column_layout.default_column_layout import DEFAULT_COLUMN_LAYOUT
 from app.option_preferences.column_layout.sap_column import SapColumn
@@ -17,6 +18,13 @@ class SapColumnLayout:
     def to_json_data(self) -> List[Dict[str, any]]:
         return [c.to_dict() for c in self._columns]
     
+    def get_day_index_map(self) -> Dict[str, int]:
+        day_names = [cnames.MONDAY, cnames.TUESDAY, cnames.WEDNESDAY,
+                     cnames.THURSDAY, cnames.FRIDAY, cnames.SATURDAY, cnames.SUNDAY]
+        col_names = [c.column_name for c in self._columns]
+        return {day: col_names.index(day) for day in day_names}
+        
+
     @staticmethod
     def from_default_layout() -> 'SapColumnLayout':
         return SapColumnLayout(DEFAULT_COLUMN_LAYOUT)
