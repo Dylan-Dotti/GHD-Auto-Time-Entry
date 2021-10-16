@@ -24,10 +24,12 @@ class AutoEntryAgent(ThreadSafeStoppableWithSubComponents):
         self.add_stoppable_subcomponent(self._main_kc)
         self.add_stoppable_subcomponent(self._main_nav)
         self._stop_requested = False
+        # Clear data if requested, else move to first empty line
         if clear_data:
             self._main_nav.delete_all_entries()
         else:
             self._main_nav.move_first_empty_row()
+        # Loop through rows
         for row_index, row in enumerate(self._data_rows):
             if self._stop_requested:
                 self._on_stop_request_acknowledge()
