@@ -24,10 +24,12 @@ class AutoEntryAgent(ThreadSafeStoppableWithSubComponents):
         self.add_stoppable_subcomponent(self._main_kc)
         self.add_stoppable_subcomponent(self._main_nav)
         self._stop_requested = False
+        # Clear data if requested, else move to first empty line
         if clear_data:
             self._main_nav.delete_all_entries()
         else:
             self._main_nav.move_first_empty_row()
+        # Loop through rows
         for row_index, row in enumerate(self._data_rows):
             if self._stop_requested:
                 self._on_stop_request_acknowledge()
@@ -38,7 +40,8 @@ class AutoEntryAgent(ThreadSafeStoppableWithSubComponents):
             self._main_kc.press_enter(post_delay=.5)
             # Move through cells and input notes
             verified_alignment = False
-            for day_index, entry in enumerate(row.date_entries):
+            for day_index in self._column_layout.get_day_index_list():
+                entry = row.date_entries[day_index]
                 if entry is not None:
                     # move to day in grid, verify alignment if needed
                     expected_data = None if verified_alignment else entry.time
