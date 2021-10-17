@@ -20,19 +20,14 @@ class SapColumnLayout:
     
     def to_json_data(self) -> List[Dict[str, any]]:
         return [c.to_dict() for c in self._columns]
-    
-    def get_day_index_map(self) -> Dict[str, int]:
-        day_names = [cnames.MONDAY, cnames.TUESDAY, cnames.WEDNESDAY,
-                     cnames.THURSDAY, cnames.FRIDAY, cnames.SATURDAY, cnames.SUNDAY]
-        col_names = self.get_column_name_list()
-        return {day: col_names.index(day) for day in day_names}
 
     # return a list of day indexes representing the order of days
     # ex: [6, 1, 4] is Sunday, Tuesday, Friday
     def get_day_index_list(self) -> List[int]:
-        index_map = self.get_day_index_map()
-        return [index_map[name] for name in self.get_column_name_list()
-                      if name in index_map]
+        day_names = [cnames.MONDAY, cnames.TUESDAY, cnames.WEDNESDAY,
+                     cnames.THURSDAY, cnames.FRIDAY, cnames.SATURDAY, cnames.SUNDAY]
+        column_days_list = list(filter(lambda c: c in day_names, self.get_column_name_list()))
+        return [day_names.index(c) for c in column_days_list]
 
     @staticmethod
     def from_default_layout() -> 'SapColumnLayout':

@@ -40,7 +40,8 @@ class AutoEntryAgent(ThreadSafeStoppableWithSubComponents):
             self._main_kc.press_enter(post_delay=.5)
             # Move through cells and input notes
             verified_alignment = False
-            for day_index, entry in enumerate(row.date_entries):
+            for day_index in self._column_layout.get_day_index_list():
+                entry = row.date_entries[day_index]
                 if entry is not None:
                     # move to day in grid, verify alignment if needed
                     expected_data = None if verified_alignment else entry.time
