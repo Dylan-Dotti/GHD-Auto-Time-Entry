@@ -1,0 +1,1 @@
+generate_gui_file.bat configure_columns_window.ui configure_columns_base.py

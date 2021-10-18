@@ -4,7 +4,7 @@ from app.option_preferences.option_prefs_json_interface import OptionPrefsJsonIn
 
 
 def main():
-    print('GHD Auto Time Entry, v1.0')
+    print('GHD Auto Time Entry, v1.1')
     option_prefs_interface = OptionPrefsJsonInterface()
     try:
         option_prefs = option_prefs_interface.load_option_prefs()

@@ -1,6 +1,168 @@
 {
-    "data_directory": "C:\\Users\\h4enril\\Downloads",
-    "name": "Logan Enright",
+    "data_directory": null,
+    "name": null,
     "num_sap_rows": null,
-    "use_fn_button": null
+    "use_fn_button": null,
+    "column_layout": [
+        {
+            "column_name": "ActTyp",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Activity type text",
+            "visible": true,
+            "interactable": false
+        },
+        {
+            "column_name": "Project",
+            "visible": false,
+            "interactable": false
+        },
+        {
+            "column_name": "Rec. CCtr",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Receiver WBS element",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "A/AType",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Att./abs type text",
+            "visible": true,
+            "interactable": false
+        },
+        {
+            "column_name": "Project description",
+            "visible": true,
+            "interactable": false
+        },
+        {
+            "column_name": "WBS element description",
+            "visible": true,
+            "interactable": false
+        },
+        {
+            "column_name": "MU",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Total",
+            "visible": true,
+            "interactable": false
+        },
+        {
+            "column_name": "Monday",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Monday - from",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Monday - to",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Tuesday",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Tuesday - from",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Tuesday - to",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Wednesday",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Wednesday - from",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Wednesday - to",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Thursday",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Thursday - from",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Thursday - to",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Friday",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Friday - from",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Friday - to",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Saturday",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Saturday - from",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Saturday - to",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Sunday",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Sunday - from",
+            "visible": true,
+            "interactable": true
+        },
+        {
+            "column_name": "Sunday - to",
+            "visible": true,
+            "interactable": true
+        }
+    ]
 }
