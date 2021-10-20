@@ -18,6 +18,15 @@ class SapColumnLayout:
     def get_column_name_list(self) -> List[str]:
         return [c.column_name for c in self._columns]
     
+    def get_visible_columns(self) -> List[SapColumn]:
+        return list(filter(lambda c: c.visible, self._columns))
+    
+    def get_interactable_columns(self) -> List[SapColumn]:
+        return list(filter(lambda c: c.interactable, self._columns))
+    
+    def get_visible_interactable_columns(self) -> List[SapColumn]:
+        return list(filter(lambda c: c.visible and c.interactable, self._columns))
+    
     def to_json_data(self) -> List[Dict[str, any]]:
         return [c.to_dict() for c in self._columns]
 
