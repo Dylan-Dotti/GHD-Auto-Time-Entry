@@ -1,7 +1,6 @@
 from typing import Callable
 from app.gui.configure_columns_base import Ui_Dialog
-from app.option_preferences.column_layout.sap_column import SapColumn
-from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
+from app.column_layout.sap_column_layout import SapColumnLayout
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog, QListWidgetItem
 

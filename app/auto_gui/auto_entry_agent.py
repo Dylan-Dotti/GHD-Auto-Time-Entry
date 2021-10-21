@@ -3,7 +3,7 @@ from app.auto_gui.keyboard_controller import KeyboardController
 from app.auto_gui.sap_main_window_navigator import SapMainWindowNavigator
 from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow
 from app.interfaces.threadsafe_stoppable_w_subcomponents import ThreadSafeStoppableWithSubComponents
-from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
+from app.column_layout.sap_column_layout import SapColumnLayout
 from pandas.io.clipboard import copy, paste
 from typing import List
 

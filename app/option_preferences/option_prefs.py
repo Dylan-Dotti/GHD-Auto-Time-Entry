@@ -1,5 +1,5 @@
 from typing import Dict
-from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
+from app.column_layout.sap_column_layout import SapColumnLayout
 
 # logical representation of the option preferences
 # converts to and from dictionary for storage in option_prefs.json

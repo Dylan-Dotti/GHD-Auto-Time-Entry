@@ -1,6 +1,6 @@
 from typing import List
-import app.option_preferences.column_layout.column_names as cnames
-from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
+import app.column_layout.column_names as cnames
+from app.column_layout.sap_column_layout import SapColumnLayout
 from datetime import datetime
 
 # Contains the data that is entered on a single day of a single row

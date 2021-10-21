@@ -1,5 +1,5 @@
 from app.interfaces.threadsafe_stoppable_w_subcomponents import ThreadSafeStoppableWithSubComponents
-from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
+from app.column_layout.sap_column_layout import SapColumnLayout
 from app.auto_gui.sap_confirmat_prompt_window_navigator import SapConfirmatPromptWindowNavigator
 from typing import Tuple
 from app.auto_gui.keyboard_controller import KeyboardController
@@ -7,7 +7,7 @@ from app.auto_gui.sap_details_window_navigator import SapDetailsWindowNavigator
 from app.auto_gui.window_controller import WindowController
 from pandas.io.clipboard import copy, paste
 import app.auto_gui.window_names as win_names
-import app.option_preferences.column_layout.column_names as cnames
+import app.column_layout.column_names as cnames
 import time
 
 

@@ -1,5 +1,5 @@
-from app.option_preferences.column_layout.column_names import *
-from app.option_preferences.column_layout.sap_column import SapColumn
+from app.column_layout.column_names import *
+from app.column_layout.sap_column import SapColumn
 
 
 DEFAULT_COLUMN_LAYOUT = [

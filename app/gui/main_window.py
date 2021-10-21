@@ -3,11 +3,11 @@ from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QMessageBox
 from pathlib import Path
-from app.integration.auto_entry_main import AutoEntryMain
+from app.column_layout.sap_column_layout import SapColumnLayout
 from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataReader
 from app.gui.main_window_base import Ui_MainWindow
 from app.gui.configure_columns_window import ConfigureColumnsWindow
-from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
+from app.integration.auto_entry_main import AutoEntryMain
 from app.option_preferences.option_prefs import OptionPrefs
 
 

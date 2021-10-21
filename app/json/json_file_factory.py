@@ -1,7 +1,7 @@
-import app.option_preferences.column_layout.default_column_layout as col_layout
+import app.column_layout.default_column_layout as col_layout
 from app.json.json_file import JsonFile
 from app.json.json_file_paths_manager import get_option_prefs_path
-from app.option_preferences.column_layout.sap_column_layout import SapColumnLayout
+from app.column_layout.sap_column_layout import SapColumnLayout
 
 class JsonFileFactory:
 

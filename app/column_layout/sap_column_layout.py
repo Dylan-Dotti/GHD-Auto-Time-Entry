@@ -1,6 +1,6 @@
-import app.option_preferences.column_layout.column_names as cnames
-from app.option_preferences.column_layout.default_column_layout import DEFAULT_COLUMN_LAYOUT
-from app.option_preferences.column_layout.sap_column import SapColumn
+import app.column_layout.column_names as cnames
+from app.column_layout.default_column_layout import DEFAULT_COLUMN_LAYOUT
+from app.column_layout.sap_column import SapColumn
 from typing import Dict, List
 
 
