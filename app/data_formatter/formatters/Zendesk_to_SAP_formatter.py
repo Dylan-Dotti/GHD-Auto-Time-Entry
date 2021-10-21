@@ -2,7 +2,7 @@ from app.data_formatter.formatters.data_formatter import DataFormatter
 from typing import Any, List
 from datetime import datetime
 from collections import defaultdict
-from app.data_formatter.readers.zendesk.zendesk_data_row import ZendeskDataRow
+from app.data_formatter.readers.data_row import DataRow
 
 from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow, DateEntry
 from app.data_formatter.SAP_Objects.SAP_Page import SapDataPage
@@ -30,7 +30,7 @@ class SAPDataFormatter(DataFormatter):
     # Params:
     #  zd_data - a list of zendesk rows
     #  pages   - a list of SAP page objects
-    def __init__(self, username: str, zd_data: List[ZendeskDataRow], pages: List[SapDataPage]) -> None:
+    def __init__(self, username: str, zd_data: List[DataRow], pages: List[SapDataPage]) -> None:
         self.collector_container = self.__merge_wbs_elements(zd_data)
         self.pages = pages
         self.username = username

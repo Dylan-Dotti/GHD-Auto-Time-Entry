@@ -29,13 +29,21 @@ class SapDataRow:
     #   startDate - the beginning on the week, Monday. 
     #   endDate - the end of the week, Sunday.
     def __init__(self, act: str, wbs: str, unit: str, startDate, endDate) -> None:
-        self.act = act or '10000'
+        self.act = self.__set_act(act)
         self.wbs = wbs
         self.unit = unit
         self.startDate = startDate
         self.endDate = endDate 
-        self.date_entries: List[DateEntry] = [None] * 7 # Order of elements represents Mon-Sun.
+        self.date_entries: List[DateEntry] = self.__create_date_entries()
     
+    # use provided act or default to 10000
+    def __set_act(self, act):
+        return act or '10000'
+
+    # Order of elements represents Mon-Sun.
+    def __create_date_entries(self):
+        return [None] * 7
+
     def add_time(self, data:DateEntry) -> None:
         dow = data.date.weekday()
         if self.unit == "H":

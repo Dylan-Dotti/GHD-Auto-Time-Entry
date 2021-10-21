@@ -2,7 +2,12 @@ from datetime import date, timedelta
 
 # verify input path for excel parse
 def verify_path(p: str) -> bool: 
-    if p.exists() and p.is_file() and (str(p).endswith(".xlsm") or str(p).endswith(".xlsx")):
+    if p.exists() and p.is_file():
+        return True
+    return False
+
+def verify_path_excel(p: str) -> bool:
+    if verify_path(p) and (str(p).endswith(".xlsm") or str(p).endswith(".xlsx")):
         return True
     return False
 

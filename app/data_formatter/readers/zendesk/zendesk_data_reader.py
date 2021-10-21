@@ -1,6 +1,7 @@
-from app.data_formatter.readers.zendesk.zendesk_data_row import ZendeskDataRow, ZendeskRowFactory
+from app.data_formatter.readers.zendesk.zendesk_row_factory import ZendeskRowFactory
+from app.data_formatter.readers.data_row import DataRow
 from openpyxl import load_workbook
-from app.data_formatter.utils import date_ranges, verify_path
+from app.data_formatter.utils import date_ranges, verify_path_excel
 from datetime import datetime
 from pathlib import Path 
 from typing import List
@@ -9,7 +10,7 @@ class ZendeskDataReader:
 
     def __init__(self, src_file_path: str) -> None:
         # escape path 
-        self._src_file_path = Path(r"{input_path}".format(input_path=src_file_path))
+        self._src_file_path = self.__set_src_file_path(src_file_path)
         
         self.users = None
         self.month = None
@@ -17,11 +18,16 @@ class ZendeskDataReader:
         self.header = None
         self.data = None
 
+    # verify the input path, raise exception if not excel
+    def __set_src_file_path(self, p):
+        # escape path
+        t_p = Path(r"{input_path}".format(input_path=p))
+        if verify_path_excel(t_p):
+            return t_p
+        raise AssertionError("Input is not a file or an excel spreadsheet.")
+
     def load_wb(self):
-        if not verify_path(self._src_file_path):
-            print("Input is not a file or an excel spreadsheet.")
-            exit(0)
-        
+
         try:
             self.data = load_workbook(filename=self._src_file_path).active
             self.__set_header()
@@ -29,8 +35,7 @@ class ZendeskDataReader:
             self.__set_users()
 
         except Exception as err:
-            print(f"Failed to parse excel with error: {err}")
-            exit(0)
+            raise RuntimeError(f"Failed to parse excel with error: {err}") from err
 
     # get the header row so we can match the fields
     def __set_header(self):
@@ -75,6 +80,6 @@ class ZendeskDataReader:
 
         return res
 
-    def read_all_rows(self) -> List[ZendeskDataRow]:
+    def read_all_rows(self) -> List[DataRow]:
         zendesk_row_factory = ZendeskRowFactory(self.header)
         return [zendesk_row_factory.create_row(row) for row in self.data.iter_rows(min_row=2, values_only=True)]

@@ -3,8 +3,8 @@ from app.data_formatter.SAP_Objects.SAP_Page import SapDataPage
 from app.data_formatter.utils import date_ranges
 
 class DataFormatter:
-    def __init__(self) -> None:
-        self.data = List[SapDataPage]
+    def __init__(self, month) -> None:
+        self.data = [SapDataPage(start, end) for start, end in date_ranges(month)]
         
     # create pages w/ date ranges
     @classmethod
