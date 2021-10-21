@@ -1,4 +1,4 @@
-from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow
+from app.data_formatter.SAP_Objects.SAP_Data_Row import SapDataRow
 
 # This is the set of rows for a monday-sunday SAP range
 class SapDataPage:

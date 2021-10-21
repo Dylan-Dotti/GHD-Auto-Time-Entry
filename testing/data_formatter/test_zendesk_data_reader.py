@@ -1,5 +1,5 @@
 import unittest
-from app.data_formatter.readers.data_row import DataRow
+from app.data_formatter.readers.Data_Row import DataRow
 from app.data_formatter.readers.zendesk.zendesk_data_reader import ZendeskDataReader
 
 class TestZendeskReader(unittest.TestCase):

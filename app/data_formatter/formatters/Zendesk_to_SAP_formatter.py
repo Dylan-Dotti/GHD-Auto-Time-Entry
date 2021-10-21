@@ -2,9 +2,9 @@ from app.data_formatter.formatters.data_formatter import DataFormatter
 from typing import Any, List
 from datetime import datetime
 from collections import defaultdict
-from app.data_formatter.readers.data_row import DataRow
+from app.data_formatter.readers.Data_Row import DataRow
 
-from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow, DateEntry
+from app.data_formatter.SAP_Objects.SAP_Data_Row import SapDataRow, DateEntry
 from app.data_formatter.SAP_Objects.SAP_Page import SapDataPage
 
 CHAR_CUTOFF = 35
@@ -25,7 +25,7 @@ class MergeRow:
         self.time = times 
 
 # This is the object which converts zendesk rows to SAP Page rows. 
-class SAPDataFormatter(DataFormatter):
+class ZendeskSAPDataFormatter(DataFormatter):
 
     # Params:
     #  zd_data - a list of zendesk rows

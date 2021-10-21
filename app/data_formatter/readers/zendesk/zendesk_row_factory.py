@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from app.data_formatter.readers.data_row import DataRow
+from app.data_formatter.readers.Data_Row import DataRow
 
 # generate a row with indexes of fields
 class ZendeskRowFactory:

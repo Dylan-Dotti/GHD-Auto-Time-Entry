@@ -1,4 +1,4 @@
-from app.data_formatter.formatters.Zendesk_to_SAP_formatter import SAPDataFormatter
+from app.data_formatter.formatters.Zendesk_to_SAP_formatter import ZendeskSAPDataFormatter
 AVAILABLE_FORMATTERS = ['ZENDESK']
 
 class DataFormatterFactory: 
@@ -14,8 +14,8 @@ class DataFormatterFactory:
         print("Formatter not available")
         exit(0)
 
-    def zendesk_formatter(self) -> SAPDataFormatter:
-        return SAPDataFormatter
+    def zendesk_formatter(self) -> ZendeskSAPDataFormatter:
+        return ZendeskSAPDataFormatter
     
     def salesforce_formatter(Self) -> None:
         return None

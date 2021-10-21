@@ -4,7 +4,7 @@ if __name__ == '__main__':
     from app.auto_gui.auto_entry_agent import AutoEntryAgent
     from app.auto_gui.keyboard_controller import KeyboardController
     from app.auto_gui.sap_main_window_navigator import SapMainWindowNavigator
-    from app.data_formatter.SAP_Objects.sap_data_row import SapDataRow, DateEntry
+    from app.data_formatter.SAP_Objects.SAP_Data_Row import SapDataRow, DateEntry
     from datetime import datetime
 
     def generate_data_row(act, wbs, unit, date_entries):
