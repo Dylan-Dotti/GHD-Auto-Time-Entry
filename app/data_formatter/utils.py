@@ -22,6 +22,6 @@ def date_ranges(month):
         # if it isn't the first of the month, go 7 days back
         d = d - timedelta(days=7)
     
-    while d.month == month or d.month + 1 == month:
+    while d.month == month or d.month % 12 + 1 == month:
         yield d, (d + timedelta(days=6))
         d += timedelta(days=7)
