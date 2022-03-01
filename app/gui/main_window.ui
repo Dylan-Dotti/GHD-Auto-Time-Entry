@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>527</width>
+    <width>523</width>
     <height>369</height>
    </rect>
   </property>
@@ -204,7 +204,7 @@ margin-right: 0px;
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">padding-left: 5px</string>
+              <string notr="true">margin-left: 5px</string>
              </property>
              <property name="text">
               <string>Rows per Page:</string>
@@ -265,6 +265,41 @@ margin-left: 20px</string>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="styleSheet">
+              <string notr="true">margin-left: 5px</string>
+             </property>
+             <property name="text">
+              <string>Speed</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="speed_spinbox">
+             <property name="styleSheet">
+              <string notr="true">padding: 2px 5px</string>
+             </property>
+             <property name="decimals">
+              <number>2</number>
+             </property>
+             <property name="minimum">
+              <double>0.050000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>1.500000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.050000000000000</double>
+             </property>
+             <property name="stepType">
+              <enum>QAbstractSpinBox::DefaultStepType</enum>
+             </property>
+             <property name="value">
+              <double>1.000000000000000</double>
+             </property>
+            </widget>
+           </item>
            <item alignment="Qt::AlignVCenter">
             <widget class="QCheckBox" name="clear_data_checkbox">
              <property name="sizePolicy">
@@ -410,7 +445,7 @@ QCheckBox::indicator {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>527</width>
+     <width>523</width>
      <height>22</height>
     </rect>
    </property>
