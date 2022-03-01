@@ -271,7 +271,7 @@ margin-left: 20px</string>
               <string notr="true">margin-left: 5px</string>
              </property>
              <property name="text">
-              <string>Speed</string>
+              <string>Speed:</string>
              </property>
             </widget>
            </item>

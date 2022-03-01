@@ -233,7 +233,7 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Select Week:"))
         self.label_3.setText(_translate("MainWindow", "Rows per Page:"))
         self.configure_columns_button.setText(_translate("MainWindow", "Configure Columns"))
-        self.label_4.setText(_translate("MainWindow", "Speed"))
+        self.label_4.setText(_translate("MainWindow", "Speed:"))
         self.clear_data_checkbox.setText(_translate("MainWindow", "Clear Existing Data"))
         self.use_fn_checkbox.setWhatsThis(_translate("MainWindow", "<html><head/><body><p>Some computers need to press the \'Fn\' button in order to use the F keys (F1-F12)</p></body></html>"))
         self.use_fn_checkbox.setText(_translate("MainWindow", "Use Fn Button"))
