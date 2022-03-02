@@ -22,7 +22,8 @@ class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
 
     def __init__(self, zendesk_excel_path: str, user_name: str,
                  clear_existing_data: bool, use_fn_key: bool, selected_week: str,
-                 num_sap_rows_per_page: int, column_layout: SapColumnLayout) -> None:
+                 num_sap_rows_per_page: int, column_layout: SapColumnLayout,
+                 speed: float) -> None:
         super().__init__()
         self._zendesk_excel_path = zendesk_excel_path
         self._user_name = user_name
@@ -31,6 +32,7 @@ class AutoEntryMain(QObject, ThreadSafeStoppableWithSubComponents):
         self._use_fn_key = use_fn_key
         self.st, self.ed = selected_week.split(" - ")
         self._column_layout = column_layout
+        self._speed = speed
 
     def run(self):
         self.started_signal.emit()

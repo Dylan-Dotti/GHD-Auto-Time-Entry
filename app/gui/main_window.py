@@ -137,23 +137,18 @@ class MainWindowFunctional(Ui_MainWindow):
             self.use_fn_checkbox.isChecked(),
             self.week_selector.currentText(),
             self.rows_per_page_box.value(),
-            self.configure_cols_dialog.get_column_layout())
+            self.configure_cols_dialog.get_column_layout(),
+            self.speed_spinbox.value())
 
         # connect thread events
         self.auto_entry_worker.moveToThread(self.auto_entry_thread)
         self.auto_entry_thread.started.connect(self.auto_entry_worker.run)
-        self.auto_entry_thread.finished.connect(
-            self.auto_entry_thread.deleteLater)
-        self.auto_entry_worker.started_signal.connect(
-            self._on_auto_entry_started)
-        self.auto_entry_worker.finished_signal.connect(
-            self.auto_entry_thread.quit)
-        self.auto_entry_worker.finished_signal.connect(
-            self.auto_entry_worker.deleteLater)
-        self.auto_entry_worker.finished_signal.connect(
-            self._on_auto_entry_finished)
-        self.auto_entry_worker.exception_signal.connect(
-            self._on_auto_entry_exception)
+        self.auto_entry_thread.finished.connect(self.auto_entry_thread.deleteLater)
+        self.auto_entry_worker.started_signal.connect(self._on_auto_entry_started)
+        self.auto_entry_worker.finished_signal.connect(self.auto_entry_thread.quit)
+        self.auto_entry_worker.finished_signal.connect(self.auto_entry_worker.deleteLater)
+        self.auto_entry_worker.finished_signal.connect(self._on_auto_entry_finished)
+        self.auto_entry_worker.exception_signal.connect(self._on_auto_entry_exception)
 
         # Start running auto entry main in thread
         self.auto_entry_thread.start()

@@ -9,15 +9,18 @@ from typing import List
 
 class AutoEntryAgent(ThreadSafeStoppableWithSubComponents):
 
-    def __init__(self, main_kc: KeyboardController,
+    def __init__(self,
+                 main_kc: KeyboardController,
                  main_nav: SapMainWindowNavigator,
                  data_rows: List[SapDataRow],
-                 column_layout: SapColumnLayout) -> None:
+                 column_layout: SapColumnLayout,
+                 speed: float) -> None:
         super().__init__()
         self._main_kc = main_kc
         self._main_nav = main_nav
         self._data_rows = data_rows
         self._column_layout = column_layout
+        self._speed = speed
 
     def execute(self, clear_data = False) -> None:
         self.clear_subcomponents()
