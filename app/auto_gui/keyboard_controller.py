@@ -1,7 +1,7 @@
+import app.utils.interval_sleeper as sleeper
 from app.interfaces.stoppable import Stoppable
 from app.auto_gui.window_controller import WindowController
 import pyautogui as pag
-import time
 
 class KeyboardController(Stoppable):
 
@@ -10,6 +10,7 @@ class KeyboardController(Stoppable):
         self._wc = window_controller
         self._use_fn_key = use_fn_key
         self._stop_requested = False
+        self._continue_sleep_callback = lambda: not self._stop_requested
 
     def stop(self):
         self._wc.stop()
@@ -21,10 +22,10 @@ class KeyboardController(Stoppable):
                 break
             self.press_key_down(key_name)
             if duration > 0 and self._wc.is_window_foreground():
-                time.sleep(duration)
+                sleeper.interval_checked_sleep(duration, .2, self._continue_sleep_callback)
             self.press_key_up(key_name)
             if not self._stop_requested and post_delay > 0 and self._wc.is_window_foreground():
-                time.sleep(post_delay)
+                sleeper.interval_checked_sleep(post_delay, .2, self._continue_sleep_callback)
         self._stop_requested = False
 
     # kwargs:
@@ -39,7 +40,7 @@ class KeyboardController(Stoppable):
             self._wait_for_window_foreground()
             pag.hotkey(*keys)
             if not self._stop_requested and post_delay > 0:
-                time.sleep(post_delay)
+                sleeper.interval_checked_sleep(post_delay, .2, self._continue_sleep_callback)
         self._stop_requested = False
 
     def press_key_down(self, key_name) -> None:
@@ -99,7 +100,7 @@ class KeyboardController(Stoppable):
         self._wait_for_window_foreground()
         pag.write(text)
         if post_delay > 0:
-            time.sleep(post_delay)
+            sleeper.interval_checked_sleep(post_delay, .2, self._continue_sleep_callback)
 
     def _wait_for_window_foreground(self) -> None:
         if not self._wc.is_window_foreground():
