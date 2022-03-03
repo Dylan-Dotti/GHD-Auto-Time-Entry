@@ -40,7 +40,7 @@ class AutoEntryAgent(ThreadSafeStoppableWithSubComponents):
                 self._on_stop_request_acknowledge()
             # Paste row data
             copy(row.to_sap_str_dynamic(self._column_layout))
-            sleeper.interval_sleep(.05 / self._speed, .05, sleeper_continue_callback)
+            sleeper.interval_checked_sleep(.05 / self._speed, .05, sleeper_continue_callback)
             self._main_kc.press_paste(post_delay=.2 / self._speed)
             self._main_kc.press_enter(post_delay=.5 / self._speed)
             # Move through cells and input notes
