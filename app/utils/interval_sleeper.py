@@ -1,6 +1,10 @@
 import time
 
-def interval_sleep(secs: float, interval: float,
+
+def sleep(secs: float):
+    time.sleep(secs)
+
+def interval_checked_sleep(secs: float, interval: float,
                            continue_callback):
     start_time = time.time()
     while True:
