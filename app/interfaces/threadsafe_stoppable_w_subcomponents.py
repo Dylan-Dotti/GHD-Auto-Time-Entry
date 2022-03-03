@@ -10,8 +10,8 @@ class ThreadSafeStoppableWithSubComponents(ThreadSafeStoppable):
         self._subcomponents: List[Stoppable] = []
     
     def stop(self):
-        super().stop()
         self._stop_lock.acquire()
+        super().stop()
         self.stop_subcomponents()
         self._stop_lock.release()
     
